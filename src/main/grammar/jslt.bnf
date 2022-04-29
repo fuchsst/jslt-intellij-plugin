@@ -1,0 +1,103 @@
+{
+  parserClass="net.stefanfuchs.jslt.intellij.language.parser.JsltParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Jslt"
+  psiImplClassSuffix="Impl"
+  psiPackage="net.stefanfuchs.jslt.intellij.language.psi"
+  psiImplPackage="net.stefanfuchs.jslt.intellij.language.psi.impl"
+
+  elementTypeHolderClass="net.stefanfuchs.jslt.intellij.language.psi.JsltTypes"
+  elementTypeClass="net.stefanfuchs.jslt.intellij.language.psi.JsltElementType"
+  tokenTypeClass="net.stefanfuchs.jslt.intellij.language.psi.JsltTokenType"
+}
+
+jsltFile ::= {
+    COMMENT*
+    ImportDeclaration*
+    (LetAssignment | FunctionDecl)*
+    Expr <<eof>>
+}
+
+Expr ::= OrExpr (PipeOperator OrExpr)*
+OrExpr ::= AndExpr (OR OrExpr)?
+AndExpr ::= ComparativeExpr (AND AndExpr())?
+ComparativeExpr ::= AdditiveExpr (Comparator AdditiveExpr)?
+Comparator ::=  EQUALS | UNEQUALS | BIGOREQ | BIGGER | SMALLER | SMALLOREQ
+PipeOperator ::= PIPE
+AdditiveExpr ::= MultiplicativeExpr (AdditiveOperator MultiplicativeExpr)*
+AdditiveOperator ::= PLUS | MINUS
+MultiplicativeExpr ::= BaseExpr (MultiplicativeOperator BaseExpr)*
+MultiplicativeOperator ::= STAR | SLASH
+BaseExpr ::= {
+                NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
+                Chainable | Parenthesis | IfStatement |
+                Array |
+                (Object | ObjectComprehension)
+             }
+Chainable ::= {
+                (FunctionCall | VARIABLE | DOT (IDENT | STRING)?)
+                (ChainLink)?
+              }
+ChainLink ::= {
+                (DotKey | ArraySlicing)
+                (ChainLink)?
+              }
+Parenthesis ::= LPAREN Expr RPAREN
+DotKey ::= DOT (IDENT | STRING)
+ArraySlicing ::= {
+                   LBRACKET
+                   (
+                     Expr (ColonExpr Expr?)? |
+                     ColonExpr Expr
+                   )
+                   RBRACKET
+                 }
+ColonExpr ::= COLON
+ArrayElem ::= {
+                Expr
+                (COMMA ArrayElem?)?
+              }
+Array ::= {
+            LBRACKET
+              (
+               (FOR LPAREN Expr RPAREN LetAssignment* Expr (IF LPAREN Expr RPAREN)?)
+              | ArrayElem?
+              )
+            RBRACKET
+          }
+Object ::= LCURLY LetAssignment* (Pair | Matcher)? RCURLY
+Matcher ::= STAR MatcherMinus? COLON Expr
+MatcherMinus ::= MINUS (IDENT | STRING) (COMMA (IDENT | STRING))*
+Pair ::= {
+           Expr COLON Expr
+           (COMMA (Pair | Matcher))?
+         }
+ObjectComprehension ::= {
+                          LCURLY
+                            FOR LPAREN Expr RPAREN
+                              LetAssignment*
+                              Expr COLON Expr
+                              (IF LPAREN Expr RPAREN)?
+                          RCURLY
+                        }
+IfStatement ::= {
+                  IF LPAREN Expr RPAREN
+                    LetAssignment*
+                    Expr
+                    ElseBranch?
+                }
+ElseBranch ::= {
+                 ELSE
+                   LetAssignment*
+                   Expr
+               }
+FunctionCall ::=(IDENT | PIDENT) LPAREN (Expr (COMMA Expr)*)? RPAREN
+LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr
+FunctionDecl ::= {
+                   DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
+                     LetAssignment*
+                     Expr
+                 }
+ImportDeclaration ::= IMPORT STRING AS IDENT

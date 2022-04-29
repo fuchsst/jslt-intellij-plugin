@@ -1,0 +1,36 @@
+<idea-plugin>
+    <id>net.stefanfuchs.jslt.intellij.language.jslt-intellij-plugin</id>
+    <name>JSLT Language Support</name>
+    <vendor email="admin@stefanfuchs.net" url="https://github.com/fuchsst">Stefan Fuchs</vendor>
+
+    <description><![CDATA[
+    Language Support for <a href="https://github.com/schibsted/jslt">JSLT</a>,<br>
+    a complete query and transformation language for JSON.
+    ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType
+                name="Simple File"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFileType"
+                fieldName="INSTANCE"
+                language="JSLT"
+                extensions="jslt"/>
+        <lang.parserDefinition
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="net.stefanfuchs.jslt.intellij.language.JsltColorSettingsPage"/>
+
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
