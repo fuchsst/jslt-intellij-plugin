@@ -11,6 +11,8 @@
   elementTypeHolderClass="net.stefanfuchs.jslt.intellij.language.psi.JsltTypes"
   elementTypeClass="net.stefanfuchs.jslt.intellij.language.psi.JsltElementType"
   tokenTypeClass="net.stefanfuchs.jslt.intellij.language.psi.JsltTokenType"
+
+  psiImplUtilClass="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltPsiImplUtil"
 }
 
 jsltFile ::= {
@@ -94,7 +96,7 @@ ElseBranch ::= {
                    Expr
                }
 FunctionCall ::=(IDENT | PIDENT) LPAREN (Expr (COMMA Expr)*)? RPAREN
-LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr
+LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {methods=[ getVariableName ]}
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
                      LetAssignment*

@@ -14,7 +14,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
-                name="Simple File"
+                name="Jslt File"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFileType"
                 fieldName="INSTANCE"
                 language="JSLT"
@@ -27,6 +27,13 @@
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltSyntaxHighlighterFactory"/>
         <colorSettingsPage
                 implementation="net.stefanfuchs.jslt.intellij.language.JsltColorSettingsPage"/>
+        <completion.contributor
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltCompletionContributor"/>
+        <lang.commenter
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltCommenter"/>
+
 
     </extensions>
 
