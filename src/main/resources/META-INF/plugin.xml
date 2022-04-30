@@ -14,10 +14,10 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
+                language="JSLT"
                 name="Jslt File"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFileType"
                 fieldName="INSTANCE"
-                language="JSLT"
                 extensions="jslt"/>
         <lang.parserDefinition
                 language="JSLT"
@@ -33,7 +33,9 @@
         <lang.commenter
                 language="JSLT"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltCommenter"/>
-
+        <lang.braceMatcher
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltPairedBraceMatcher"/>
 
     </extensions>
 

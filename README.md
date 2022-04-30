@@ -4,11 +4,11 @@
 
 * Basic Syntax Highlighting
 * Comment code lines (Strg+/)
+* Parenthesis Matching
 
 ## ToDO
 
 * Code Folding
-* Parenthesis Matching
 * Code Auto Format (Ctrl+Alt+L)
 * Advanced Syntax Highlighting
   * differentiate global/local/parameter variables
