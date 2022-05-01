@@ -36,6 +36,9 @@
         <lang.braceMatcher
                 language="JSLT"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltPairedBraceMatcher"/>
+        <lang.foldingBuilder
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFoldingBuilder"/>
 
     </extensions>
 

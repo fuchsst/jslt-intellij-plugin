@@ -1,7 +1,6 @@
 plugins {
     id("org.jetbrains.intellij") version "1.5.3"
     kotlin("jvm") version "1.6.21"
-    `java`
     id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 

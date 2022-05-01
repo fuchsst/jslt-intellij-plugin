@@ -17,7 +17,7 @@
 
 jsltFile ::= {
     COMMENT*
-    ImportDeclaration*
+    ImportDeclarations
     (LetAssignment | FunctionDecl)*
     Expr <<eof>>
 }
@@ -102,4 +102,5 @@ FunctionDecl ::= {
                      LetAssignment*
                      Expr
                  }
+ImportDeclarations ::= ImportDeclaration*
 ImportDeclaration ::= IMPORT STRING AS IDENT
