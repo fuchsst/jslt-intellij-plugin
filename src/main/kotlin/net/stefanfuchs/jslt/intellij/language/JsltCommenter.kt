@@ -3,7 +3,7 @@ package net.stefanfuchs.jslt.intellij.language
 import com.intellij.lang.Commenter
 
 
-class JsltCommenter  : Commenter {
+class JsltCommenter : Commenter {
     override fun getLineCommentPrefix(): String? {
         return "// "
     }

@@ -69,7 +69,7 @@ class JsltFoldingBuilder : FoldingBuilderEx(), DumbAware {
                     var currentNode = firstMatcherNode.firstChildNode
                     val sb = StringBuilder()
                     while (currentNode != null && currentNode.elementType != JsltTypes.COLON) {
-                        if (currentNode.elementType==TokenType.WHITE_SPACE) {
+                        if (currentNode.elementType == TokenType.WHITE_SPACE) {
                             sb.append(" ") // only add one space, using text would add all if there are multiple spaces
                         } else {
                             sb.append(currentNode.text)

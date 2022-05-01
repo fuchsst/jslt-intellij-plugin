@@ -3,12 +3,15 @@
 ## Features
 
 * Basic Syntax Highlighting
-* Comment code lines (Strg+/)
+* Line comment code 
 * Parenthesis Matching
+* Code Folding
+* Code Navigation
+  * Code Outline
+  
 
 ## ToDO
 
-* Code Folding
 * Code Auto Format (Ctrl+Alt+L)
 * Advanced Syntax Highlighting
   * differentiate global/local/parameter variables
@@ -21,12 +24,12 @@
   * Jump to variable declaration
   * Show variable usages
   * Goto imported File
-  * Code Outline
 * Validations
   * warn for undeclared variables
   * warn for call of unknown function
   * error for duplicate declared variables
   * error for duplicate declared import aliases
+  * error for duplicate key in object
 * JSLT execution
   * dialog box that allows to select/write an input JSON, a JSLT transformation and shows the output
   * apply JSLT from contextmenu (opens the dialog box)

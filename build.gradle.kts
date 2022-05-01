@@ -22,7 +22,7 @@ intellij {
 
 grammarKit {
     // Version of IntelliJ patched JFlex (see the link below), Default is 1.7.0-1
-    jflexRelease.set("1.7.0-1")
+    jflexRelease.set("1.7.0-2")
 
     // Release version, tag, or short commit hash of Grammar-Kit to use (see link below). Default is 2021.1.2
     grammarKitRelease.set("2021.1.2")
@@ -58,6 +58,10 @@ tasks {
         purgeOldFiles.set(true)
     }
 
+    // IMPORTANT: there is an open issue (https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/23)
+    // which block the proper code generation using the Gradle Plugin
+    // (the utility methods that can be referenced using the psiImplUtilClass bnf config are not found)
+    // which means, the parser code MUST be generated using the IntelliJ Plugin (https://plugins.jetbrains.com/plugin/6606-grammar-kit)
     generateParser {
         // source bnf file
         source.set("src/main/grammar/jslt.bnf")

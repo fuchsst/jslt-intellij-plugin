@@ -68,14 +68,14 @@ Array ::= {
               | ArrayElem?
               )
             RBRACKET
-          }
-Object ::= LCURLY LetAssignment* (Pair | Matcher)? RCURLY
-Matcher ::= STAR MatcherMinus? COLON Expr
+          } {methods=[ getPresentation ]}
+Object ::= LCURLY LetAssignment* (Pair | Matcher)? RCURLY {methods=[ getPresentation ]}
+Matcher ::= STAR MatcherMinus? COLON Expr {methods=[ getPresentation ]}
 MatcherMinus ::= MINUS (IDENT | STRING) (COMMA (IDENT | STRING))*
 Pair ::= {
            Expr COLON Expr
            (COMMA (Pair | Matcher))?
-         }
+         } {methods=[ getName getPresentation ]}
 ObjectComprehension ::= {
                           LCURLY
                             FOR LPAREN Expr RPAREN
@@ -96,11 +96,11 @@ ElseBranch ::= {
                    Expr
                }
 FunctionCall ::=(IDENT | PIDENT) LPAREN (Expr (COMMA Expr)*)? RPAREN
-LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {methods=[ getVariableName ]}
+LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {methods=[ getName getPresentation ]}
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
                      LetAssignment*
                      Expr
-                 }
+                 } {methods=[ getName getPresentation ]}
 ImportDeclarations ::= ImportDeclaration*
-ImportDeclaration ::= IMPORT STRING AS IDENT
+ImportDeclaration ::= IMPORT STRING AS IDENT  {methods=[ getName getPresentation ]}

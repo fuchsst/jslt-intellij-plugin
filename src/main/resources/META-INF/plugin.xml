@@ -1,12 +1,21 @@
 <idea-plugin>
     <id>net.stefanfuchs.jslt.intellij.language.jslt-intellij-plugin</id>
     <name>JSLT Language Support</name>
-    <vendor email="admin@stefanfuchs.net" url="https://github.com/fuchsst">Stefan Fuchs</vendor>
+    <vendor email="admin@stefanfuchs.dev" url="https://github.com/fuchsst">Stefan Fuchs</vendor>
 
     <description><![CDATA[
-    Language Support for <a href="https://github.com/schibsted/jslt">JSLT</a>,<br>
-    a complete query and transformation language for JSON.
+    Language Support for <a href="https://github.com/schibsted/jslt">JSLT</a>,
+    a complete query and transformation language for JSON.<br>
+
+    <h2Features</h2>
+        <ul>
+            <li>Basic Syntax Highlighting</li>
+            <li>Line comment code</li>
+            <li>Parenthesis Matching</li>
+            <li>Code Folding</li>
+        </ul>
     ]]></description>
+
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
@@ -39,6 +48,9 @@
         <lang.foldingBuilder
                 language="JSLT"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFoldingBuilder"/>
+        <lang.psiStructureViewFactory
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltStructureViewFactory"/>
 
     </extensions>
 

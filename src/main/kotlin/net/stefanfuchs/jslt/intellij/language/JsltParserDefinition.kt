@@ -18,45 +18,19 @@ import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 
 class JsltParserDefinition : ParserDefinition {
 
-  override fun createLexer(project: Project): Lexer {
-    return JsltLexerAdapter()
-  }
+    override fun createLexer(project: Project): Lexer = JsltLexerAdapter()
+    override fun getWhitespaceTokens(): TokenSet = WHITE_SPACES
+    override fun getCommentTokens(): TokenSet = COMMENTS
+    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+    override fun createParser(project: Project?): PsiParser = JsltParser()
+    override fun getFileNodeType(): IFileElementType = FILE
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = JsltFile(viewProvider)
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?)= SpaceRequirements.MAY
+    override fun createElement(node: ASTNode?): PsiElement = JsltTypes.Factory.createElement(node)
 
-  override fun getWhitespaceTokens(): TokenSet {
-    return WHITE_SPACES
-  }
-
-  override fun getCommentTokens(): TokenSet {
-    return COMMENTS
-  }
-
-  override fun getStringLiteralElements(): TokenSet {
-    return TokenSet.EMPTY
-  }
-
-  override fun createParser(project: Project?): PsiParser {
-    return JsltParser()
-  }
-
-  override fun getFileNodeType(): IFileElementType {
-    return FILE
-  }
-
-  override fun createFile(viewProvider: FileViewProvider): PsiFile {
-    return JsltFile(viewProvider)
-  }
-
-  override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): SpaceRequirements {
-    return SpaceRequirements.MAY
-  }
-
-  override fun createElement(node: ASTNode?): PsiElement {
-    return JsltTypes.Factory.createElement(node)
-  }
-
-  companion object {
-    val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-    val COMMENTS = TokenSet.create(JsltTypes.COMMENT)
-    val FILE = IFileElementType(JsltLanguage)
-  }
+    companion object {
+        val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
+        val COMMENTS = TokenSet.create(JsltTypes.COMMENT)
+        val FILE = IFileElementType(JsltLanguage)
+    }
 }
