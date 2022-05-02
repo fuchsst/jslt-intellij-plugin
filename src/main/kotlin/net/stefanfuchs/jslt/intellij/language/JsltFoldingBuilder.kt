@@ -15,9 +15,13 @@ import net.stefanfuchs.jslt.intellij.language.psi.*
 
 class JsltFoldingBuilder : FoldingBuilderEx(), DumbAware {
     override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {
-        val importDescriptors = PsiTreeUtil.findChildrenOfType(root, JsltImportDeclarations::class.java).map {
-            val group = FoldingGroup.newGroup("imports: $it")
-            FoldingDescriptor(it.node, TextRange(it.textRange.startOffset, it.textRange.endOffset), group)
+        val importDescriptors = PsiTreeUtil.findChildrenOfType(root, JsltImportDeclarations::class.java).mapNotNull {
+            if (it.textRange.isEmpty) {
+                null
+            } else {
+                val group = FoldingGroup.newGroup("imports: $it")
+                FoldingDescriptor(it.node, TextRange(it.textRange.startOffset, it.textRange.endOffset), group)
+            }
         }
 
         val functionDescriptors = PsiTreeUtil.findChildrenOfType(root, JsltFunctionDecl::class.java).map {

@@ -17,7 +17,7 @@
 
 jsltFile ::= {
     COMMENT*
-    ImportDeclarations
+    ImportDeclarations?
     (LetAssignment | FunctionDecl)*
     Expr <<eof>>
 }
@@ -95,7 +95,8 @@ ElseBranch ::= {
                    LetAssignment*
                    Expr
                }
-FunctionCall ::=(IDENT | PIDENT) LPAREN (Expr (COMMA Expr)*)? RPAREN
+FunctionName ::= (IDENT | PIDENT)
+FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN
 LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {methods=[ getName getPresentation ]}
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN

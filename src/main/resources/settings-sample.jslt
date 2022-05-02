@@ -1,0 +1,16 @@
+// some comment
+
+let idparts = split(.id, "-")
+let xxx = [for ($idparts) "x" * size(.)]
+
+def myFunc(param1, param2)
+  if ($param1 > $param2)
+     $param1 + 10
+   else
+     $param2 - 10.0e6
+
+{
+  "id" : join($xxx, "-"),
+  "type" : "Anonymized-View",
+  * : .
+}

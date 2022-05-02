@@ -75,6 +75,10 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunctionName(@NotNull JsltFunctionName o) {
+    visitPsiElement(o);
+  }
+
   public void visitIfStatement(@NotNull JsltIfStatement o) {
     visitPsiElement(o);
   }

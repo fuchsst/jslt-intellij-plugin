@@ -2,7 +2,8 @@
 
 ## Features
 
-* Basic Syntax Highlighting
+* Syntax Highlighting
+  * color by token type 
 * Line comment code 
 * Parenthesis Matching
 * Code Folding
@@ -13,11 +14,11 @@
 ## ToDO
 
 * Code Auto Format (Ctrl+Alt+L)
-* Advanced Syntax Highlighting
+* Syntax Highlighting
   * differentiate global/local/parameter variables
   * differentiate buildin/def functions
 * Code Completion
-  * more meaningful error message when an invalid token was detected
+  * meaningful error message when an invalid token was detected
   * inline docs for buildin-functions
   * suggested tokes on Ctrl+Space
 * Code Navigation
@@ -29,6 +30,9 @@
   * warn for call of unknown function
   * error for duplicate declared variables
   * error for duplicate declared import aliases
+  * error for non existing file referenced in import
+  * error for non existing import alias referenced by variable or function
+  * error for non existing variable or function referenced via import alias 
   * error for duplicate key in object
 * JSLT execution
   * dialog box that allows to select/write an input JSON, a JSLT transformation and shows the output

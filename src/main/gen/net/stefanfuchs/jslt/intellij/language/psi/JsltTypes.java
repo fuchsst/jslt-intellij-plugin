@@ -25,6 +25,7 @@ public interface JsltTypes {
   IElementType EXPR = new JsltElementType("EXPR");
   IElementType FUNCTION_CALL = new JsltElementType("FUNCTION_CALL");
   IElementType FUNCTION_DECL = new JsltElementType("FUNCTION_DECL");
+  IElementType FUNCTION_NAME = new JsltElementType("FUNCTION_NAME");
   IElementType IF_STATEMENT = new JsltElementType("IF_STATEMENT");
   IElementType IMPORT_DECLARATION = new JsltElementType("IMPORT_DECLARATION");
   IElementType IMPORT_DECLARATIONS = new JsltElementType("IMPORT_DECLARATIONS");
@@ -137,6 +138,9 @@ public interface JsltTypes {
       }
       else if (type == FUNCTION_DECL) {
         return new JsltFunctionDeclImpl(node);
+      }
+      else if (type == FUNCTION_NAME) {
+        return new JsltFunctionNameImpl(node);
       }
       else if (type == IF_STATEMENT) {
         return new JsltIfStatementImpl(node);

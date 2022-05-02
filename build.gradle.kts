@@ -43,7 +43,13 @@ sourceSets {
     }
 }
 
+
 tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
     generateLexer {
         // source flex file
         source.set("src/main/grammar/jslt.flex")

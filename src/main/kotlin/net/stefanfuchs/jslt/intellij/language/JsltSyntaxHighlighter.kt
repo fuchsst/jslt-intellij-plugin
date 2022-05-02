@@ -27,7 +27,7 @@ class JsltSyntaxHighlighter : SyntaxHighlighterBase() {
             }
             JsltTypes.COMMENT -> arrayOf(COMMENT)
             JsltTypes.DECIMAL, JsltTypes.INTEGER -> arrayOf(NUMBER)
-            JsltTypes.FUNCTION_DECL_NAME -> arrayOf(FUNCTION_DECLARATION)
+            JsltTypes.FUNCTION_DECL_NAME, JsltTypes.FUNCTION_NAME -> arrayOf(FUNCTION_NAME)
             JsltTypes.FUNCTION_DECL_PARAM -> arrayOf(PARAMETER)
             JsltTypes.IDENT, JsltTypes.PIDENT -> arrayOf(IDENTIFIER)
             JsltTypes.AND, JsltTypes.AS, JsltTypes.DEF, JsltTypes.ELSE, JsltTypes.FALSE, JsltTypes.FOR, JsltTypes.IF,
@@ -61,7 +61,7 @@ class JsltSyntaxHighlighter : SyntaxHighlighterBase() {
         val COMPARATOR = TextAttributesKey.createTextAttributesKey("JSLT_COMPARATOR",
             DefaultLanguageHighlighterColors.OPERATION_SIGN)
         val DOT = TextAttributesKey.createTextAttributesKey("JSLT_DOT", DefaultLanguageHighlighterColors.DOT)
-        val FUNCTION_DECLARATION = TextAttributesKey.createTextAttributesKey("JSLT_FUNCTION_DECLARATION",
+        val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("JSLT_FUNCTION_DECLARATION",
             DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
         val IDENTIFIER =
             TextAttributesKey.createTextAttributesKey("JSLT_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)

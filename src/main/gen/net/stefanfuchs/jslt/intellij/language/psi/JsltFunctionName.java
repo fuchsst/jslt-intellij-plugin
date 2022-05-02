@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltFunctionCall extends PsiElement {
-
-  @NotNull
-  List<JsltExpr> getExprList();
-
-  @NotNull
-  JsltFunctionName getFunctionName();
+public interface JsltFunctionName extends PsiElement {
 
 }

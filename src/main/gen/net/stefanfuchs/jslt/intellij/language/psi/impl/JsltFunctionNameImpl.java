@@ -11,32 +11,20 @@ import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 
-public class JsltFunctionCallImpl extends ASTWrapperPsiElement implements JsltFunctionCall {
+public class JsltFunctionNameImpl extends ASTWrapperPsiElement implements JsltFunctionName {
 
-  public JsltFunctionCallImpl(@NotNull ASTNode node) {
+  public JsltFunctionNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitFunctionCall(this);
+    visitor.visitFunctionName(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JsltVisitor) accept((JsltVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<JsltExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltExpr.class);
-  }
-
-  @Override
-  @NotNull
-  public JsltFunctionName getFunctionName() {
-    return findNotNullChildByClass(JsltFunctionName.class);
   }
 
 }

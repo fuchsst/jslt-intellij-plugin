@@ -16,26 +16,8 @@ class JsltColorSettingsPage : ColorSettingsPage {
         return JsltSyntaxHighlighter()
     }
 
-    override fun getDemoText(): String {
-        return """
-                // some comment
-                
-                let idparts = split(.id, "-")
-                let xxx = [for (${"\$idparts"}) "x" * size(.)]
-                
-                def myFunc(param1, param2)
-                  if (${"\$param1"} > ${"\$param2"})
-                     ${"\$param1"} + 10
-                   else
-                     ${"\$param2"} - 10.0e6
-                
-                {
-                  "id" : join(${"\$xxx"}, "-"),
-                  "type" : "Anonymized-View",
-                  * : .
-                }
-                """.trimIndent()
-    }
+    override fun getDemoText(): String  =
+        JsltColorSettingsPage::class.java.getResource("/settings-sample.jslt")!!.readText()
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey>? {
         return null
@@ -63,7 +45,7 @@ class JsltColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Comment", JsltSyntaxHighlighter.COMMENT),
             AttributesDescriptor("Comparator", JsltSyntaxHighlighter.COMPARATOR),
             AttributesDescriptor("Dot", JsltSyntaxHighlighter.DOT),
-            AttributesDescriptor("Function Declaration", JsltSyntaxHighlighter.FUNCTION_DECLARATION),
+            AttributesDescriptor("Function Name", JsltSyntaxHighlighter.FUNCTION_NAME),
             AttributesDescriptor("Identifier", JsltSyntaxHighlighter.IDENTIFIER),
             AttributesDescriptor("Keyword", JsltSyntaxHighlighter.KEYWORD),
             AttributesDescriptor("Number", JsltSyntaxHighlighter.NUMBER),

@@ -601,26 +601,17 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (IDENT | PIDENT) LPAREN (Expr (COMMA Expr)*)? RPAREN
+  // FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN
   public static boolean FunctionCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionCall")) return false;
     if (!nextTokenIs(b, "<function call>", IDENT, PIDENT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL, "<function call>");
-    r = FunctionCall_0(b, l + 1);
+    r = FunctionName(b, l + 1);
     r = r && consumeToken(b, LPAREN);
     r = r && FunctionCall_2(b, l + 1);
     r = r && consumeToken(b, RPAREN);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // IDENT | PIDENT
-  private static boolean FunctionCall_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionCall_0")) return false;
-    boolean r;
-    r = consumeToken(b, IDENT);
-    if (!r) r = consumeToken(b, PIDENT);
     return r;
   }
 
@@ -730,6 +721,19 @@ public class JsltParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "FunctionDecl_5", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // IDENT | PIDENT
+  public static boolean FunctionName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionName")) return false;
+    if (!nextTokenIs(b, "<function name>", IDENT, PIDENT)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_NAME, "<function name>");
+    r = consumeToken(b, IDENT);
+    if (!r) r = consumeToken(b, PIDENT);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1129,7 +1133,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // COMMENT*
-  //     ImportDeclarations
+  //     ImportDeclarations?
   //     (LetAssignment | FunctionDecl)*
   //     Expr <<eof>>
   static boolean jsltFile(PsiBuilder b, int l) {
@@ -1137,7 +1141,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b);
     r = jsltFile_0(b, l + 1);
-    r = r && ImportDeclarations(b, l + 1);
+    r = r && jsltFile_1(b, l + 1);
     r = r && jsltFile_2(b, l + 1);
     r = r && Expr(b, l + 1);
     r = r && eof(b, l + 1);
@@ -1153,6 +1157,13 @@ public class JsltParser implements PsiParser, LightPsiParser {
       if (!consumeToken(b, COMMENT)) break;
       if (!empty_element_parsed_guard_(b, "jsltFile_0", c)) break;
     }
+    return true;
+  }
+
+  // ImportDeclarations?
+  private static boolean jsltFile_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "jsltFile_1")) return false;
+    ImportDeclarations(b, l + 1);
     return true;
   }
 

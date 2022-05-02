@@ -7,14 +7,16 @@
     Language Support for <a href="https://github.com/schibsted/jslt">JSLT</a>,
     a complete query and transformation language for JSON.<br>
 
-    <h2Features</h2>
+    <h2>Features</h2>
         <ul>
             <li>Basic Syntax Highlighting</li>
             <li>Line comment code</li>
             <li>Parenthesis Matching</li>
             <li>Code Folding</li>
+            <li>Code Outline</li>
         </ul>
     ]]></description>
+
 
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
@@ -51,6 +53,14 @@
         <lang.psiStructureViewFactory
                 language="JSLT"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltStructureViewFactory"/>
+        <lang.formatter
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFormattingModelBuilder"/>
+        <codeStyleSettingsProvider
+                implementation="net.stefanfuchs.jslt.intellij.language.JsltCodeStyleSettingsProvider"/>
+        <langCodeStyleSettingsProvider
+                implementation="net.stefanfuchs.jslt.intellij.language.JsltLanguageCodeStyleSettingsProvider"/>
+
 
     </extensions>
 
