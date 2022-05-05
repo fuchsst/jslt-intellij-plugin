@@ -35,14 +35,14 @@ public class JsltIfStatementImpl extends ASTWrapperPsiElement implements JsltIfS
 
   @Override
   @NotNull
-  public List<JsltExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltExpr.class);
+  public JsltFunctionBody getFunctionBody() {
+    return findNotNullChildByClass(JsltFunctionBody.class);
   }
 
   @Override
   @NotNull
-  public List<JsltLetAssignment> getLetAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltLetAssignment.class);
+  public JsltParenthesisExpr getParenthesisExpr() {
+    return findNotNullChildByClass(JsltParenthesisExpr.class);
   }
 
 }

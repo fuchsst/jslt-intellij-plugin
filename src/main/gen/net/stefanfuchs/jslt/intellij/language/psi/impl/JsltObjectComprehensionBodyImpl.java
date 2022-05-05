@@ -11,14 +11,14 @@ import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 
-public class JsltArrayElemImpl extends ASTWrapperPsiElement implements JsltArrayElem {
+public class JsltObjectComprehensionBodyImpl extends ASTWrapperPsiElement implements JsltObjectComprehensionBody {
 
-  public JsltArrayElemImpl(@NotNull ASTNode node) {
+  public JsltObjectComprehensionBodyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitArrayElem(this);
+    visitor.visitObjectComprehensionBody(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class JsltArrayElemImpl extends ASTWrapperPsiElement implements JsltArray
   }
 
   @Override
-  @Nullable
-  public JsltArrayElem getArrayElem() {
-    return findChildByClass(JsltArrayElem.class);
+  @NotNull
+  public JsltObjectComprehensionForBody getObjectComprehensionForBody() {
+    return findNotNullChildByClass(JsltObjectComprehensionForBody.class);
   }
 
   @Override
   @NotNull
-  public JsltExpr getExpr() {
-    return findNotNullChildByClass(JsltExpr.class);
+  public JsltParenthesisExpr getParenthesisExpr() {
+    return findNotNullChildByClass(JsltParenthesisExpr.class);
   }
 
 }

@@ -9,13 +9,7 @@ import com.intellij.navigation.ItemPresentation;
 public interface JsltObject extends PsiElement {
 
   @NotNull
-  List<JsltLetAssignment> getLetAssignmentList();
-
-  @Nullable
-  JsltMatcher getMatcher();
-
-  @Nullable
-  JsltPair getPair();
+  JsltObjectBody getObjectBody();
 
   @NotNull
   ItemPresentation getPresentation();

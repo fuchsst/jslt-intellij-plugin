@@ -11,14 +11,14 @@ import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 
-public class JsltElseBranchImpl extends ASTWrapperPsiElement implements JsltElseBranch {
+public class JsltArrayForBodyImpl extends ASTWrapperPsiElement implements JsltArrayForBody {
 
-  public JsltElseBranchImpl(@NotNull ASTNode node) {
+  public JsltArrayForBodyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitElseBranch(this);
+    visitor.visitArrayForBody(this);
   }
 
   @Override
@@ -29,8 +29,20 @@ public class JsltElseBranchImpl extends ASTWrapperPsiElement implements JsltElse
 
   @Override
   @NotNull
-  public JsltFunctionBody getFunctionBody() {
-    return findNotNullChildByClass(JsltFunctionBody.class);
+  public JsltExpr getExpr() {
+    return findNotNullChildByClass(JsltExpr.class);
+  }
+
+  @Override
+  @NotNull
+  public List<JsltLetAssignment> getLetAssignmentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltLetAssignment.class);
+  }
+
+  @Override
+  @Nullable
+  public JsltParenthesisExpr getParenthesisExpr() {
+    return findChildByClass(JsltParenthesisExpr.class);
   }
 
 }

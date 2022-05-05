@@ -36,18 +36,6 @@ public class JsltPairImpl extends ASTWrapperPsiElement implements JsltPair {
 
   @Override
   @Nullable
-  public JsltMatcher getMatcher() {
-    return findChildByClass(JsltMatcher.class);
-  }
-
-  @Override
-  @Nullable
-  public JsltPair getPair() {
-    return findChildByClass(JsltPair.class);
-  }
-
-  @Override
-  @Nullable
   public String getName() {
     return JsltPsiImplUtil.getName(this);
   }

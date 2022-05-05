@@ -5,24 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltBaseExpr extends PsiElement {
+public interface JsltArrayBody extends PsiElement {
 
   @Nullable
-  JsltArray getArray();
+  JsltArrayElements getArrayElements();
 
   @Nullable
-  JsltChainable getChainable();
-
-  @Nullable
-  JsltIfStatement getIfStatement();
-
-  @Nullable
-  JsltObject getObject();
-
-  @Nullable
-  JsltObjectComprehension getObjectComprehension();
+  JsltArrayForBody getArrayForBody();
 
   @Nullable
   JsltParenthesisExpr getParenthesisExpr();
+
+  @NotNull
+  List<JsltExpr> getExpressions();
 
 }

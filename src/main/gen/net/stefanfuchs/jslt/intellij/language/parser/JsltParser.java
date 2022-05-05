@@ -119,196 +119,191 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LBRACKET
-  //               (
-  //                (FOR LPAREN Expr RPAREN LetAssignment* Expr (IF LPAREN Expr RPAREN)?)
-  //               | ArrayElem?
-  //               )
-  //             RBRACKET
+  // LBRACKET ArrayBody RBRACKET
   public static boolean Array(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Array")) return false;
     if (!nextTokenIs(b, LBRACKET)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LBRACKET);
-    r = r && Array_1(b, l + 1);
+    r = r && ArrayBody(b, l + 1);
     r = r && consumeToken(b, RBRACKET);
     exit_section_(b, m, ARRAY, r);
     return r;
   }
 
-  // (FOR LPAREN Expr RPAREN LetAssignment* Expr (IF LPAREN Expr RPAREN)?)
-  //               | ArrayElem?
-  private static boolean Array_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Array_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = Array_1_0(b, l + 1);
-    if (!r) r = Array_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // FOR LPAREN Expr RPAREN LetAssignment* Expr (IF LPAREN Expr RPAREN)?
-  private static boolean Array_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Array_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, FOR, LPAREN);
-    r = r && Expr(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    r = r && Array_1_0_4(b, l + 1);
-    r = r && Expr(b, l + 1);
-    r = r && Array_1_0_6(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // LetAssignment*
-  private static boolean Array_1_0_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Array_1_0_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!LetAssignment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "Array_1_0_4", c)) break;
-    }
-    return true;
-  }
-
-  // (IF LPAREN Expr RPAREN)?
-  private static boolean Array_1_0_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Array_1_0_6")) return false;
-    Array_1_0_6_0(b, l + 1);
-    return true;
-  }
-
-  // IF LPAREN Expr RPAREN
-  private static boolean Array_1_0_6_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Array_1_0_6_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IF, LPAREN);
-    r = r && Expr(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // ArrayElem?
-  private static boolean Array_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Array_1_1")) return false;
-    ArrayElem(b, l + 1);
-    return true;
-  }
-
   /* ********************************************************** */
-  // Expr
-  //                 (COMMA ArrayElem?)?
-  public static boolean ArrayElem(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArrayElem")) return false;
+  // (FOR ParenthesisExpr ArrayForBody) | ArrayElements?
+  public static boolean ArrayBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayBody")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ARRAY_ELEM, "<array elem>");
-    r = Expr(b, l + 1);
-    r = r && ArrayElem_1(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, ARRAY_BODY, "<array body>");
+    r = ArrayBody_0(b, l + 1);
+    if (!r) r = ArrayBody_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (COMMA ArrayElem?)?
-  private static boolean ArrayElem_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArrayElem_1")) return false;
-    ArrayElem_1_0(b, l + 1);
-    return true;
-  }
-
-  // COMMA ArrayElem?
-  private static boolean ArrayElem_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArrayElem_1_0")) return false;
+  // FOR ParenthesisExpr ArrayForBody
+  private static boolean ArrayBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayBody_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && ArrayElem_1_0_1(b, l + 1);
+    r = consumeToken(b, FOR);
+    r = r && ParenthesisExpr(b, l + 1);
+    r = r && ArrayForBody(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // ArrayElem?
-  private static boolean ArrayElem_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArrayElem_1_0_1")) return false;
-    ArrayElem(b, l + 1);
+  // ArrayElements?
+  private static boolean ArrayBody_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayBody_1")) return false;
+    ArrayElements(b, l + 1);
     return true;
   }
 
   /* ********************************************************** */
-  // LBRACKET
-  //                    (
-  //                      Expr (ColonExpr Expr?)? |
-  //                      ColonExpr Expr
-  //                    )
-  //                    RBRACKET
+  // Expr (COMMA Expr)*
+  public static boolean ArrayElements(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayElements")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ARRAY_ELEMENTS, "<array elements>");
+    r = Expr(b, l + 1);
+    r = r && ArrayElements_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (COMMA Expr)*
+  private static boolean ArrayElements_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayElements_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!ArrayElements_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ArrayElements_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA Expr
+  private static boolean ArrayElements_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayElements_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && Expr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LetAssignment* Expr (IF ParenthesisExpr)?
+  public static boolean ArrayForBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayForBody")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ARRAY_FOR_BODY, "<array for body>");
+    r = ArrayForBody_0(b, l + 1);
+    r = r && Expr(b, l + 1);
+    r = r && ArrayForBody_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // LetAssignment*
+  private static boolean ArrayForBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayForBody_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!LetAssignment(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ArrayForBody_0", c)) break;
+    }
+    return true;
+  }
+
+  // (IF ParenthesisExpr)?
+  private static boolean ArrayForBody_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayForBody_2")) return false;
+    ArrayForBody_2_0(b, l + 1);
+    return true;
+  }
+
+  // IF ParenthesisExpr
+  private static boolean ArrayForBody_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArrayForBody_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IF);
+    r = r && ParenthesisExpr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LBRACKET ArraySlicingBody RBRACKET
   public static boolean ArraySlicing(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ArraySlicing")) return false;
     if (!nextTokenIs(b, LBRACKET)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LBRACKET);
-    r = r && ArraySlicing_1(b, l + 1);
+    r = r && ArraySlicingBody(b, l + 1);
     r = r && consumeToken(b, RBRACKET);
     exit_section_(b, m, ARRAY_SLICING, r);
     return r;
   }
 
-  // Expr (ColonExpr Expr?)? |
-  //                      ColonExpr Expr
-  private static boolean ArraySlicing_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArraySlicing_1")) return false;
+  /* ********************************************************** */
+  // Expr (ColonExpr Expr?)? | ColonExpr Expr
+  public static boolean ArraySlicingBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArraySlicingBody")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = ArraySlicing_1_0(b, l + 1);
-    if (!r) r = ArraySlicing_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    Marker m = enter_section_(b, l, _NONE_, ARRAY_SLICING_BODY, "<array slicing body>");
+    r = ArraySlicingBody_0(b, l + 1);
+    if (!r) r = ArraySlicingBody_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // Expr (ColonExpr Expr?)?
-  private static boolean ArraySlicing_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArraySlicing_1_0")) return false;
+  private static boolean ArraySlicingBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArraySlicingBody_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = Expr(b, l + 1);
-    r = r && ArraySlicing_1_0_1(b, l + 1);
+    r = r && ArraySlicingBody_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // (ColonExpr Expr?)?
-  private static boolean ArraySlicing_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArraySlicing_1_0_1")) return false;
-    ArraySlicing_1_0_1_0(b, l + 1);
+  private static boolean ArraySlicingBody_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArraySlicingBody_0_1")) return false;
+    ArraySlicingBody_0_1_0(b, l + 1);
     return true;
   }
 
   // ColonExpr Expr?
-  private static boolean ArraySlicing_1_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArraySlicing_1_0_1_0")) return false;
+  private static boolean ArraySlicingBody_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArraySlicingBody_0_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = ColonExpr(b, l + 1);
-    r = r && ArraySlicing_1_0_1_0_1(b, l + 1);
+    r = r && ArraySlicingBody_0_1_0_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // Expr?
-  private static boolean ArraySlicing_1_0_1_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArraySlicing_1_0_1_0_1")) return false;
+  private static boolean ArraySlicingBody_0_1_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArraySlicingBody_0_1_0_1")) return false;
     Expr(b, l + 1);
     return true;
   }
 
   // ColonExpr Expr
-  private static boolean ArraySlicing_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ArraySlicing_1_1")) return false;
+  private static boolean ArraySlicingBody_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ArraySlicingBody_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = ColonExpr(b, l + 1);
@@ -319,7 +314,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
-  //                 Chainable | Parenthesis | IfStatement |
+  //                 Chainable | ParenthesisExpr | IfStatement |
   //                 Array |
   //                 (Object | ObjectComprehension)
   public static boolean BaseExpr(PsiBuilder b, int l) {
@@ -333,7 +328,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, TRUE);
     if (!r) r = consumeToken(b, FALSE);
     if (!r) r = Chainable(b, l + 1);
-    if (!r) r = Parenthesis(b, l + 1);
+    if (!r) r = ParenthesisExpr(b, l + 1);
     if (!r) r = IfStatement(b, l + 1);
     if (!r) r = Array(b, l + 1);
     if (!r) r = BaseExpr_10(b, l + 1);
@@ -540,30 +535,16 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ELSE
-  //                    LetAssignment*
-  //                    Expr
+  // ELSE FunctionBody
   public static boolean ElseBranch(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ElseBranch")) return false;
     if (!nextTokenIs(b, ELSE)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, ELSE);
-    r = r && ElseBranch_1(b, l + 1);
-    r = r && Expr(b, l + 1);
+    r = r && FunctionBody(b, l + 1);
     exit_section_(b, m, ELSE_BRANCH, r);
     return r;
-  }
-
-  // LetAssignment*
-  private static boolean ElseBranch_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ElseBranch_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!LetAssignment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "ElseBranch_1", c)) break;
-    }
-    return true;
   }
 
   /* ********************************************************** */
@@ -598,6 +579,29 @@ public class JsltParser implements PsiParser, LightPsiParser {
     r = r && OrExpr(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // LetAssignment* Expr
+  public static boolean FunctionBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionBody")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_BODY, "<function body>");
+    r = FunctionBody_0(b, l + 1);
+    r = r && Expr(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // LetAssignment*
+  private static boolean FunctionBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionBody_0")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!LetAssignment(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "FunctionBody_0", c)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
@@ -657,8 +661,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
-  //                      LetAssignment*
-  //                      Expr
+  //                      FunctionBody
   public static boolean FunctionDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDecl")) return false;
     if (!nextTokenIs(b, DEF)) return false;
@@ -667,8 +670,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
     r = consumeTokens(b, 0, DEF, FUNCTION_DECL_NAME, LPAREN);
     r = r && FunctionDecl_3(b, l + 1);
     r = r && consumeToken(b, RPAREN);
-    r = r && FunctionDecl_5(b, l + 1);
-    r = r && Expr(b, l + 1);
+    r = r && FunctionBody(b, l + 1);
     exit_section_(b, m, FUNCTION_DECL, r);
     return r;
   }
@@ -712,17 +714,6 @@ public class JsltParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // LetAssignment*
-  private static boolean FunctionDecl_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionDecl_5")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!LetAssignment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "FunctionDecl_5", c)) break;
-    }
-    return true;
-  }
-
   /* ********************************************************** */
   // IDENT | PIDENT
   public static boolean FunctionName(PsiBuilder b, int l) {
@@ -737,39 +728,25 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IF LPAREN Expr RPAREN
-  //                     LetAssignment*
-  //                     Expr
-  //                     ElseBranch?
+  // IF ParenthesisExpr
+  //                     FunctionBody
+  //                   ElseBranch?
   public static boolean IfStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStatement")) return false;
     if (!nextTokenIs(b, IF)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IF, LPAREN);
-    r = r && Expr(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    r = r && IfStatement_4(b, l + 1);
-    r = r && Expr(b, l + 1);
-    r = r && IfStatement_6(b, l + 1);
+    r = consumeToken(b, IF);
+    r = r && ParenthesisExpr(b, l + 1);
+    r = r && FunctionBody(b, l + 1);
+    r = r && IfStatement_3(b, l + 1);
     exit_section_(b, m, IF_STATEMENT, r);
     return r;
   }
 
-  // LetAssignment*
-  private static boolean IfStatement_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IfStatement_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!LetAssignment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "IfStatement_4", c)) break;
-    }
-    return true;
-  }
-
   // ElseBranch?
-  private static boolean IfStatement_6(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "IfStatement_6")) return false;
+  private static boolean IfStatement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStatement_3")) return false;
     ElseBranch(b, l + 1);
     return true;
   }
@@ -937,98 +914,124 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LCURLY LetAssignment* (Pair | Matcher)? RCURLY
+  // LCURLY ObjectBody RCURLY
   public static boolean Object(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Object")) return false;
     if (!nextTokenIs(b, LCURLY)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LCURLY);
-    r = r && Object_1(b, l + 1);
-    r = r && Object_2(b, l + 1);
+    r = r && ObjectBody(b, l + 1);
     r = r && consumeToken(b, RCURLY);
     exit_section_(b, m, OBJECT, r);
     return r;
   }
 
+  /* ********************************************************** */
+  // LetAssignment* (Pairs | Matcher)?
+  public static boolean ObjectBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectBody")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, OBJECT_BODY, "<object body>");
+    r = ObjectBody_0(b, l + 1);
+    r = r && ObjectBody_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
   // LetAssignment*
-  private static boolean Object_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Object_1")) return false;
+  private static boolean ObjectBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectBody_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!LetAssignment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "Object_1", c)) break;
+      if (!empty_element_parsed_guard_(b, "ObjectBody_0", c)) break;
     }
     return true;
   }
 
-  // (Pair | Matcher)?
-  private static boolean Object_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Object_2")) return false;
-    Object_2_0(b, l + 1);
+  // (Pairs | Matcher)?
+  private static boolean ObjectBody_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectBody_1")) return false;
+    ObjectBody_1_0(b, l + 1);
     return true;
   }
 
-  // Pair | Matcher
-  private static boolean Object_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Object_2_0")) return false;
+  // Pairs | Matcher
+  private static boolean ObjectBody_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectBody_1_0")) return false;
     boolean r;
-    r = Pair(b, l + 1);
+    r = Pairs(b, l + 1);
     if (!r) r = Matcher(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // LCURLY
-  //                             FOR LPAREN Expr RPAREN
-  //                               LetAssignment*
-  //                               Expr COLON Expr
-  //                               (IF LPAREN Expr RPAREN)?
-  //                           RCURLY
+  // LCURLY ObjectComprehensionBody RCURLY
   public static boolean ObjectComprehension(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ObjectComprehension")) return false;
     if (!nextTokenIs(b, LCURLY)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LCURLY, FOR, LPAREN);
-    r = r && Expr(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
-    r = r && ObjectComprehension_5(b, l + 1);
-    r = r && Expr(b, l + 1);
-    r = r && consumeToken(b, COLON);
-    r = r && Expr(b, l + 1);
-    r = r && ObjectComprehension_9(b, l + 1);
+    r = consumeToken(b, LCURLY);
+    r = r && ObjectComprehensionBody(b, l + 1);
     r = r && consumeToken(b, RCURLY);
     exit_section_(b, m, OBJECT_COMPREHENSION, r);
     return r;
   }
 
+  /* ********************************************************** */
+  // FOR ParenthesisExpr ObjectComprehensionForBody
+  public static boolean ObjectComprehensionBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectComprehensionBody")) return false;
+    if (!nextTokenIs(b, FOR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FOR);
+    r = r && ParenthesisExpr(b, l + 1);
+    r = r && ObjectComprehensionForBody(b, l + 1);
+    exit_section_(b, m, OBJECT_COMPREHENSION_BODY, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LetAssignment* Pair (IF ParenthesisExpr)?
+  public static boolean ObjectComprehensionForBody(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectComprehensionForBody")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, OBJECT_COMPREHENSION_FOR_BODY, "<object comprehension for body>");
+    r = ObjectComprehensionForBody_0(b, l + 1);
+    r = r && Pair(b, l + 1);
+    r = r && ObjectComprehensionForBody_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
   // LetAssignment*
-  private static boolean ObjectComprehension_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ObjectComprehension_5")) return false;
+  private static boolean ObjectComprehensionForBody_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectComprehensionForBody_0")) return false;
     while (true) {
       int c = current_position_(b);
       if (!LetAssignment(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "ObjectComprehension_5", c)) break;
+      if (!empty_element_parsed_guard_(b, "ObjectComprehensionForBody_0", c)) break;
     }
     return true;
   }
 
-  // (IF LPAREN Expr RPAREN)?
-  private static boolean ObjectComprehension_9(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ObjectComprehension_9")) return false;
-    ObjectComprehension_9_0(b, l + 1);
+  // (IF ParenthesisExpr)?
+  private static boolean ObjectComprehensionForBody_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectComprehensionForBody_2")) return false;
+    ObjectComprehensionForBody_2_0(b, l + 1);
     return true;
   }
 
-  // IF LPAREN Expr RPAREN
-  private static boolean ObjectComprehension_9_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "ObjectComprehension_9_0")) return false;
+  // IF ParenthesisExpr
+  private static boolean ObjectComprehensionForBody_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectComprehensionForBody_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IF, LPAREN);
-    r = r && Expr(b, l + 1);
-    r = r && consumeToken(b, RPAREN);
+    r = consumeToken(b, IF);
+    r = r && ParenthesisExpr(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -1065,7 +1068,6 @@ public class JsltParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // Expr COLON Expr
-  //            (COMMA (Pair | Matcher))?
   public static boolean Pair(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Pair")) return false;
     boolean r;
@@ -1073,49 +1075,76 @@ public class JsltParser implements PsiParser, LightPsiParser {
     r = Expr(b, l + 1);
     r = r && consumeToken(b, COLON);
     r = r && Expr(b, l + 1);
-    r = r && Pair_3(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (COMMA (Pair | Matcher))?
-  private static boolean Pair_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Pair_3")) return false;
-    Pair_3_0(b, l + 1);
+  /* ********************************************************** */
+  // Pair
+  //                (COMMA Pair)*
+  //                (COMMA Matcher)?
+  public static boolean Pairs(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Pairs")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, PAIRS, "<pairs>");
+    r = Pair(b, l + 1);
+    r = r && Pairs_1(b, l + 1);
+    r = r && Pairs_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (COMMA Pair)*
+  private static boolean Pairs_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Pairs_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!Pairs_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "Pairs_1", c)) break;
+    }
     return true;
   }
 
-  // COMMA (Pair | Matcher)
-  private static boolean Pair_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Pair_3_0")) return false;
+  // COMMA Pair
+  private static boolean Pairs_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Pairs_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && Pair_3_0_1(b, l + 1);
+    r = r && Pair(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
-  // Pair | Matcher
-  private static boolean Pair_3_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Pair_3_0_1")) return false;
+  // (COMMA Matcher)?
+  private static boolean Pairs_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Pairs_2")) return false;
+    Pairs_2_0(b, l + 1);
+    return true;
+  }
+
+  // COMMA Matcher
+  private static boolean Pairs_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Pairs_2_0")) return false;
     boolean r;
-    r = Pair(b, l + 1);
-    if (!r) r = Matcher(b, l + 1);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && Matcher(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
   // LPAREN Expr RPAREN
-  public static boolean Parenthesis(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "Parenthesis")) return false;
+  public static boolean ParenthesisExpr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ParenthesisExpr")) return false;
     if (!nextTokenIs(b, LPAREN)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LPAREN);
     r = r && Expr(b, l + 1);
     r = r && consumeToken(b, RPAREN);
-    exit_section_(b, m, PARENTHESIS, r);
+    exit_section_(b, m, PARENTHESIS_EXPR, r);
     return r;
   }
 

@@ -28,15 +28,9 @@ public class JsltArraySlicingImpl extends ASTWrapperPsiElement implements JsltAr
   }
 
   @Override
-  @Nullable
-  public JsltColonExpr getColonExpr() {
-    return findChildByClass(JsltColonExpr.class);
-  }
-
-  @Override
   @NotNull
-  public List<JsltExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltExpr.class);
+  public JsltArraySlicingBody getArraySlicingBody() {
+    return findNotNullChildByClass(JsltArraySlicingBody.class);
   }
 
 }

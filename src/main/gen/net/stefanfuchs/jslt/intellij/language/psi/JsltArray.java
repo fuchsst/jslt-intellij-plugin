@@ -8,14 +8,8 @@ import com.intellij.navigation.ItemPresentation;
 
 public interface JsltArray extends PsiElement {
 
-  @Nullable
-  JsltArrayElem getArrayElem();
-
   @NotNull
-  List<JsltExpr> getExprList();
-
-  @NotNull
-  List<JsltLetAssignment> getLetAssignmentList();
+  JsltArrayBody getArrayBody();
 
   @NotNull
   ItemPresentation getPresentation();

@@ -1,4 +1,5 @@
 // some comment
+import "filename.jslt" as import_alias
 
 let idparts = split(.id, "-")
 let xxx = [for ($idparts) "x" * size(.)]

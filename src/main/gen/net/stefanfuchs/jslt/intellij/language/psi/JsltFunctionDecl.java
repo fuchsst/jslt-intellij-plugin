@@ -9,15 +9,19 @@ import com.intellij.navigation.ItemPresentation;
 public interface JsltFunctionDecl extends PsiElement {
 
   @NotNull
-  JsltExpr getExpr();
-
-  @NotNull
-  List<JsltLetAssignment> getLetAssignmentList();
+  JsltFunctionBody getFunctionBody();
 
   @Nullable
   String getName();
 
   @NotNull
   ItemPresentation getPresentation();
+
+  //WARNING: getLetAssignmentList(...) is skipped
+  //matching getLetAssignmentList(JsltFunctionDecl, ...)
+  //methods are not found in JsltPsiImplUtil
+
+  @NotNull
+  JsltExpr getExpr();
 
 }

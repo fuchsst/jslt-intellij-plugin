@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltArrayElem extends PsiElement {
-
-  @Nullable
-  JsltArrayElem getArrayElem();
+public interface JsltFunctionBody extends PsiElement {
 
   @NotNull
   JsltExpr getExpr();
+
+  @NotNull
+  List<JsltLetAssignment> getLetAssignmentList();
 
 }

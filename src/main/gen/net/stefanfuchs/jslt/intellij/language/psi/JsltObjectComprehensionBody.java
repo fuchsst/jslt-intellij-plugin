@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltParenthesis extends PsiElement {
+public interface JsltObjectComprehensionBody extends PsiElement {
 
   @NotNull
-  JsltExpr getExpr();
+  JsltObjectComprehensionForBody getObjectComprehensionForBody();
+
+  @NotNull
+  JsltParenthesisExpr getParenthesisExpr();
 
 }

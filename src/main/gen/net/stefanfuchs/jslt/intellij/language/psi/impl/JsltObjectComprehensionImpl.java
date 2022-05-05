@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
+import com.intellij.navigation.ItemPresentation;
 
 public class JsltObjectComprehensionImpl extends ASTWrapperPsiElement implements JsltObjectComprehension {
 
@@ -29,14 +30,14 @@ public class JsltObjectComprehensionImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
-  public List<JsltExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltExpr.class);
+  public JsltObjectComprehensionBody getObjectComprehensionBody() {
+    return findNotNullChildByClass(JsltObjectComprehensionBody.class);
   }
 
   @Override
   @NotNull
-  public List<JsltLetAssignment> getLetAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltLetAssignment.class);
+  public ItemPresentation getPresentation() {
+    return JsltPsiImplUtil.getPresentation(this);
   }
 
 }

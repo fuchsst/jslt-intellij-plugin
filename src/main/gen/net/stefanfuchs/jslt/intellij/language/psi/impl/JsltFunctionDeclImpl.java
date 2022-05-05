@@ -30,14 +30,8 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
 
   @Override
   @NotNull
-  public JsltExpr getExpr() {
-    return findNotNullChildByClass(JsltExpr.class);
-  }
-
-  @Override
-  @NotNull
-  public List<JsltLetAssignment> getLetAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltLetAssignment.class);
+  public JsltFunctionBody getFunctionBody() {
+    return findNotNullChildByClass(JsltFunctionBody.class);
   }
 
   @Override
@@ -50,6 +44,12 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
   @NotNull
   public ItemPresentation getPresentation() {
     return JsltPsiImplUtil.getPresentation(this);
+  }
+
+  @Override
+  @NotNull
+  public JsltExpr getExpr() {
+    return JsltPsiImplUtil.getExpr(this);
   }
 
 }

@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface JsltElseBranch extends PsiElement {
 
   @NotNull
-  JsltExpr getExpr();
-
-  @NotNull
-  List<JsltLetAssignment> getLetAssignmentList();
+  JsltFunctionBody getFunctionBody();
 
 }

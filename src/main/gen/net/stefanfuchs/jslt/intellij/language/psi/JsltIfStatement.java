@@ -11,9 +11,9 @@ public interface JsltIfStatement extends PsiElement {
   JsltElseBranch getElseBranch();
 
   @NotNull
-  List<JsltExpr> getExprList();
+  JsltFunctionBody getFunctionBody();
 
   @NotNull
-  List<JsltLetAssignment> getLetAssignmentList();
+  JsltParenthesisExpr getParenthesisExpr();
 
 }

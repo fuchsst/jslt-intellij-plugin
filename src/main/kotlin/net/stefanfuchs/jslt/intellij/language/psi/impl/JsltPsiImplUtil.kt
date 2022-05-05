@@ -24,9 +24,32 @@ fun getName(element: JsltFunctionDecl): String? {
     return keyNode?.text
 }
 
+fun getExpressions(element: JsltArrayBody): List<JsltExpr> {
+    val result = mutableListOf<JsltExpr>()
+    if (element.parenthesisExpr?.expr != null) {
+        result.add(element.parenthesisExpr!!.expr)
+    }
+    if (element.arrayForBody?.expr != null) {
+        result.add(element.arrayForBody!!.expr)
+    }
+    if (element.arrayForBody?.parenthesisExpr?.expr != null) {
+        result.add(element.arrayForBody!!.parenthesisExpr!!.expr)
+    }
+    if (element.arrayElements != null) {
+        element.arrayElements?.exprList?.forEach {
+            result.add(it)
+        }
+    }
+    return result
+}
+
+fun getExpr(element: JsltFunctionDecl): JsltExpr =
+    element.functionBody.expr
+
+
 fun getName(element: JsltPair): String? {
     val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.EXPR)
-    return keyNode?.text
+    return keyNode?.text?.trim('"')
 }
 
 fun getPresentation(element: JsltImportDeclaration): ItemPresentation {
@@ -49,7 +72,7 @@ fun getPresentation(element: JsltFunctionDecl): ItemPresentation {
     return object : ItemPresentation {
         override fun getPresentableText(): String = element.name ?: "<missing function name>"
         override fun getLocationString(): String? = element.containingFile?.name
-        override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.Function
+        override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.Method
     }
 }
 

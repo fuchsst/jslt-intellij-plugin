@@ -4,17 +4,10 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.navigation.ItemPresentation;
 
-public interface JsltPair extends PsiElement {
-
-  @NotNull
-  List<JsltExpr> getExprList();
-
-  @Nullable
-  String getName();
+public interface JsltParenthesisExpr extends PsiElement {
 
   @NotNull
-  ItemPresentation getPresentation();
+  JsltExpr getExpr();
 
 }

@@ -30,20 +30,8 @@ public class JsltObjectImpl extends ASTWrapperPsiElement implements JsltObject {
 
   @Override
   @NotNull
-  public List<JsltLetAssignment> getLetAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltLetAssignment.class);
-  }
-
-  @Override
-  @Nullable
-  public JsltMatcher getMatcher() {
-    return findChildByClass(JsltMatcher.class);
-  }
-
-  @Override
-  @Nullable
-  public JsltPair getPair() {
-    return findChildByClass(JsltPair.class);
+  public JsltObjectBody getObjectBody() {
+    return findNotNullChildByClass(JsltObjectBody.class);
   }
 
   @Override

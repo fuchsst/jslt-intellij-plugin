@@ -12,8 +12,11 @@ public interface JsltTypes {
   IElementType ADDITIVE_OPERATOR = new JsltElementType("ADDITIVE_OPERATOR");
   IElementType AND_EXPR = new JsltElementType("AND_EXPR");
   IElementType ARRAY = new JsltElementType("ARRAY");
-  IElementType ARRAY_ELEM = new JsltElementType("ARRAY_ELEM");
+  IElementType ARRAY_BODY = new JsltElementType("ARRAY_BODY");
+  IElementType ARRAY_ELEMENTS = new JsltElementType("ARRAY_ELEMENTS");
+  IElementType ARRAY_FOR_BODY = new JsltElementType("ARRAY_FOR_BODY");
   IElementType ARRAY_SLICING = new JsltElementType("ARRAY_SLICING");
+  IElementType ARRAY_SLICING_BODY = new JsltElementType("ARRAY_SLICING_BODY");
   IElementType BASE_EXPR = new JsltElementType("BASE_EXPR");
   IElementType CHAINABLE = new JsltElementType("CHAINABLE");
   IElementType CHAIN_LINK = new JsltElementType("CHAIN_LINK");
@@ -23,6 +26,7 @@ public interface JsltTypes {
   IElementType DOT_KEY = new JsltElementType("DOT_KEY");
   IElementType ELSE_BRANCH = new JsltElementType("ELSE_BRANCH");
   IElementType EXPR = new JsltElementType("EXPR");
+  IElementType FUNCTION_BODY = new JsltElementType("FUNCTION_BODY");
   IElementType FUNCTION_CALL = new JsltElementType("FUNCTION_CALL");
   IElementType FUNCTION_DECL = new JsltElementType("FUNCTION_DECL");
   IElementType FUNCTION_NAME = new JsltElementType("FUNCTION_NAME");
@@ -35,10 +39,14 @@ public interface JsltTypes {
   IElementType MULTIPLICATIVE_EXPR = new JsltElementType("MULTIPLICATIVE_EXPR");
   IElementType MULTIPLICATIVE_OPERATOR = new JsltElementType("MULTIPLICATIVE_OPERATOR");
   IElementType OBJECT = new JsltElementType("OBJECT");
+  IElementType OBJECT_BODY = new JsltElementType("OBJECT_BODY");
   IElementType OBJECT_COMPREHENSION = new JsltElementType("OBJECT_COMPREHENSION");
+  IElementType OBJECT_COMPREHENSION_BODY = new JsltElementType("OBJECT_COMPREHENSION_BODY");
+  IElementType OBJECT_COMPREHENSION_FOR_BODY = new JsltElementType("OBJECT_COMPREHENSION_FOR_BODY");
   IElementType OR_EXPR = new JsltElementType("OR_EXPR");
   IElementType PAIR = new JsltElementType("PAIR");
-  IElementType PARENTHESIS = new JsltElementType("PARENTHESIS");
+  IElementType PAIRS = new JsltElementType("PAIRS");
+  IElementType PARENTHESIS_EXPR = new JsltElementType("PARENTHESIS_EXPR");
   IElementType PIPE_OPERATOR = new JsltElementType("PIPE_OPERATOR");
 
   IElementType AND = new JsltTokenType("AND");
@@ -100,11 +108,20 @@ public interface JsltTypes {
       else if (type == ARRAY) {
         return new JsltArrayImpl(node);
       }
-      else if (type == ARRAY_ELEM) {
-        return new JsltArrayElemImpl(node);
+      else if (type == ARRAY_BODY) {
+        return new JsltArrayBodyImpl(node);
+      }
+      else if (type == ARRAY_ELEMENTS) {
+        return new JsltArrayElementsImpl(node);
+      }
+      else if (type == ARRAY_FOR_BODY) {
+        return new JsltArrayForBodyImpl(node);
       }
       else if (type == ARRAY_SLICING) {
         return new JsltArraySlicingImpl(node);
+      }
+      else if (type == ARRAY_SLICING_BODY) {
+        return new JsltArraySlicingBodyImpl(node);
       }
       else if (type == BASE_EXPR) {
         return new JsltBaseExprImpl(node);
@@ -132,6 +149,9 @@ public interface JsltTypes {
       }
       else if (type == EXPR) {
         return new JsltExprImpl(node);
+      }
+      else if (type == FUNCTION_BODY) {
+        return new JsltFunctionBodyImpl(node);
       }
       else if (type == FUNCTION_CALL) {
         return new JsltFunctionCallImpl(node);
@@ -169,8 +189,17 @@ public interface JsltTypes {
       else if (type == OBJECT) {
         return new JsltObjectImpl(node);
       }
+      else if (type == OBJECT_BODY) {
+        return new JsltObjectBodyImpl(node);
+      }
       else if (type == OBJECT_COMPREHENSION) {
         return new JsltObjectComprehensionImpl(node);
+      }
+      else if (type == OBJECT_COMPREHENSION_BODY) {
+        return new JsltObjectComprehensionBodyImpl(node);
+      }
+      else if (type == OBJECT_COMPREHENSION_FOR_BODY) {
+        return new JsltObjectComprehensionForBodyImpl(node);
       }
       else if (type == OR_EXPR) {
         return new JsltOrExprImpl(node);
@@ -178,8 +207,11 @@ public interface JsltTypes {
       else if (type == PAIR) {
         return new JsltPairImpl(node);
       }
-      else if (type == PARENTHESIS) {
-        return new JsltParenthesisImpl(node);
+      else if (type == PAIRS) {
+        return new JsltPairsImpl(node);
+      }
+      else if (type == PARENTHESIS_EXPR) {
+        return new JsltParenthesisExprImpl(node);
       }
       else if (type == PIPE_OPERATOR) {
         return new JsltPipeOperatorImpl(node);

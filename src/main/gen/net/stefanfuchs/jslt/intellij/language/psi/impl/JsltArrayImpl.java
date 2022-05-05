@@ -29,21 +29,9 @@ public class JsltArrayImpl extends ASTWrapperPsiElement implements JsltArray {
   }
 
   @Override
-  @Nullable
-  public JsltArrayElem getArrayElem() {
-    return findChildByClass(JsltArrayElem.class);
-  }
-
-  @Override
   @NotNull
-  public List<JsltExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltExpr.class);
-  }
-
-  @Override
-  @NotNull
-  public List<JsltLetAssignment> getLetAssignmentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltLetAssignment.class);
+  public JsltArrayBody getArrayBody() {
+    return findNotNullChildByClass(JsltArrayBody.class);
   }
 
   @Override

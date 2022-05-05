@@ -67,7 +67,9 @@ tasks {
     // IMPORTANT: there is an open issue (https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/23)
     // which block the proper code generation using the Gradle Plugin
     // (the utility methods that can be referenced using the psiImplUtilClass bnf config are not found)
-    // which means, the parser code MUST be generated using the IntelliJ Plugin (https://plugins.jetbrains.com/plugin/6606-grammar-kit)
+    // which means, that the parser generator must be run twice
+    // one may use IntelliJ Plugin (https://plugins.jetbrains.com/plugin/6606-grammar-kit) to do that
+
     generateParser {
         // source bnf file
         source.set("src/main/grammar/jslt.bnf")
@@ -78,8 +80,8 @@ tasks {
         // path to a parser file, relative to the targetRoot
         pathToParser.set("/net/stefanfuchs/jslt/intellij/language/parser/JsltParser.java")
 
-        // path to a directory with generated psi files, relative to the targetRoot
-        pathToPsiRoot.set("/net/stefanfuchs/jslt/intellij/language/psi")
+
+        pathToPsiRoot.set("/net/stefanfuchs/jslt/intellij/language/psi") // path to a directory with generated psi files, relative to the targetRoot
 
         // if set, the plugin will remove a parser output file and psi output directory before generating new ones. Default: false
         purgeOldFiles.set(true)

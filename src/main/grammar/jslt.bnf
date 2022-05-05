@@ -34,7 +34,7 @@ MultiplicativeExpr ::= BaseExpr (MultiplicativeOperator BaseExpr)*
 MultiplicativeOperator ::= STAR | SLASH
 BaseExpr ::= {
                 NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
-                Chainable | Parenthesis | IfStatement |
+                Chainable | ParenthesisExpr | IfStatement |
                 Array |
                 (Object | ObjectComprehension)
              }
@@ -46,62 +46,41 @@ ChainLink ::= {
                 (DotKey | ArraySlicing)
                 (ChainLink)?
               }
-Parenthesis ::= LPAREN Expr RPAREN
+ParenthesisExpr ::= LPAREN Expr RPAREN
 DotKey ::= DOT (IDENT | STRING)
-ArraySlicing ::= {
-                   LBRACKET
-                   (
-                     Expr (ColonExpr Expr?)? |
-                     ColonExpr Expr
-                   )
-                   RBRACKET
-                 }
+ArraySlicingBody ::= Expr (ColonExpr Expr?)? | ColonExpr Expr
+ArraySlicing ::= LBRACKET ArraySlicingBody RBRACKET
 ColonExpr ::= COLON
-ArrayElem ::= {
-                Expr
-                (COMMA ArrayElem?)?
-              }
-Array ::= {
-            LBRACKET
-              (
-               (FOR LPAREN Expr RPAREN LetAssignment* Expr (IF LPAREN Expr RPAREN)?)
-              | ArrayElem?
-              )
-            RBRACKET
-          } {methods=[ getPresentation ]}
-Object ::= LCURLY LetAssignment* (Pair | Matcher)? RCURLY {methods=[ getPresentation ]}
+ArrayElements ::= Expr (COMMA Expr)*
+ArrayBody ::=(FOR ParenthesisExpr ArrayForBody) | ArrayElements? {methods=[ getExpressions ]}
+ArrayForBody ::= LetAssignment* Expr (IF ParenthesisExpr)?
+Array ::= LBRACKET ArrayBody RBRACKET {methods=[ getPresentation ]}
+ObjectBody ::= LetAssignment* (Pairs | Matcher)?
+Object ::= LCURLY ObjectBody RCURLY {methods=[ getPresentation ]}
 Matcher ::= STAR MatcherMinus? COLON Expr {methods=[ getPresentation ]}
 MatcherMinus ::= MINUS (IDENT | STRING) (COMMA (IDENT | STRING))*
-Pair ::= {
-           Expr COLON Expr
-           (COMMA (Pair | Matcher))?
-         } {methods=[ getName getPresentation ]}
-ObjectComprehension ::= {
-                          LCURLY
-                            FOR LPAREN Expr RPAREN
-                              LetAssignment*
-                              Expr COLON Expr
-                              (IF LPAREN Expr RPAREN)?
-                          RCURLY
-                        }
+Pair ::= Expr COLON Expr {methods=[ getName getPresentation ]}
+Pairs ::= {
+               Pair
+               (COMMA Pair)*
+               (COMMA Matcher)?
+          }
+ObjectComprehensionBody ::= FOR ParenthesisExpr ObjectComprehensionForBody
+ObjectComprehensionForBody ::= LetAssignment* Pair (IF ParenthesisExpr)?
+ObjectComprehension ::= LCURLY ObjectComprehensionBody RCURLY  {methods=[ getPresentation ]}
+FunctionBody ::= LetAssignment* Expr
 IfStatement ::= {
-                  IF LPAREN Expr RPAREN
-                    LetAssignment*
-                    Expr
-                    ElseBranch?
+                  IF ParenthesisExpr
+                    FunctionBody
+                  ElseBranch?
                 }
-ElseBranch ::= {
-                 ELSE
-                   LetAssignment*
-                   Expr
-               }
+ElseBranch ::= ELSE FunctionBody
 FunctionName ::= (IDENT | PIDENT)
 FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN
 LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {methods=[ getName getPresentation ]}
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
-                     LetAssignment*
-                     Expr
-                 } {methods=[ getName getPresentation ]}
+                     FunctionBody
+                 } {methods=[ getName getPresentation getLetAssignmentList getExpr ]}
 ImportDeclarations ::= ImportDeclaration*
 ImportDeclaration ::= IMPORT STRING AS IDENT  {methods=[ getName getPresentation ]}

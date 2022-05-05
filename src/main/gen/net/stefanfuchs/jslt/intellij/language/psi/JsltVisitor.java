@@ -23,11 +23,23 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitArrayElem(@NotNull JsltArrayElem o) {
+  public void visitArrayBody(@NotNull JsltArrayBody o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArrayElements(@NotNull JsltArrayElements o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArrayForBody(@NotNull JsltArrayForBody o) {
     visitPsiElement(o);
   }
 
   public void visitArraySlicing(@NotNull JsltArraySlicing o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArraySlicingBody(@NotNull JsltArraySlicingBody o) {
     visitPsiElement(o);
   }
 
@@ -64,6 +76,10 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitExpr(@NotNull JsltExpr o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionBody(@NotNull JsltFunctionBody o) {
     visitPsiElement(o);
   }
 
@@ -115,7 +131,19 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitObjectBody(@NotNull JsltObjectBody o) {
+    visitPsiElement(o);
+  }
+
   public void visitObjectComprehension(@NotNull JsltObjectComprehension o) {
+    visitPsiElement(o);
+  }
+
+  public void visitObjectComprehensionBody(@NotNull JsltObjectComprehensionBody o) {
+    visitPsiElement(o);
+  }
+
+  public void visitObjectComprehensionForBody(@NotNull JsltObjectComprehensionForBody o) {
     visitPsiElement(o);
   }
 
@@ -127,7 +155,11 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitParenthesis(@NotNull JsltParenthesis o) {
+  public void visitPairs(@NotNull JsltPairs o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParenthesisExpr(@NotNull JsltParenthesisExpr o) {
     visitPsiElement(o);
   }
 

@@ -8,11 +8,12 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import net.stefanfuchs.jslt.intellij.language.psi.*
-import net.stefanfuchs.jslt.intellij.language.psi.impl.*
+import net.stefanfuchs.jslt.intellij.language.psi.impl.JsltExprImpl
+import net.stefanfuchs.jslt.intellij.language.psi.impl.JsltImportDeclarationImpl
 
 
-class JsltStructureViewElement(private val myElement: NavigatablePsiElement) :
-    StructureViewTreeElement, SortableTreeElement {
+class JsltStructureViewElement(private val myElement: NavigatablePsiElement) : StructureViewTreeElement,
+    SortableTreeElement {
 
     override fun getValue(): Any = myElement
 
@@ -29,88 +30,107 @@ class JsltStructureViewElement(private val myElement: NavigatablePsiElement) :
     override fun getPresentation(): ItemPresentation = myElement.presentation ?: PresentationData()
 
     override fun getChildren(): Array<TreeElement> {
+        val result = mutableListOf<JsltStructureViewElement>()
         if (myElement is JsltFile ||
-            myElement is JsltFunctionDecl ||
             myElement is JsltLetAssignment ||
+            myElement is JsltFunctionDecl ||
             myElement is JsltArray ||
-            myElement is JsltArrayElem ||
             myElement is JsltObject ||
-            myElement is JsltObjectComprehension ||
-            myElement is JsltPair ||
-            myElement is JsltMatcher
+            myElement is JsltObjectComprehension
         ) {
-            val result = mutableListOf<JsltStructureViewElement>()
             var child: PsiElement? = myElement.firstChild
             while (child != null) {
                 when (child) {
                     is JsltImportDeclarations -> {
                         child.children.forEach { result.add(JsltStructureViewElement(it as JsltImportDeclarationImpl)) }
                     }
-                    is JsltLetAssignmentImpl -> {
-                        result.add(JsltStructureViewElement(child))
+                    is JsltLetAssignment -> {
+                        result.add(JsltStructureViewElement(child as NavigatablePsiElement))
                     }
-                    is JsltFunctionDeclImpl -> {
-                        result.add(JsltStructureViewElement(child))
+                    is JsltFunctionDecl -> {
+                        result.add(JsltStructureViewElement(child as NavigatablePsiElement))
                     }
-                    is JsltMatcherImpl -> {
-                        result.add(JsltStructureViewElement(child))
+                    is JsltFunctionBody -> {
+                        child.letAssignmentList.forEach { result.add(JsltStructureViewElement(it as NavigatablePsiElement)) }
+                        addIfArrayOrObjectInExpr(child.expr, result)
                     }
-                    is JsltPairImpl -> {
-                        if (myElement !is JsltPairImpl) {
-                            val entries = mutableListOf<PsiElement>()
-                            findPairsInPair(child, entries)
-                            entries.forEach { result.add(JsltStructureViewElement(it as NavigatablePsiElement)) }
-                        }
+                    is JsltExprImpl -> {
+                        addIfArrayOrObjectInExpr(child, result)
                     }
-                    is JsltArrayImpl, is JsltArrayElemImpl -> {
-                        findArrayOrObjectInArray(child)
-                            .forEach { result.add(JsltStructureViewElement(it as NavigatablePsiElement)) }
+                    is JsltArrayBody -> {
+                        addArrayBodyChild(child, result)
                     }
-                    is JsltExprImpl -> { // Arrays and Objects are "hidden" in an expression
-                        val exprChild = findArrayOrObjectInExpr(child)
-                        if (exprChild != null) {
-                            result.add(JsltStructureViewElement(exprChild as NavigatablePsiElement))
-
-                        }
+                    is JsltObjectBody -> {
+                        addObjectBodyChild(child, result)
+                    }
+                    is JsltObjectComprehensionBody -> {
+                        addObjectComprehensionBodyChild(child, result)
                     }
                 }
                 child = child.nextSibling
             }
+        }
+        return result.toTypedArray()
+    }
 
-            return result.toTypedArray()
-        } else {
-            println(myElement::class.java)
-            return emptyArray()
+    private fun addArrayBodyChild(
+        child: JsltArrayBody,
+        result: MutableList<JsltStructureViewElement>,
+    ) {
+        child.arrayForBody?.letAssignmentList?.forEach {
+            result.add(JsltStructureViewElement(it as NavigatablePsiElement))
+        }
+        child.expressions.forEach {
+            addIfArrayOrObjectInExpr(it, result)
         }
     }
 
-    private fun findPairsInPair(pair: PsiElement, resultList: MutableList<PsiElement>) {
-        resultList.add(pair)
-        val subPair = pair.children.firstOrNull { it is JsltPairImpl || it is JsltMatcherImpl }
-        if (subPair != null) {
-            findPairsInPair(subPair, resultList)
+    private fun addObjectBodyChild(
+        child: JsltObjectBody,
+        result: MutableList<JsltStructureViewElement>,
+    ) {
+        child.letAssignmentList.forEach {
+            result.add(JsltStructureViewElement(it as NavigatablePsiElement))
+        }
+        child.pairs?.pairList?.forEach {
+            result.add(JsltStructureViewElement(it as NavigatablePsiElement))
+        }
+        if (child.pairs?.matcher != null) {
+            result.add(JsltStructureViewElement(child.pairs?.matcher as NavigatablePsiElement))
+        }
+        if (child.matcher != null) {
+            result.add(JsltStructureViewElement(child.matcher as NavigatablePsiElement))
         }
     }
 
-    private fun findArrayOrObjectInArray(child: PsiElement): List<PsiElement> {
-        return child.children.flatMap {
-            if (it is JsltExprImpl) {
-                arrayListOf(findArrayOrObjectInExpr(it))
-            } else {
-                findArrayOrObjectInArray(it)
-            }
-        }.filterNotNull()
+    private fun addObjectComprehensionBodyChild(
+        child: JsltObjectComprehensionBody,
+        result: MutableList<JsltStructureViewElement>,
+    ) {
+        addIfArrayOrObjectInExpr(child.parenthesisExpr.expr, result)
+        child.objectComprehensionForBody.letAssignmentList.forEach {
+            result.add(JsltStructureViewElement(it as NavigatablePsiElement))
+        }
+        child.objectComprehensionForBody.pair.exprList.forEach {
+            addIfArrayOrObjectInExpr(it, result)
+        }
+        if (child.objectComprehensionForBody.parenthesisExpr?.expr != null) {
+            result.add(JsltStructureViewElement(child.objectComprehensionForBody.parenthesisExpr!!.expr as NavigatablePsiElement))
+        }
     }
 
-    private fun findArrayOrObjectInExpr(child: PsiElement): PsiElement? {
-        var exprChild = child.firstChild
-        while (exprChild != null &&
+    private fun addIfArrayOrObjectInExpr(child: PsiElement?, targetResultList: MutableList<JsltStructureViewElement>) {
+        var exprChild = child?.firstChild
+        while (
+            exprChild != null &&
             exprChild !is JsltArray &&
             exprChild !is JsltObject &&
             exprChild !is JsltObjectComprehension
         ) {
             exprChild = exprChild.firstChild
         }
-        return exprChild
+        if (exprChild != null) {
+            targetResultList.add(JsltStructureViewElement(exprChild as NavigatablePsiElement))
+        }
     }
 }

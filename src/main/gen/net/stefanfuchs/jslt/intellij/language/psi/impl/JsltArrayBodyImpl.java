@@ -11,14 +11,14 @@ import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 
-public class JsltElseBranchImpl extends ASTWrapperPsiElement implements JsltElseBranch {
+public class JsltArrayBodyImpl extends ASTWrapperPsiElement implements JsltArrayBody {
 
-  public JsltElseBranchImpl(@NotNull ASTNode node) {
+  public JsltArrayBodyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitElseBranch(this);
+    visitor.visitArrayBody(this);
   }
 
   @Override
@@ -28,9 +28,27 @@ public class JsltElseBranchImpl extends ASTWrapperPsiElement implements JsltElse
   }
 
   @Override
+  @Nullable
+  public JsltArrayElements getArrayElements() {
+    return findChildByClass(JsltArrayElements.class);
+  }
+
+  @Override
+  @Nullable
+  public JsltArrayForBody getArrayForBody() {
+    return findChildByClass(JsltArrayForBody.class);
+  }
+
+  @Override
+  @Nullable
+  public JsltParenthesisExpr getParenthesisExpr() {
+    return findChildByClass(JsltParenthesisExpr.class);
+  }
+
+  @Override
   @NotNull
-  public JsltFunctionBody getFunctionBody() {
-    return findNotNullChildByClass(JsltFunctionBody.class);
+  public List<JsltExpr> getExpressions() {
+    return JsltPsiImplUtil.getExpressions(this);
   }
 
 }

@@ -59,8 +59,8 @@ public class JsltBaseExprImpl extends ASTWrapperPsiElement implements JsltBaseEx
 
   @Override
   @Nullable
-  public JsltParenthesis getParenthesis() {
-    return findChildByClass(JsltParenthesis.class);
+  public JsltParenthesisExpr getParenthesisExpr() {
+    return findChildByClass(JsltParenthesisExpr.class);
   }
 
 }
