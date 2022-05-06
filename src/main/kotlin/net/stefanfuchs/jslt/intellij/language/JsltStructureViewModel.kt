@@ -7,7 +7,6 @@ import com.intellij.ide.util.treeView.smartTree.Sorter
 import com.intellij.psi.PsiFile
 import net.stefanfuchs.jslt.intellij.language.psi.JsltDotKey
 import net.stefanfuchs.jslt.intellij.language.psi.JsltImportDeclaration
-import net.stefanfuchs.jslt.intellij.language.psi.JsltObject
 
 class JsltStructureViewModel(psiFile: PsiFile) :
     StructureViewModelBase(psiFile, JsltStructureViewElement(psiFile)), ElementInfoProvider {

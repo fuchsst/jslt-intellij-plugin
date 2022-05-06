@@ -1,75 +1,82 @@
 package net.stefanfuchs.jslt.intellij.language
 
 import com.intellij.formatting.*
+import com.intellij.lang.ASTNode
+import com.intellij.psi.TokenType
 import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.tree.TokenSet
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 
 class JsltFormattingModelBuilder : FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         val codeStyleSettings = formattingContext.codeStyleSettings
+        val wrapType = if (codeStyleSettings.WRAP_LONG_LINES)
+            WrapType.CHOP_DOWN_IF_LONG
+        else
+            WrapType.NONE
+
+        var prevNonWhitespaceNode: ASTNode? = formattingContext.node.treePrev
+        while (prevNonWhitespaceNode != null && prevNonWhitespaceNode.elementType == TokenType.WHITE_SPACE) {
+            prevNonWhitespaceNode = formattingContext.node.treePrev
+        }
+
         return FormattingModelProvider
             .createFormattingModelForPsiFile(formattingContext.containingFile,
                 JsltBlock(formattingContext.node,
-                    Wrap.createWrap(WrapType.NONE, false),
+                    Wrap.createWrap(wrapType, false),
                     Alignment.createAlignment(),
-                    createSpaceBuilder(codeStyleSettings)),
+                    createSpaceBuilder(codeStyleSettings, prevNonWhitespaceNode)),
                 codeStyleSettings)
     }
 
     companion object {
-        private fun createSpaceBuilder(settings: CodeStyleSettings): SpacingBuilder {
+        private fun createSpaceBuilder(settings: CodeStyleSettings, previousNode: ASTNode?): SpacingBuilder {
+            val commonSettings = settings.getCommonSettings(JsltLanguage.id)
             return SpacingBuilder(settings, JsltLanguage)
-                .formatImportSpacing(settings)
-                .formatLetAssignmentSpacing(settings)
-                .formatFunctionDeclarationSpacing(settings)
-                .formatIfSpacing(settings)
-                .formatElseSpacing(settings)
-                .formatForSpacing(settings)
-                .formatArraySpacing(settings)
-                .formatObjectSpacing(settings)
-                .formatPairSpacing(settings)
-                .formatFunctionCallSpacing(settings)
-                .formatOperatorsSpacing(settings)
+                .around(JsltTypes.ASSIGN)
+                .spaceIf(commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS)
+                .around(JsltTypes.AS)
+                .spaceIf(commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS)
+                .before(JsltTypes.COLON)
+                .spaceIf(commonSettings.SPACE_BEFORE_COLON)
+                .after(JsltTypes.COLON)
+                .spaceIf(commonSettings.SPACE_AFTER_COLON)
+                .before(JsltTypes.COMMA)
+                .spaceIf(commonSettings.SPACE_BEFORE_COMMA)
+                .after(JsltTypes.COMMA)
+                .spaceIf(commonSettings.SPACE_AFTER_COMMA)
+                .around(JsltTypes.COMPARATOR)
+                .spaceIf(commonSettings.SPACE_AROUND_RELATIONAL_OPERATORS)
+                .around(JsltTypes.ADDITIVE_OPERATOR)
+                .spaceIf(commonSettings.SPACE_AROUND_ADDITIVE_OPERATORS)
+                .around(JsltTypes.MULTIPLICATIVE_OPERATOR)
+                .spaceIf(commonSettings.SPACE_AROUND_MULTIPLICATIVE_OPERATORS)
+                .around(JsltTypes.PIPE_OPERATOR)
+                .spaceIf(commonSettings.SPACE_AROUND_LAMBDA_ARROW)
+                .after(JsltTypes.IMPORT_DECLARATIONS)
+                .blankLines(commonSettings.BLANK_LINES_AFTER_IMPORTS)
+                .around(JsltTypes.FUNCTION_DECL)
+                .blankLines(commonSettings.BLANK_LINES_AROUND_METHOD)
+                .withinPair(JsltTypes.LBRACKET, JsltTypes.RBRACKET)
+                .spaceIf(commonSettings.SPACE_WITHIN_BRACKETS)
+                .withinPair(JsltTypes.LCURLY, JsltTypes.RCURLY)
+                .spaceIf(commonSettings.SPACE_WITHIN_BRACES)
+                .withinPair(JsltTypes.LPAREN, JsltTypes.RPAREN)
+                .spaceIf(commonSettings.SPACE_WITHIN_PARENTHESES)
+                .after(JsltTypes.IF)
+                .spaceIf(commonSettings.SPACE_BEFORE_IF_PARENTHESES)
+                .after(JsltTypes.FOR)
+                .spaceIf(commonSettings.SPACE_BEFORE_FOR_PARENTHESES)
+                .before(JsltTypes.ARRAY_FOR_BODY)
+                .spaces(1)
+                .before(JsltTypes.OBJECT_COMPREHENSION_FOR_BODY)
+                .spaces(1)
+                .after(JsltTypes.LET)
+                .spaces(1)
+                .after(JsltTypes.DEF)
+                .spaces(1)
+                .after(JsltTypes.IMPORT)
+                .spaces(1)
         }
-
-        private fun SpacingBuilder.formatImportSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this.after(JsltTypes.IMPORT_DECLARATIONS)
-//                .spacing(0,0,
-//                    settings.getCommonSettings(JsltLanguage.id).BLANK_LINES_AFTER_IMPORTS,
-//                    true,
-//                    settings.getCommonSettings(JsltLanguage.id).KEEP_BLANK_LINES_IN_DECLARATIONS)
-                .blankLines(settings.getCommonSettings(JsltLanguage.id).BLANK_LINES_AFTER_IMPORTS)
-
-
-        private fun SpacingBuilder.formatLetAssignmentSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this.around(JsltTypes.ASSIGN)
-                .spaceIf(settings.getCommonSettings(JsltLanguage.id).SPACE_AROUND_ASSIGNMENT_OPERATORS)
-
-        private fun SpacingBuilder.formatFunctionDeclarationSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatIfSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatElseSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatForSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatArraySpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatObjectSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatPairSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatFunctionCallSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
-
-        private fun SpacingBuilder.formatOperatorsSpacing(settings: CodeStyleSettings): SpacingBuilder =
-            this
     }
 }

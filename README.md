@@ -7,13 +7,13 @@
 * Line comment code 
 * Parenthesis Matching
 * Code Folding
+* Code Auto Format (Ctrl+Alt+L)
 * Code Navigation
   * Code Outline
   
 
 ## ToDO
 
-* Code Auto Format (Ctrl+Alt+L)
 * Syntax Highlighting
   * differentiate global/local/parameter variables
   * differentiate buildin/def functions

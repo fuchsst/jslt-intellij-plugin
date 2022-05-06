@@ -25,7 +25,7 @@ class JsltParserDefinition : ParserDefinition {
     override fun createParser(project: Project?): PsiParser = JsltParser()
     override fun getFileNodeType(): IFileElementType = FILE
     override fun createFile(viewProvider: FileViewProvider): PsiFile = JsltFile(viewProvider)
-    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?)= SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = SpaceRequirements.MAY
     override fun createElement(node: ASTNode?): PsiElement = JsltTypes.Factory.createElement(node)
 
     companion object {

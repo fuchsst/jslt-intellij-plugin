@@ -16,7 +16,7 @@ class JsltColorSettingsPage : ColorSettingsPage {
         return JsltSyntaxHighlighter()
     }
 
-    override fun getDemoText(): String  =
+    override fun getDemoText(): String =
         JsltColorSettingsPage::class.java.getResource("/settings-sample.jslt")!!.readText()
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey>? {
