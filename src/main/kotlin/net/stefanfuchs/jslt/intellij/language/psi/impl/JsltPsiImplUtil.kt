@@ -1,16 +1,19 @@
 @file:JvmName("JsltPsiImplUtil")
+@file:JvmMultifileClass
 
 package net.stefanfuchs.jslt.intellij.language.psi.impl
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiElement
 import net.stefanfuchs.jslt.intellij.language.psi.*
 import javax.swing.Icon
 
 
-fun getName(element: JsltImportDeclaration): String? {
-    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.IDENT)
+
+fun getName(element: JsltFunctionDecl): String? {
+    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_NAME)
     return keyNode?.text
 }
 
@@ -19,10 +22,41 @@ fun getName(element: JsltLetAssignment): String? {
     return keyNode?.text
 }
 
-fun getName(element: JsltFunctionDecl): String? {
-    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_NAME)
-    return keyNode?.text
+fun setName(element: JsltLetAssignment, newAlias: String): PsiElement {
+    val aliasASTNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE_DECL)
+    if (aliasASTNode != null) {
+        val letAssignment = JsltVariableElementFactory.createVariableDeclaration(element.project, newAlias)
+        val newAliasASTNode: ASTNode = letAssignment.node.findChildByType(JsltTypes.VARIABLE_DECL)!!
+        element.node.replaceChild(aliasASTNode, newAliasASTNode)
+    }
+    return element
 }
+
+fun getNameIdentifier(element: JsltLetAssignment): PsiElement? {
+    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE_DECL)
+    return keyNode?.psi
+}
+
+
+fun getName(element: JsltFunctionCall): String? {
+    val functionNameASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_NAME)?.firstChildNode
+    return when (functionNameASTNode?.elementType) {
+        JsltTypes.IDENT -> functionNameASTNode?.text
+        JsltTypes.PIDENT -> functionNameASTNode?.text?.substringAfter(':')
+        else -> null
+    }
+}
+
+fun getImportAlias(element: JsltFunctionCall): String? {
+    val functionNameASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_NAME)?.firstChildNode
+    return when (functionNameASTNode?.elementType) {
+        JsltTypes.PIDENT -> functionNameASTNode?.text?.substringBefore(':')
+        else -> null
+    }
+}
+
+//JsltFunctionCall: setImportAlias setName
+
 
 fun getExpressions(element: JsltArrayBody): List<JsltExpr> {
     val result = mutableListOf<JsltExpr>()
@@ -52,13 +86,6 @@ fun getName(element: JsltPair): String? {
     return keyNode?.text?.trim('"')
 }
 
-fun getPresentation(element: JsltImportDeclaration): ItemPresentation {
-    return object : ItemPresentation {
-        override fun getPresentableText(): String = element.name ?: "<missing import alias>"
-        override fun getLocationString(): String? = element.containingFile?.name
-        override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.Module
-    }
-}
 
 fun getPresentation(element: JsltLetAssignment): ItemPresentation {
     return object : ItemPresentation {

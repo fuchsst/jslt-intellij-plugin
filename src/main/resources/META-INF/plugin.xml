@@ -61,7 +61,12 @@
                 implementation="net.stefanfuchs.jslt.intellij.language.JsltCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
                 implementation="net.stefanfuchs.jslt.intellij.language.JsltLanguageCodeStyleSettingsProvider"/>
-
+        <lang.refactoringSupport
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltRefactoringSupportProvider"/>
+        <lang.findUsagesProvider
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFindUsagesProvider"/>
 
     </extensions>
 

@@ -48,6 +48,7 @@ public interface JsltTypes {
   IElementType PAIRS = new JsltElementType("PAIRS");
   IElementType PARENTHESIS_EXPR = new JsltElementType("PARENTHESIS_EXPR");
   IElementType PIPE_OPERATOR = new JsltElementType("PIPE_OPERATOR");
+  IElementType VARIABLE_USAGE = new JsltElementType("VARIABLE_USAGE");
 
   IElementType AND = new JsltTokenType("AND");
   IElementType AS = new JsltTokenType("AS");
@@ -69,6 +70,8 @@ public interface JsltTypes {
   IElementType IDENT = new JsltTokenType("IDENT");
   IElementType IF = new JsltTokenType("IF");
   IElementType IMPORT = new JsltTokenType("IMPORT");
+  IElementType IMPORT_ALIAS = new JsltTokenType("IMPORT_ALIAS");
+  IElementType IMPORT_FILE_STRING = new JsltTokenType("IMPORT_FILE_STRING");
   IElementType INTEGER = new JsltTokenType("INTEGER");
   IElementType LBRACKET = new JsltTokenType("LBRACKET");
   IElementType LCURLY = new JsltTokenType("LCURLY");
@@ -215,6 +218,9 @@ public interface JsltTypes {
       }
       else if (type == PIPE_OPERATOR) {
         return new JsltPipeOperatorImpl(node);
+      }
+      else if (type == VARIABLE_USAGE) {
+        return new JsltVariableUsageImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

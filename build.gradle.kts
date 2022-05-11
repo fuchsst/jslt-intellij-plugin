@@ -17,7 +17,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.3.3")
+    version.set("2022.1")
 }
 
 grammarKit {
@@ -28,7 +28,7 @@ grammarKit {
     grammarKitRelease.set("2021.1.2")
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
-    intellijRelease.set("203.7717.81")
+    intellijRelease.set("221.5080.210")
 
 
 }

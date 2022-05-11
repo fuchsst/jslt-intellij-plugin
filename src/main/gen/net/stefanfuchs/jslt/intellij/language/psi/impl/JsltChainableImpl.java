@@ -39,4 +39,10 @@ public class JsltChainableImpl extends ASTWrapperPsiElement implements JsltChain
     return findChildByClass(JsltFunctionCall.class);
   }
 
+  @Override
+  @Nullable
+  public JsltVariableUsage getVariableUsage() {
+    return findChildByClass(JsltVariableUsage.class);
+  }
+
 }

@@ -4,6 +4,7 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNamedElement;
 
 public class JsltVisitor extends PsiElementVisitor {
 
@@ -108,7 +109,7 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitLetAssignment(@NotNull JsltLetAssignment o) {
-    visitPsiElement(o);
+    visitVariableElement(o);
   }
 
   public void visitMatcher(@NotNull JsltMatcher o) {
@@ -164,6 +165,18 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitPipeOperator(@NotNull JsltPipeOperator o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVariableUsage(@NotNull JsltVariableUsage o) {
+    visitPsiNamedElement(o);
+  }
+
+  public void visitPsiNamedElement(@NotNull PsiNamedElement o) {
+    visitElement(o);
+  }
+
+  public void visitVariableElement(@NotNull JsltVariableElement o) {
     visitPsiElement(o);
   }
 

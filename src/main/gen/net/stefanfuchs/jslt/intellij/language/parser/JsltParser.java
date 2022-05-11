@@ -386,7 +386,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (FunctionCall | VARIABLE | DOT (IDENT | STRING)?)
+  // (FunctionCall | VariableUsage | DOT (IDENT | STRING)?)
   //                 (ChainLink)?
   public static boolean Chainable(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Chainable")) return false;
@@ -398,13 +398,13 @@ public class JsltParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // FunctionCall | VARIABLE | DOT (IDENT | STRING)?
+  // FunctionCall | VariableUsage | DOT (IDENT | STRING)?
   private static boolean Chainable_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Chainable_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = FunctionCall(b, l + 1);
-    if (!r) r = consumeToken(b, VARIABLE);
+    if (!r) r = VariableUsage(b, l + 1);
     if (!r) r = Chainable_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -752,13 +752,13 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IMPORT STRING AS IDENT
+  // IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS
   public static boolean ImportDeclaration(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ImportDeclaration")) return false;
     if (!nextTokenIs(b, IMPORT)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IMPORT, STRING, AS, IDENT);
+    r = consumeTokens(b, 0, IMPORT, IMPORT_FILE_STRING, AS, IMPORT_ALIAS);
     exit_section_(b, m, IMPORT_DECLARATION, r);
     return r;
   }
@@ -1157,6 +1157,18 @@ public class JsltParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, PIPE);
     exit_section_(b, m, PIPE_OPERATOR, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // VARIABLE
+  public static boolean VariableUsage(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "VariableUsage")) return false;
+    if (!nextTokenIs(b, VARIABLE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, VARIABLE);
+    exit_section_(b, m, VARIABLE_USAGE, r);
     return r;
   }
 

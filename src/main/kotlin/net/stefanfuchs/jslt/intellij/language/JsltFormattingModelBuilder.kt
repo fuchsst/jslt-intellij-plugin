@@ -15,22 +15,17 @@ class JsltFormattingModelBuilder : FormattingModelBuilder {
         else
             WrapType.NONE
 
-        var prevNonWhitespaceNode: ASTNode? = formattingContext.node.treePrev
-        while (prevNonWhitespaceNode != null && prevNonWhitespaceNode.elementType == TokenType.WHITE_SPACE) {
-            prevNonWhitespaceNode = formattingContext.node.treePrev
-        }
-
         return FormattingModelProvider
             .createFormattingModelForPsiFile(formattingContext.containingFile,
                 JsltBlock(formattingContext.node,
                     Wrap.createWrap(wrapType, false),
                     Alignment.createAlignment(),
-                    createSpaceBuilder(codeStyleSettings, prevNonWhitespaceNode)),
+                    createSpaceBuilder(codeStyleSettings)),
                 codeStyleSettings)
     }
 
     companion object {
-        private fun createSpaceBuilder(settings: CodeStyleSettings, previousNode: ASTNode?): SpacingBuilder {
+        private fun createSpaceBuilder(settings: CodeStyleSettings): SpacingBuilder {
             val commonSettings = settings.getCommonSettings(JsltLanguage.id)
             return SpacingBuilder(settings, JsltLanguage)
                 .around(JsltTypes.ASSIGN)

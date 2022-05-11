@@ -13,4 +13,18 @@ public interface JsltFunctionCall extends PsiElement {
   @NotNull
   JsltFunctionName getFunctionName();
 
+  @Nullable
+  String getImportAlias();
+
+  //WARNING: setImportAlias(...) is skipped
+  //matching setImportAlias(JsltFunctionCall, ...)
+  //methods are not found in JsltPsiImplUtil
+
+  @Nullable
+  String getName();
+
+  //WARNING: setName(...) is skipped
+  //matching setName(JsltFunctionCall, ...)
+  //methods are not found in JsltPsiImplUtil
+
 }

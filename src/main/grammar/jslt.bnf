@@ -32,6 +32,10 @@ AdditiveExpr ::= MultiplicativeExpr (AdditiveOperator MultiplicativeExpr)*
 AdditiveOperator ::= PLUS | MINUS
 MultiplicativeExpr ::= BaseExpr (MultiplicativeOperator BaseExpr)*
 MultiplicativeOperator ::= STAR | SLASH
+VariableUsage ::= VARIABLE  {
+                                implements="com.intellij.psi.PsiNamedElement"
+                                methods=[ getName setName ]
+                            }
 BaseExpr ::= {
                 NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
                 Chainable | ParenthesisExpr | IfStatement |
@@ -39,7 +43,7 @@ BaseExpr ::= {
                 (Object | ObjectComprehension)
              }
 Chainable ::= {
-                (FunctionCall | VARIABLE | DOT (IDENT | STRING)?)
+                (FunctionCall | VariableUsage | DOT (IDENT | STRING)?)
                 (ChainLink)?
               }
 ChainLink ::= {
@@ -76,11 +80,18 @@ IfStatement ::= {
                 }
 ElseBranch ::= ELSE FunctionBody
 FunctionName ::= (IDENT | PIDENT)
-FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN
-LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {methods=[ getName getPresentation ]}
+FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN {methods=[ getImportAlias setImportAlias getName setName ]}
+LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {
+                        mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltVariableElementImpl"
+                        implements="net.stefanfuchs.jslt.intellij.language.psi.JsltVariableElement"
+                        methods=[ getName setName getNameIdentifier getPresentation ]
+                    }
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
                      FunctionBody
-                 } {methods=[ getName getPresentation getLetAssignmentList getExpr ]}
+                 } {
+
+                    methods=[ getName getPresentation getLetAssignmentList getExpr ]
+                 }
 ImportDeclarations ::= ImportDeclaration*
-ImportDeclaration ::= IMPORT STRING AS IDENT  {methods=[ getName getPresentation ]}
+ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  { methods=[ getName getPresentation ] }

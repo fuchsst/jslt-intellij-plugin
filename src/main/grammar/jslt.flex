@@ -48,9 +48,9 @@ SINGLE_LINE_COMMENT="//"[^\r\n]*
 
 <YYINITIAL> {SINGLE_LINE_COMMENT}                           { return JsltTypes.COMMENT; }
 <YYINITIAL> "import"                                        { yybegin(IMPORTS); return JsltTypes.IMPORT; }
-<IMPORTS> {STRING}                                          { return JsltTypes.STRING; }
+<IMPORTS> {STRING}                                          { return JsltTypes.IMPORT_FILE_STRING; }
 <IMPORTS> "as"                                              { return JsltTypes.AS; }
-<IMPORTS> {IDENT}                                           { yybegin(YYINITIAL); return JsltTypes.IDENT; }
+<IMPORTS> {IDENT}                                           { yybegin(YYINITIAL); return JsltTypes.IMPORT_ALIAS; }
 
 <YYINITIAL> "let"                                           { yybegin(LETS); return JsltTypes.LET; }
 <LETS> {IDENT}                                              { return JsltTypes.VARIABLE_DECL; }

@@ -4,16 +4,14 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNamedElement;
 
-public interface JsltChainable extends PsiElement {
-
-  @Nullable
-  JsltChainLink getChainLink();
+public interface JsltVariableUsage extends PsiNamedElement {
 
   @Nullable
-  JsltFunctionCall getFunctionCall();
+  String getName();
 
-  @Nullable
-  JsltVariableUsage getVariableUsage();
+  @NotNull
+  PsiElement setName(@NotNull String newName);
 
 }
