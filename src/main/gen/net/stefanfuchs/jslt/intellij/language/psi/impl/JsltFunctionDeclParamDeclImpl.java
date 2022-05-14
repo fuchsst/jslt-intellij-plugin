@@ -12,20 +12,32 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 
-public class JsltMultiplicativeOperatorImpl extends ASTWrapperPsiElement implements JsltMultiplicativeOperator {
+public class JsltFunctionDeclParamDeclImpl extends ASTWrapperPsiElement implements JsltFunctionDeclParamDecl {
 
-  public JsltMultiplicativeOperatorImpl(@NotNull ASTNode node) {
+  public JsltFunctionDeclParamDeclImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitMultiplicativeOperator(this);
+    visitor.visitFunctionDeclParamDecl(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JsltVisitor) accept((JsltVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public String getName() {
+    return JsltPsiImplUtil.getName(this);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement setName(@NotNull String newName) {
+    return JsltPsiImplUtil.setName(this, newName);
   }
 
 }

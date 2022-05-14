@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
+import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 import com.intellij.navigation.ItemPresentation;
 
 public class JsltMatcherImpl extends ASTWrapperPsiElement implements JsltMatcher {

@@ -1,7 +1,7 @@
 @file:JvmName("JsltPsiImplUtil")
 @file:JvmMultifileClass
 
-package net.stefanfuchs.jslt.intellij.language.psi.impl
+package net.stefanfuchs.jslt.intellij.language.psi.util
 
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode

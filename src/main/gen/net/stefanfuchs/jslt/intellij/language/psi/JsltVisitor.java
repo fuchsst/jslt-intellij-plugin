@@ -4,7 +4,6 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
 
 public class JsltVisitor extends PsiElementVisitor {
 
@@ -92,6 +91,14 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunctionDeclParamDecl(@NotNull JsltFunctionDeclParamDecl o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionDeclParamList(@NotNull JsltFunctionDeclParamList o) {
+    visitPsiElement(o);
+  }
+
   public void visitFunctionName(@NotNull JsltFunctionName o) {
     visitPsiElement(o);
   }
@@ -109,7 +116,7 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitLetAssignment(@NotNull JsltLetAssignment o) {
-    visitVariableElement(o);
+    visitLetAssignmentElement(o);
   }
 
   public void visitMatcher(@NotNull JsltMatcher o) {
@@ -169,14 +176,14 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitVariableUsage(@NotNull JsltVariableUsage o) {
-    visitPsiNamedElement(o);
+    visitVariableUsageElement(o);
   }
 
-  public void visitPsiNamedElement(@NotNull PsiNamedElement o) {
-    visitElement(o);
+  public void visitLetAssignmentElement(@NotNull JsltLetAssignmentElement o) {
+    visitPsiElement(o);
   }
 
-  public void visitVariableElement(@NotNull JsltVariableElement o) {
+  public void visitVariableUsageElement(@NotNull JsltVariableUsageElement o) {
     visitPsiElement(o);
   }
 

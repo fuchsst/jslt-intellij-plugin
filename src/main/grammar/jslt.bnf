@@ -12,7 +12,7 @@
   elementTypeClass="net.stefanfuchs.jslt.intellij.language.psi.JsltElementType"
   tokenTypeClass="net.stefanfuchs.jslt.intellij.language.psi.JsltTokenType"
 
-  psiImplUtilClass="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltPsiImplUtil"
+  psiImplUtilClass="net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil"
 }
 
 jsltFile ::= {
@@ -33,8 +33,9 @@ AdditiveOperator ::= PLUS | MINUS
 MultiplicativeExpr ::= BaseExpr (MultiplicativeOperator BaseExpr)*
 MultiplicativeOperator ::= STAR | SLASH
 VariableUsage ::= VARIABLE  {
-                                implements="com.intellij.psi.PsiNamedElement"
-                                methods=[ getName setName ]
+                                mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltVariableUsageElementImpl"
+                                implements="net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsageElement"
+                                methods=[ getName setName getNameIdentifier getReference ]
                             }
 BaseExpr ::= {
                 NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
@@ -82,12 +83,14 @@ ElseBranch ::= ELSE FunctionBody
 FunctionName ::= (IDENT | PIDENT)
 FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN {methods=[ getImportAlias setImportAlias getName setName ]}
 LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {
-                        mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltVariableElementImpl"
-                        implements="net.stefanfuchs.jslt.intellij.language.psi.JsltVariableElement"
+                        mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetAssignmentElementImpl"
+                        implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetAssignmentElement"
                         methods=[ getName setName getNameIdentifier getPresentation ]
                     }
+FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM { methods=[ getName setName ] }
+FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*
 FunctionDecl ::= {
-                   DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
+                   DEF FUNCTION_DECL_NAME LPAREN FunctionDeclParamList? RPAREN
                      FunctionBody
                  } {
 

@@ -9,9 +9,10 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
+import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 import com.intellij.navigation.ItemPresentation;
 
-public class JsltLetAssignmentImpl extends JsltVariableElementImpl implements JsltLetAssignment {
+public class JsltLetAssignmentImpl extends JsltLetAssignmentElementImpl implements JsltLetAssignment {
 
   public JsltLetAssignmentImpl(@NotNull ASTNode node) {
     super(node);

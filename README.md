@@ -25,6 +25,7 @@
   * Jump to variable declaration
   * Show variable usages
   * Goto imported File
+  * recognize JSLT (by first line marked with `#! JSLT`) in multiline strings in Java/Scala/Kotlin/yaml files
 * Validations
   * warn for undeclared variables
   * warn for call of unknown function

@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
+import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 
 public class JsltArraySlicingBodyImpl extends ASTWrapperPsiElement implements JsltArraySlicingBody {
 

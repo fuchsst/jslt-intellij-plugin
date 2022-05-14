@@ -6,7 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.navigation.ItemPresentation;
 
-public interface JsltLetAssignment extends JsltVariableElement {
+public interface JsltLetAssignment extends JsltLetAssignmentElement {
 
   @NotNull
   JsltExpr getExpr();

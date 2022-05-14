@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
+import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 import com.intellij.navigation.ItemPresentation;
 
 public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFunctionDecl {
@@ -32,6 +33,12 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
   @NotNull
   public JsltFunctionBody getFunctionBody() {
     return findNotNullChildByClass(JsltFunctionBody.class);
+  }
+
+  @Override
+  @Nullable
+  public JsltFunctionDeclParamList getFunctionDeclParamList() {
+    return findChildByClass(JsltFunctionDeclParamList.class);
   }
 
   @Override

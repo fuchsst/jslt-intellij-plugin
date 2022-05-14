@@ -8,10 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
+import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
+import com.intellij.psi.PsiReference;
 
-public class JsltVariableUsageImpl extends ASTWrapperPsiElement implements JsltVariableUsage {
+public class JsltVariableUsageImpl extends JsltVariableUsageElementImpl implements JsltVariableUsage {
 
   public JsltVariableUsageImpl(@NotNull ASTNode node) {
     super(node);
@@ -37,6 +38,18 @@ public class JsltVariableUsageImpl extends ASTWrapperPsiElement implements JsltV
   @NotNull
   public PsiElement setName(@NotNull String newName) {
     return JsltPsiImplUtil.setName(this, newName);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNameIdentifier() {
+    return JsltPsiImplUtil.getNameIdentifier(this);
+  }
+
+  @Override
+  @NotNull
+  public PsiReference getReference() {
+    return JsltPsiImplUtil.getReference(this);
   }
 
 }

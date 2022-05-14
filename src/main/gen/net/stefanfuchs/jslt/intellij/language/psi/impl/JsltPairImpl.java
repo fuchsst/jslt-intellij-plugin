@@ -10,7 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
-import com.intellij.navigation.ItemPresentation;
+import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 
 public class JsltPairImpl extends ASTWrapperPsiElement implements JsltPair {
 
@@ -32,18 +32,6 @@ public class JsltPairImpl extends ASTWrapperPsiElement implements JsltPair {
   @NotNull
   public List<JsltExpr> getExprList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, JsltExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public String getName() {
-    return JsltPsiImplUtil.getName(this);
-  }
-
-  @Override
-  @NotNull
-  public ItemPresentation getPresentation() {
-    return JsltPsiImplUtil.getPresentation(this);
   }
 
 }

@@ -660,7 +660,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DEF FUNCTION_DECL_NAME LPAREN (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)? RPAREN
+  // DEF FUNCTION_DECL_NAME LPAREN FunctionDeclParamList? RPAREN
   //                      FunctionBody
   public static boolean FunctionDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDecl")) return false;
@@ -675,41 +675,56 @@ public class JsltParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*)?
+  // FunctionDeclParamList?
   private static boolean FunctionDecl_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDecl_3")) return false;
-    FunctionDecl_3_0(b, l + 1);
+    FunctionDeclParamList(b, l + 1);
     return true;
   }
 
-  // FUNCTION_DECL_PARAM (COMMA FUNCTION_DECL_PARAM)*
-  private static boolean FunctionDecl_3_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionDecl_3_0")) return false;
+  /* ********************************************************** */
+  // FUNCTION_DECL_PARAM
+  public static boolean FunctionDeclParamDecl(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionDeclParamDecl")) return false;
+    if (!nextTokenIs(b, FUNCTION_DECL_PARAM)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, FUNCTION_DECL_PARAM);
-    r = r && FunctionDecl_3_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, FUNCTION_DECL_PARAM_DECL, r);
     return r;
   }
 
-  // (COMMA FUNCTION_DECL_PARAM)*
-  private static boolean FunctionDecl_3_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionDecl_3_0_1")) return false;
+  /* ********************************************************** */
+  // FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*
+  public static boolean FunctionDeclParamList(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionDeclParamList")) return false;
+    if (!nextTokenIs(b, FUNCTION_DECL_PARAM)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = FunctionDeclParamDecl(b, l + 1);
+    r = r && FunctionDeclParamList_1(b, l + 1);
+    exit_section_(b, m, FUNCTION_DECL_PARAM_LIST, r);
+    return r;
+  }
+
+  // (COMMA FunctionDeclParamDecl)*
+  private static boolean FunctionDeclParamList_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionDeclParamList_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!FunctionDecl_3_0_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "FunctionDecl_3_0_1", c)) break;
+      if (!FunctionDeclParamList_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "FunctionDeclParamList_1", c)) break;
     }
     return true;
   }
 
-  // COMMA FUNCTION_DECL_PARAM
-  private static boolean FunctionDecl_3_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionDecl_3_0_1_0")) return false;
+  // COMMA FunctionDeclParamDecl
+  private static boolean FunctionDeclParamList_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionDeclParamList_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, COMMA, FUNCTION_DECL_PARAM);
+    r = consumeToken(b, COMMA);
+    r = r && FunctionDeclParamDecl(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

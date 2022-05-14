@@ -6,7 +6,7 @@ import com.intellij.util.IncorrectOperationException
 import net.stefanfuchs.jslt.intellij.language.JsltFile
 import net.stefanfuchs.jslt.intellij.language.JsltFileType
 
-object JsltVariableElementFactory {
+object JsltElementFactory {
     fun createVariableUsage(project: Project?, name: String): JsltVariableUsage {
         val file: JsltFile = createFile(project, "\$$name")
         val expr = file.findChildByClass(JsltExpr::class.java)
@@ -20,9 +20,17 @@ object JsltVariableElementFactory {
         throw IncorrectOperationException("Could not build AST Node!")
     }
 
-    fun createVariableDeclaration(project: Project?, name: String): JsltLetAssignment {
+    fun createLetAssignment(project: Project?, name: String): JsltLetAssignment {
         val file: JsltFile = createFile(project, "let $name = 1")
         return file.firstChild as JsltLetAssignment
+    }
+
+    fun createFunctionDeclParamDecl(project: Project?, name: String): JsltFunctionDeclParamDecl {
+        val file: JsltFile = createFile(project, "def fun($name)")
+        return (file.firstChild as JsltFunctionDecl)
+            .functionDeclParamList!!
+            .functionDeclParamDeclList
+            .first() as JsltFunctionDeclParamDecl
     }
 
     private fun createFile(project: Project?, text: String): JsltFile {
