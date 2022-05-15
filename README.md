@@ -10,6 +10,8 @@
 * Code Auto Format (Ctrl+Alt+L)
 * Code Navigation
   * Code Outline
+  * Goto imported File
+  * Jump to variable declaration
   
 
 ## ToDO
@@ -22,9 +24,8 @@
   * inline docs for buildin-functions
   * suggested tokes on Ctrl+Space
 * Code Navigation
-  * Jump to variable declaration
+  * Jump to function declaration
   * Show variable usages
-  * Goto imported File
   * recognize JSLT (by first line marked with `#! JSLT`) in multiline strings in Java/Scala/Kotlin/yaml files
 * Validations
   * warn for undeclared variables

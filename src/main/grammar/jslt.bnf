@@ -87,7 +87,7 @@ LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {
                         implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetAssignmentElement"
                         methods=[ getName setName getNameIdentifier getPresentation ]
                     }
-FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM { methods=[ getName setName ] }
+FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM { methods=[ getName setName getNameIdentifier ] }
 FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN FunctionDeclParamList? RPAREN
@@ -97,4 +97,8 @@ FunctionDecl ::= {
                     methods=[ getName getPresentation getLetAssignmentList getExpr ]
                  }
 ImportDeclarations ::= ImportDeclaration*
-ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  { methods=[ getName getPresentation ] }
+ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  {
+                                            mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltImportDeclElementImpl"
+                                            implements="net.stefanfuchs.jslt.intellij.language.psi.JsltImportDeclElement"
+                                            methods=[ getName setName getNameIdentifier getPresentation getReference ]
+                                        }

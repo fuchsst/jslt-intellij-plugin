@@ -14,41 +14,52 @@ import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
 
 class JsltFindUsagesProvider : FindUsagesProvider {
 
-  override fun getWordsScanner(): WordsScanner {
-    return DefaultWordsScanner(
-      JsltLexerAdapter(),
-      TokenSet.create(JsltTypes.FUNCTION_DECL_NAME, JsltTypes.FUNCTION_DECL_PARAM, JsltTypes.IMPORT_ALIAS, JsltTypes.VARIABLE_DECL),
-      TokenSet.create(JsltTypes.COMMENT),
-      TokenSet.create(JsltTypes.TRUE, JsltTypes.FALSE, JsltTypes.NULL, JsltTypes.INTEGER, JsltTypes.DECIMAL, JsltTypes.STRING),
-      TokenSet.create(JsltTypes.IMPORT_FILE_STRING),
-      TokenSet.EMPTY)
-  }
-
-  override fun canFindUsagesFor(psiElement: PsiElement): Boolean {
-    return psiElement is PsiNamedElement
-  }
-
-  override fun getHelpId(psiElement: PsiElement): String? {
-    return null
-  }
-
-  override fun getType(element: PsiElement): String {
-    return when (element) {
-      is JsltFunctionDecl -> "Function declaration"
-      is JsltLetAssignment -> "Variable declaration"
-      is JsltVariableUsage -> "Variable"
-      else -> ""
+    override fun getWordsScanner(): WordsScanner {
+        return DefaultWordsScanner(
+            JsltLexerAdapter(),
+            TokenSet.create(
+                JsltTypes.FUNCTION_DECL_NAME,
+                JsltTypes.FUNCTION_DECL_PARAM,
+                JsltTypes.IMPORT_ALIAS,
+                JsltTypes.VARIABLE_DECL,
+                JsltTypes.VARIABLE_USAGE),
+            TokenSet.create(JsltTypes.COMMENT),
+            TokenSet.create(
+                JsltTypes.TRUE,
+                JsltTypes.FALSE,
+                JsltTypes.NULL,
+                JsltTypes.INTEGER,
+                JsltTypes.DECIMAL,
+                JsltTypes.STRING),
+            TokenSet.create(JsltTypes.IMPORT_FILE_STRING),
+            TokenSet.EMPTY)
     }
-  }
 
-  override fun getDescriptiveName(element: PsiElement): String {
-    return when (element) {
-      is JsltFunctionDecl -> element.name ?: ""
-      else -> ""
+    override fun canFindUsagesFor(psiElement: PsiElement): Boolean {
+        return psiElement is PsiNamedElement
     }
-  }
 
-  override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
-    return element.text
-  }
+    override fun getHelpId(psiElement: PsiElement): String? {
+        return null
+    }
+
+    override fun getType(element: PsiElement): String {
+        return when (element) {
+            is JsltFunctionDecl -> "Function declaration"
+            is JsltLetAssignment -> "Variable declaration"
+            is JsltVariableUsage -> "Variable"
+            else -> ""
+        }
+    }
+
+    override fun getDescriptiveName(element: PsiElement): String {
+        return when (element) {
+            is JsltFunctionDecl -> element.name ?: ""
+            else -> ""
+        }
+    }
+
+    override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
+        return element.text
+    }
 }

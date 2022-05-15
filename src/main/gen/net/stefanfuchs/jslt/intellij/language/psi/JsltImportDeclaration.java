@@ -5,13 +5,23 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.PsiReference;
 
-public interface JsltImportDeclaration extends PsiElement {
+public interface JsltImportDeclaration extends JsltImportDeclElement {
 
   @Nullable
   String getName();
 
   @NotNull
+  PsiElement setName(@NotNull String newName);
+
+  @Nullable
+  PsiElement getNameIdentifier();
+
+  @NotNull
   ItemPresentation getPresentation();
+
+  @NotNull
+  PsiReference getReference();
 
 }

@@ -40,4 +40,10 @@ public class JsltFunctionDeclParamDeclImpl extends ASTWrapperPsiElement implemen
     return JsltPsiImplUtil.setName(this, newName);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getNameIdentifier() {
+    return JsltPsiImplUtil.getNameIdentifier(this);
+  }
+
 }

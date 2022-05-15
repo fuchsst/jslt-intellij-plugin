@@ -13,4 +13,7 @@ public interface JsltFunctionDeclParamDecl extends PsiElement {
   @NotNull
   PsiElement setName(@NotNull String newName);
 
+  @Nullable
+  PsiElement getNameIdentifier();
+
 }

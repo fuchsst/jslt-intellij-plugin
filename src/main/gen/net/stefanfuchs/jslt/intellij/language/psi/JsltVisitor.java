@@ -108,7 +108,7 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitImportDeclaration(@NotNull JsltImportDeclaration o) {
-    visitPsiElement(o);
+    visitImportDeclElement(o);
   }
 
   public void visitImportDeclarations(@NotNull JsltImportDeclarations o) {
@@ -177,6 +177,10 @@ public class JsltVisitor extends PsiElementVisitor {
 
   public void visitVariableUsage(@NotNull JsltVariableUsage o) {
     visitVariableUsageElement(o);
+  }
+
+  public void visitImportDeclElement(@NotNull JsltImportDeclElement o) {
+    visitPsiElement(o);
   }
 
   public void visitLetAssignmentElement(@NotNull JsltLetAssignmentElement o) {

@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 import com.intellij.navigation.ItemPresentation;
+import com.intellij.psi.PsiReference;
 
-public class JsltImportDeclarationImpl extends ASTWrapperPsiElement implements JsltImportDeclaration {
+public class JsltImportDeclarationImpl extends JsltImportDeclElementImpl implements JsltImportDeclaration {
 
   public JsltImportDeclarationImpl(@NotNull ASTNode node) {
     super(node);
@@ -37,8 +37,26 @@ public class JsltImportDeclarationImpl extends ASTWrapperPsiElement implements J
 
   @Override
   @NotNull
+  public PsiElement setName(@NotNull String newName) {
+    return JsltPsiImplUtil.setName(this, newName);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNameIdentifier() {
+    return JsltPsiImplUtil.getNameIdentifier(this);
+  }
+
+  @Override
+  @NotNull
   public ItemPresentation getPresentation() {
     return JsltPsiImplUtil.getPresentation(this);
+  }
+
+  @Override
+  @NotNull
+  public PsiReference getReference() {
+    return JsltPsiImplUtil.getReference(this);
   }
 
 }

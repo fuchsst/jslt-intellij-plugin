@@ -7,9 +7,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
-import com.intellij.psi.PsiReferenceBase
-import com.intellij.psi.util.elementType
-import com.intellij.psi.util.findParentOfType
 import net.stefanfuchs.jslt.intellij.language.JsltVariableReference
 import net.stefanfuchs.jslt.intellij.language.psi.*
 
@@ -31,8 +28,8 @@ fun setName(element: JsltVariableUsage, newName: String): PsiElement {
 }
 
 fun getNameIdentifier(element: JsltVariableUsage): PsiElement? {
-    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE)
-    return keyNode?.psi
+    val variableASTNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE)
+    return variableASTNode?.psi
 }
 
 fun getReference(element: JsltVariableUsage) : PsiReference {

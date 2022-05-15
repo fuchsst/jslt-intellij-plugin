@@ -25,3 +25,8 @@ fun setName(element: JsltFunctionDeclParamDecl, newName: String): PsiElement {
     }
     return element
 }
+
+fun getNameIdentifier(element: JsltFunctionDeclParamDecl): PsiElement? {
+    val paramASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_PARAM)
+    return paramASTNode?.psi
+}

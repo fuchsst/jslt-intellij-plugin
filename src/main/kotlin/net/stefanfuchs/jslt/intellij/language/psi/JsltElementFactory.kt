@@ -20,6 +20,11 @@ object JsltElementFactory {
         throw IncorrectOperationException("Could not build AST Node!")
     }
 
+    fun createImportDecl(project: Project?, name: String): JsltImportDeclaration {
+        val file: JsltFile = createFile(project, "import \"dummy.jslt\" as $name")
+        return file.firstChild as JsltImportDeclaration
+    }
+
     fun createLetAssignment(project: Project?, name: String): JsltLetAssignment {
         val file: JsltFile = createFile(project, "let $name = 1")
         return file.firstChild as JsltLetAssignment
