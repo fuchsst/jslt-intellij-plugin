@@ -116,7 +116,11 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitLetAssignment(@NotNull JsltLetAssignment o) {
-    visitLetAssignmentElement(o);
+    visitPsiElement(o);
+  }
+
+  public void visitLetVariableDecl(@NotNull JsltLetVariableDecl o) {
+    visitLetVariableDeclElement(o);
   }
 
   public void visitMatcher(@NotNull JsltMatcher o) {
@@ -183,7 +187,7 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLetAssignmentElement(@NotNull JsltLetAssignmentElement o) {
+  public void visitLetVariableDeclElement(@NotNull JsltLetVariableDeclElement o) {
     visitPsiElement(o);
   }
 

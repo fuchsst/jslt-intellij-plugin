@@ -6,8 +6,8 @@ package net.stefanfuchs.jslt.intellij.language.psi.util
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.psi.PsiElement
-import net.stefanfuchs.jslt.intellij.language.psi.*
+import net.stefanfuchs.jslt.intellij.language.psi.JsltPair
+import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 import javax.swing.Icon
 
 

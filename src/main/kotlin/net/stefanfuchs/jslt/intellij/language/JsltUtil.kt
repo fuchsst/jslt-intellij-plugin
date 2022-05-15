@@ -1,18 +1,11 @@
 package net.stefanfuchs.jslt.intellij.language
 
-import com.google.common.collect.Lists
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.text.StringUtil
-import com.intellij.psi.PsiComment
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiManager
-import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDecl
-import java.util.*
-
 
 
 object JsltUtil {

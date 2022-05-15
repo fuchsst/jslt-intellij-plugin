@@ -82,10 +82,13 @@ IfStatement ::= {
 ElseBranch ::= ELSE FunctionBody
 FunctionName ::= (IDENT | PIDENT)
 FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN {methods=[ getImportAlias setImportAlias getName setName ]}
-LetAssignment ::= LET VARIABLE_DECL ASSIGN Expr  {
-                        mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetAssignmentElementImpl"
-                        implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetAssignmentElement"
-                        methods=[ getName setName getNameIdentifier getPresentation ]
+LetVariableDecl ::= VARIABLE_DECL {
+                                     mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetVariableDeclElementImpl"
+                                     implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetVariableDeclElement"
+                                     methods=[ getName setName getNameIdentifier ]
+                                 }
+LetAssignment ::= LET LetVariableDecl ASSIGN Expr  {
+                        methods=[ getName getPresentation ]
                     }
 FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM { methods=[ getName setName getNameIdentifier ] }
 FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*

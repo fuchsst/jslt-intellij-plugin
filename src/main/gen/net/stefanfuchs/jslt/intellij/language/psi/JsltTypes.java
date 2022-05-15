@@ -36,6 +36,7 @@ public interface JsltTypes {
   IElementType IMPORT_DECLARATION = new JsltElementType("IMPORT_DECLARATION");
   IElementType IMPORT_DECLARATIONS = new JsltElementType("IMPORT_DECLARATIONS");
   IElementType LET_ASSIGNMENT = new JsltElementType("LET_ASSIGNMENT");
+  IElementType LET_VARIABLE_DECL = new JsltElementType("LET_VARIABLE_DECL");
   IElementType MATCHER = new JsltElementType("MATCHER");
   IElementType MATCHER_MINUS = new JsltElementType("MATCHER_MINUS");
   IElementType MULTIPLICATIVE_EXPR = new JsltElementType("MULTIPLICATIVE_EXPR");
@@ -184,6 +185,9 @@ public interface JsltTypes {
       }
       else if (type == LET_ASSIGNMENT) {
         return new JsltLetAssignmentImpl(node);
+      }
+      else if (type == LET_VARIABLE_DECL) {
+        return new JsltLetVariableDeclImpl(node);
       }
       else if (type == MATCHER) {
         return new JsltMatcherImpl(node);

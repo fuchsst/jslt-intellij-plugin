@@ -10,7 +10,9 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import net.stefanfuchs.jslt.intellij.language.JsltImportDeclarationReference
-import net.stefanfuchs.jslt.intellij.language.psi.*
+import net.stefanfuchs.jslt.intellij.language.psi.JsltElementFactory
+import net.stefanfuchs.jslt.intellij.language.psi.JsltImportDeclaration
+import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 import javax.swing.Icon
 
 
@@ -42,7 +44,7 @@ fun getPresentation(element: JsltImportDeclaration): ItemPresentation {
     }
 }
 
-fun getReference(element: JsltImportDeclaration) : PsiReference {
+fun getReference(element: JsltImportDeclaration): PsiReference {
     val importFileASTNode: ASTNode? = element.node.findChildByType(JsltTypes.IMPORT_FILE_STRING)
 
     val startOffset = importFileASTNode?.textRange?.startOffset?.minus(element.textRange.startOffset)?.plus(1)

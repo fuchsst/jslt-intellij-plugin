@@ -12,10 +12,10 @@ object JsltElementFactory {
         val expr = file.findChildByClass(JsltExpr::class.java)
         var node = expr?.node
         while (node != null) {
-            if (node.elementType==JsltTypes.VARIABLE_USAGE) {
+            if (node.elementType == JsltTypes.VARIABLE_USAGE) {
                 return node.psi as JsltVariableUsage
             }
-            node= node.firstChildNode
+            node = node.firstChildNode
         }
         throw IncorrectOperationException("Could not build AST Node!")
     }
@@ -25,9 +25,9 @@ object JsltElementFactory {
         return file.firstChild as JsltImportDeclaration
     }
 
-    fun createLetAssignment(project: Project?, name: String): JsltLetAssignment {
+    fun createLetVariableDecl(project: Project?, name: String): JsltLetVariableDecl {
         val file: JsltFile = createFile(project, "let $name = 1")
-        return file.firstChild as JsltLetAssignment
+        return (file.firstChild as JsltLetAssignment).letVariableDecl
     }
 
     fun createFunctionDeclParamDecl(project: Project?, name: String): JsltFunctionDeclParamDecl {

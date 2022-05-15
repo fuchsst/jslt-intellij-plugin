@@ -793,15 +793,29 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LET VARIABLE_DECL ASSIGN Expr
+  // LET LetVariableDecl ASSIGN Expr
   public static boolean LetAssignment(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "LetAssignment")) return false;
     if (!nextTokenIs(b, LET)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LET, VARIABLE_DECL, ASSIGN);
+    r = consumeToken(b, LET);
+    r = r && LetVariableDecl(b, l + 1);
+    r = r && consumeToken(b, ASSIGN);
     r = r && Expr(b, l + 1);
     exit_section_(b, m, LET_ASSIGNMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // VARIABLE_DECL
+  public static boolean LetVariableDecl(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LetVariableDecl")) return false;
+    if (!nextTokenIs(b, VARIABLE_DECL)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, VARIABLE_DECL);
+    exit_section_(b, m, LET_VARIABLE_DECL, r);
     return r;
   }
 

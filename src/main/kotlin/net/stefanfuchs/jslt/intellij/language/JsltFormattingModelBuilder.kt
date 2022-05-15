@@ -1,10 +1,7 @@
 package net.stefanfuchs.jslt.intellij.language
 
 import com.intellij.formatting.*
-import com.intellij.lang.ASTNode
-import com.intellij.psi.TokenType
 import com.intellij.psi.codeStyle.CodeStyleSettings
-import com.intellij.psi.tree.TokenSet
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 
 class JsltFormattingModelBuilder : FormattingModelBuilder {

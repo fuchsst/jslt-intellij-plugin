@@ -8,7 +8,9 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import net.stefanfuchs.jslt.intellij.language.JsltVariableReference
-import net.stefanfuchs.jslt.intellij.language.psi.*
+import net.stefanfuchs.jslt.intellij.language.psi.JsltElementFactory
+import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
+import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
 
 
 fun getName(element: JsltVariableUsage): String? {
@@ -32,6 +34,6 @@ fun getNameIdentifier(element: JsltVariableUsage): PsiElement? {
     return variableASTNode?.psi
 }
 
-fun getReference(element: JsltVariableUsage) : PsiReference {
+fun getReference(element: JsltVariableUsage): PsiReference {
     return JsltVariableReference(element, TextRange(1, element.text.length))
 }

@@ -4,20 +4,16 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.navigation.ItemPresentation;
 
-public interface JsltLetAssignment extends PsiElement {
-
-  @NotNull
-  JsltExpr getExpr();
-
-  @NotNull
-  JsltLetVariableDecl getLetVariableDecl();
+public interface JsltLetVariableDecl extends JsltLetVariableDeclElement {
 
   @Nullable
   String getName();
 
   @NotNull
-  ItemPresentation getPresentation();
+  PsiElement setName(@NotNull String newAlias);
+
+  @Nullable
+  PsiElement getNameIdentifier();
 
 }

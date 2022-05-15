@@ -7,10 +7,7 @@ import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
-import net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDecl
-import net.stefanfuchs.jslt.intellij.language.psi.JsltLetAssignment
-import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
-import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
+import net.stefanfuchs.jslt.intellij.language.psi.*
 
 class JsltFindUsagesProvider : FindUsagesProvider {
 
@@ -21,7 +18,7 @@ class JsltFindUsagesProvider : FindUsagesProvider {
                 JsltTypes.FUNCTION_DECL_NAME,
                 JsltTypes.FUNCTION_DECL_PARAM,
                 JsltTypes.IMPORT_ALIAS,
-                JsltTypes.VARIABLE_DECL,
+                JsltTypes.LET_VARIABLE_DECL,
                 JsltTypes.VARIABLE_USAGE),
             TokenSet.create(JsltTypes.COMMENT),
             TokenSet.create(
@@ -46,8 +43,9 @@ class JsltFindUsagesProvider : FindUsagesProvider {
     override fun getType(element: PsiElement): String {
         return when (element) {
             is JsltFunctionDecl -> "Function declaration"
-            is JsltLetAssignment -> "Variable declaration"
+            is JsltLetVariableDecl -> "Variable declaration"
             is JsltVariableUsage -> "Variable"
+            is JsltImportDeclaration -> "Import alias"
             else -> ""
         }
     }

@@ -1,6 +1,5 @@
 package net.stefanfuchs.jslt.intellij.language
 
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReferenceBase
@@ -13,11 +12,8 @@ import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
 
 class JsltVariableReference(element: PsiElement, textRange: TextRange) :
     PsiReferenceBase<PsiElement?>(element, textRange) {
-    private val variableName: String
 
-    init {
-        variableName = element.text.substring(textRange.startOffset, textRange.endOffset)
-    }
+    private val variableName = element.text.substring(textRange.startOffset, textRange.endOffset)
 
     override fun resolve(): PsiElement? {
         val file = myElement!!.containingFile
@@ -26,7 +22,8 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
             val localVariableDecl = parentFunction
                 .functionBody
                 .letAssignmentList
-                .firstOrNull {  it.name == variableName }
+                .firstOrNull { it.name == variableName }
+                ?.letVariableDecl
                 ?.nameIdentifier
             if (localVariableDecl != null) {
                 return localVariableDecl
@@ -40,17 +37,17 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
                 }
             }
         }
-        val letAssignment: JsltLetAssignment? =  file
+        val letAssignment: JsltLetAssignment? = file
             .children
             .filter { it.elementType == JsltTypes.LET_ASSIGNMENT }
             .map { it as JsltLetAssignment }
             .firstOrNull { it.name == (myElement as JsltVariableUsage).name }
-        return letAssignment?.nameIdentifier
+        return letAssignment?.letVariableDecl?.nameIdentifier
     }
 
-    override fun getVariants(): Array<Any> {
-        val project = myElement!!.containingFile
-        val variants: MutableList<LookupElement> = ArrayList()
+//    override fun getVariants(): Array<Any> {
+//        val project = myElement!!.containingFile
+//        val variants: MutableList<LookupElement> = ArrayList()
 //        val properties: List<SimpleProperty> = JsltUtil.findProperties(project)
 //        for (property in properties) {
 //            if (property.getKey() != null && property.getKey().length() > 0) {
@@ -60,6 +57,6 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
 //                )
 //            }
 //        }
-        return variants.toTypedArray()
-    }
+//        return variants.toTypedArray()
+//    }
 }
