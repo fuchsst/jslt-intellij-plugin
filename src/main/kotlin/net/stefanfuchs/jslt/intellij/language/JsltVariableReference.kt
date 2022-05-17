@@ -24,7 +24,6 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
                 .letAssignmentList
                 .firstOrNull { it.name == variableName }
                 ?.letVariableDecl
-                ?.nameIdentifier
             if (localVariableDecl != null) {
                 return localVariableDecl
             } else {
@@ -42,7 +41,7 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
             .filter { it.elementType == JsltTypes.LET_ASSIGNMENT }
             .map { it as JsltLetAssignment }
             .firstOrNull { it.name == (myElement as JsltVariableUsage).name }
-        return letAssignment?.letVariableDecl?.nameIdentifier
+        return letAssignment?.letVariableDecl
     }
 
 //    override fun getVariants(): Array<Any> {

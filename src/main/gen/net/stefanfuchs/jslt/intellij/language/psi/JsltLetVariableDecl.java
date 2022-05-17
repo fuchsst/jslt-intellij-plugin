@@ -7,6 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface JsltLetVariableDecl extends JsltLetVariableDeclElement {
 
+  boolean isReferenceTo(@NotNull PsiElement otherElement);
+
   @Nullable
   String getName();
 

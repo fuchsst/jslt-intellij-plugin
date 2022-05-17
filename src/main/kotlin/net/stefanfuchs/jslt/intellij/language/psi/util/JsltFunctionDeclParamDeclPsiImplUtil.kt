@@ -8,13 +8,13 @@ import com.intellij.psi.PsiElement
 import net.stefanfuchs.jslt.intellij.language.psi.JsltElementFactory
 import net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDeclParamDecl
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
+import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
 
 
 fun getName(element: JsltFunctionDeclParamDecl): String? {
-    val paramNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_PARAM)
-    return paramNode?.text
+    val paramASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_PARAM)
+    return paramASTNode?.text
 }
-
 
 fun setName(element: JsltFunctionDeclParamDecl, newName: String): PsiElement {
     val paramASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_PARAM)
@@ -29,4 +29,10 @@ fun setName(element: JsltFunctionDeclParamDecl, newName: String): PsiElement {
 fun getNameIdentifier(element: JsltFunctionDeclParamDecl): PsiElement? {
     val paramASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_PARAM)
     return paramASTNode?.psi
+}
+
+fun isReferenceTo(element: JsltFunctionDeclParamDecl, otherElement: PsiElement): Boolean {
+    return otherElement is JsltVariableUsage &&
+            element.name == otherElement.name &&
+            otherElement.reference.resolve() == element
 }

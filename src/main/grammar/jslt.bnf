@@ -85,12 +85,16 @@ FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN {methods=[ get
 LetVariableDecl ::= VARIABLE_DECL {
                                      mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetVariableDeclElementImpl"
                                      implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetVariableDeclElement"
-                                     methods=[ getName setName getNameIdentifier ]
+                                     methods=[ isReferenceTo getName setName getNameIdentifier ]
                                  }
 LetAssignment ::= LET LetVariableDecl ASSIGN Expr  {
                         methods=[ getName getPresentation ]
                     }
-FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM { methods=[ getName setName getNameIdentifier ] }
+FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM {
+                                                mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionDeclParamDeclElementImpl"
+                                                implements="net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDeclParamDeclElement"
+                                                methods=[ isReferenceTo getName setName getNameIdentifier ]
+                                              }
 FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*
 FunctionDecl ::= {
                    DEF FUNCTION_DECL_NAME LPAREN FunctionDeclParamList? RPAREN

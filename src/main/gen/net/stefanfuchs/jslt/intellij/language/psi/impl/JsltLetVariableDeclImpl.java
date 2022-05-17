@@ -28,6 +28,11 @@ public class JsltLetVariableDeclImpl extends JsltLetVariableDeclElementImpl impl
   }
 
   @Override
+  public boolean isReferenceTo(@NotNull PsiElement otherElement) {
+    return JsltPsiImplUtil.isReferenceTo(this, otherElement);
+  }
+
+  @Override
   @Nullable
   public String getName() {
     return JsltPsiImplUtil.getName(this);

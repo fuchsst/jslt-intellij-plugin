@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement
 import net.stefanfuchs.jslt.intellij.language.psi.JsltElementFactory
 import net.stefanfuchs.jslt.intellij.language.psi.JsltLetVariableDecl
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
+import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
 
 
 fun getName(element: JsltLetVariableDecl): String? {
@@ -26,6 +27,13 @@ fun setName(element: JsltLetVariableDecl, newAlias: String): PsiElement {
 }
 
 fun getNameIdentifier(element: JsltLetVariableDecl): PsiElement? {
-    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE_DECL)
-    return keyNode?.psi
+    val variableDeclASTNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE_DECL)
+    return variableDeclASTNode?.psi
+}
+
+
+fun isReferenceTo(element: JsltLetVariableDecl, otherElement: PsiElement): Boolean {
+    return otherElement is JsltVariableUsage &&
+            element.name == otherElement.name &&
+            otherElement.reference.resolve() == element
 }

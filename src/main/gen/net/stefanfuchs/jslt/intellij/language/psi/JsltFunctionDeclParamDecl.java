@@ -5,7 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltFunctionDeclParamDecl extends PsiElement {
+public interface JsltFunctionDeclParamDecl extends JsltFunctionDeclParamDeclElement {
+
+  boolean isReferenceTo(@NotNull PsiElement otherElement);
 
   @Nullable
   String getName();

@@ -12,6 +12,7 @@
   * Code Outline
   * Goto imported File
   * Jump to variable declaration
+  * Show variable usages
   
 
 ## ToDO
@@ -25,7 +26,6 @@
   * suggested tokes on Ctrl+Space
 * Code Navigation
   * Jump to function declaration
-  * Show variable usages
   * recognize JSLT (by first line marked with `#! JSLT`) in multiline strings in Java/Scala/Kotlin/yaml files
 * Validations
   * warn for undeclared variables

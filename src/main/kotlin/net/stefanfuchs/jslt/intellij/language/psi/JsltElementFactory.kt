@@ -9,9 +9,9 @@ import net.stefanfuchs.jslt.intellij.language.JsltFileType
 object JsltElementFactory {
     fun createVariableUsage(project: Project?, name: String): JsltVariableUsage {
         val file: JsltFile = createFile(project, "\$$name")
-        val expr = file.findChildByClass(JsltExpr::class.java)
-        var node = expr?.node
+        var node = file.firstChild.node
         while (node != null) {
+            println(node)
             if (node.elementType == JsltTypes.VARIABLE_USAGE) {
                 return node.psi as JsltVariableUsage
             }

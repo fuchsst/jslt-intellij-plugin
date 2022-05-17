@@ -8,11 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
 
-public class JsltFunctionDeclParamDeclImpl extends ASTWrapperPsiElement implements JsltFunctionDeclParamDecl {
+public class JsltFunctionDeclParamDeclImpl extends JsltFunctionDeclParamDeclElementImpl implements JsltFunctionDeclParamDecl {
 
   public JsltFunctionDeclParamDeclImpl(@NotNull ASTNode node) {
     super(node);
@@ -26,6 +25,11 @@ public class JsltFunctionDeclParamDeclImpl extends ASTWrapperPsiElement implemen
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof JsltVisitor) accept((JsltVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  public boolean isReferenceTo(@NotNull PsiElement otherElement) {
+    return JsltPsiImplUtil.isReferenceTo(this, otherElement);
   }
 
   @Override
