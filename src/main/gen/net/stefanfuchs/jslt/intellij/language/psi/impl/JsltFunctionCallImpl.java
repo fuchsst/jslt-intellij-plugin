@@ -40,16 +40,4 @@ public class JsltFunctionCallImpl extends ASTWrapperPsiElement implements JsltFu
     return findNotNullChildByClass(JsltFunctionName.class);
   }
 
-  @Override
-  @Nullable
-  public String getImportAlias() {
-    return JsltPsiImplUtil.getImportAlias(this);
-  }
-
-  @Override
-  @Nullable
-  public String getName() {
-    return JsltPsiImplUtil.getName(this);
-  }
-
 }

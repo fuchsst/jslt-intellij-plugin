@@ -19,7 +19,7 @@ jsltFile ::= {
     COMMENT*
     ImportDeclarations?
     (LetAssignment | FunctionDecl)*
-    Expr <<eof>>
+    Expr? <<eof>>
 }
 
 Expr ::= OrExpr (PipeOperator OrExpr)*
@@ -80,8 +80,12 @@ IfStatement ::= {
                   ElseBranch?
                 }
 ElseBranch ::= ELSE FunctionBody
-FunctionName ::= (IDENT | PIDENT)
-FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN {methods=[ getImportAlias setImportAlias getName setName ]}
+FunctionName ::= (IDENT | PIDENT) {
+                                    mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionNameElementImpl"
+                                    implements="net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionNameElement"
+                                    methods=[ getName setName getNameIdentifier getImportAlias setImportAlias getReference ]
+                                  }
+FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN
 LetVariableDecl ::= VARIABLE_DECL {
                                      mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetVariableDeclElementImpl"
                                      implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetVariableDeclElement"
@@ -96,12 +100,16 @@ FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM {
                                                 methods=[ isReferenceTo getName setName getNameIdentifier ]
                                               }
 FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*
+FunctionDeclNameDecl ::= FUNCTION_DECL_NAME {
+                                                mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionDeclNameDeclElementImpl"
+                                                implements="net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDeclNameDeclElement"
+                                                methods=[ getName setName getNameIdentifier isReferenceTo ]
+                                            }
 FunctionDecl ::= {
-                   DEF FUNCTION_DECL_NAME LPAREN FunctionDeclParamList? RPAREN
+                   DEF FunctionDeclNameDecl LPAREN FunctionDeclParamList? RPAREN
                      FunctionBody
                  } {
-
-                    methods=[ getName getPresentation getLetAssignmentList getExpr ]
+                    methods=[ getName getNameIdentifier getPresentation getLetAssignmentList getExpr ]
                  }
 ImportDeclarations ::= ImportDeclaration*
 ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  {

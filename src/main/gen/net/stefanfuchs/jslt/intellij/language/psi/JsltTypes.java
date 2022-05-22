@@ -29,6 +29,7 @@ public interface JsltTypes {
   IElementType FUNCTION_BODY = new JsltElementType("FUNCTION_BODY");
   IElementType FUNCTION_CALL = new JsltElementType("FUNCTION_CALL");
   IElementType FUNCTION_DECL = new JsltElementType("FUNCTION_DECL");
+  IElementType FUNCTION_DECL_NAME_DECL = new JsltElementType("FUNCTION_DECL_NAME_DECL");
   IElementType FUNCTION_DECL_PARAM_DECL = new JsltElementType("FUNCTION_DECL_PARAM_DECL");
   IElementType FUNCTION_DECL_PARAM_LIST = new JsltElementType("FUNCTION_DECL_PARAM_LIST");
   IElementType FUNCTION_NAME = new JsltElementType("FUNCTION_NAME");
@@ -164,6 +165,9 @@ public interface JsltTypes {
       }
       else if (type == FUNCTION_DECL) {
         return new JsltFunctionDeclImpl(node);
+      }
+      else if (type == FUNCTION_DECL_NAME_DECL) {
+        return new JsltFunctionDeclNameDeclImpl(node);
       }
       else if (type == FUNCTION_DECL_PARAM_DECL) {
         return new JsltFunctionDeclParamDeclImpl(node);

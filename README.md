@@ -12,7 +12,9 @@
   * Code Outline
   * Goto imported File
   * Jump to variable declaration
+  * Jump to function declaration
   * Show variable usages
+  * Show function usages
   
 
 ## ToDO
@@ -25,7 +27,6 @@
   * inline docs for buildin-functions
   * suggested tokes on Ctrl+Space
 * Code Navigation
-  * Jump to function declaration
   * recognize JSLT (by first line marked with `#! JSLT`) in multiline strings in Java/Scala/Kotlin/yaml files
 * Validations
   * warn for undeclared variables
@@ -33,8 +34,8 @@
   * error for duplicate declared variables
   * error for duplicate declared import aliases
   * error for non existing file referenced in import
-  * error for non existing import alias referenced by variable or function
-  * error for non existing variable or function referenced via import alias 
+  * error for non existing import alias referenced by function
+  * error for non existing function referenced via import alias 
   * error for duplicate key in object
 * JSLT execution
   * dialog box that allows to select/write an input JSON, a JSLT transformation and shows the output

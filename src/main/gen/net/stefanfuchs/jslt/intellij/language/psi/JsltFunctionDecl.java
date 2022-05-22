@@ -11,11 +11,17 @@ public interface JsltFunctionDecl extends PsiElement {
   @NotNull
   JsltFunctionBody getFunctionBody();
 
+  @NotNull
+  JsltFunctionDeclNameDecl getFunctionDeclNameDecl();
+
   @Nullable
   JsltFunctionDeclParamList getFunctionDeclParamList();
 
   @Nullable
   String getName();
+
+  @Nullable
+  PsiElement getNameIdentifier();
 
   @NotNull
   ItemPresentation getPresentation();

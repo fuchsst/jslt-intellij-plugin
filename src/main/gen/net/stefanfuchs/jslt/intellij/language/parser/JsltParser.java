@@ -660,14 +660,16 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DEF FUNCTION_DECL_NAME LPAREN FunctionDeclParamList? RPAREN
+  // DEF FunctionDeclNameDecl LPAREN FunctionDeclParamList? RPAREN
   //                      FunctionBody
   public static boolean FunctionDecl(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionDecl")) return false;
     if (!nextTokenIs(b, DEF)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, DEF, FUNCTION_DECL_NAME, LPAREN);
+    r = consumeToken(b, DEF);
+    r = r && FunctionDeclNameDecl(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
     r = r && FunctionDecl_3(b, l + 1);
     r = r && consumeToken(b, RPAREN);
     r = r && FunctionBody(b, l + 1);
@@ -680,6 +682,18 @@ public class JsltParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "FunctionDecl_3")) return false;
     FunctionDeclParamList(b, l + 1);
     return true;
+  }
+
+  /* ********************************************************** */
+  // FUNCTION_DECL_NAME
+  public static boolean FunctionDeclNameDecl(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionDeclNameDecl")) return false;
+    if (!nextTokenIs(b, FUNCTION_DECL_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FUNCTION_DECL_NAME);
+    exit_section_(b, m, FUNCTION_DECL_NAME_DECL, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -1205,7 +1219,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   // COMMENT*
   //     ImportDeclarations?
   //     (LetAssignment | FunctionDecl)*
-  //     Expr <<eof>>
+  //     Expr? <<eof>>
   static boolean jsltFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "jsltFile")) return false;
     boolean r;
@@ -1213,7 +1227,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
     r = jsltFile_0(b, l + 1);
     r = r && jsltFile_1(b, l + 1);
     r = r && jsltFile_2(b, l + 1);
-    r = r && Expr(b, l + 1);
+    r = r && jsltFile_3(b, l + 1);
     r = r && eof(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
@@ -1255,6 +1269,13 @@ public class JsltParser implements PsiParser, LightPsiParser {
     r = LetAssignment(b, l + 1);
     if (!r) r = FunctionDecl(b, l + 1);
     return r;
+  }
+
+  // Expr?
+  private static boolean jsltFile_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "jsltFile_3")) return false;
+    Expr(b, l + 1);
+    return true;
   }
 
 }

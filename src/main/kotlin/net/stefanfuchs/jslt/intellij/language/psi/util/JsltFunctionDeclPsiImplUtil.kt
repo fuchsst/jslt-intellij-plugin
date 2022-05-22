@@ -6,6 +6,7 @@ package net.stefanfuchs.jslt.intellij.language.psi.util
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiElement
 import net.stefanfuchs.jslt.intellij.language.psi.JsltExpr
 import net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDecl
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
@@ -13,8 +14,13 @@ import javax.swing.Icon
 
 
 fun getName(element: JsltFunctionDecl): String? {
-    val keyNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_NAME)
-    return keyNode?.text
+    val functionNameASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_NAME_DECL)
+    return functionNameASTNode?.text
+}
+
+fun getNameIdentifier(element: JsltFunctionDecl): PsiElement? {
+    val functionNameASTNode: ASTNode? = element.node.findChildByType(JsltTypes.FUNCTION_DECL_NAME_DECL)
+    return functionNameASTNode?.psi
 }
 
 

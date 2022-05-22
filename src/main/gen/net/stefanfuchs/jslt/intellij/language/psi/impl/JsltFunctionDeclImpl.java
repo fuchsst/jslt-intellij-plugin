@@ -36,6 +36,12 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
   }
 
   @Override
+  @NotNull
+  public JsltFunctionDeclNameDecl getFunctionDeclNameDecl() {
+    return findNotNullChildByClass(JsltFunctionDeclNameDecl.class);
+  }
+
+  @Override
   @Nullable
   public JsltFunctionDeclParamList getFunctionDeclParamList() {
     return findChildByClass(JsltFunctionDeclParamList.class);
@@ -45,6 +51,12 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
   @Nullable
   public String getName() {
     return JsltPsiImplUtil.getName(this);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNameIdentifier() {
+    return JsltPsiImplUtil.getNameIdentifier(this);
   }
 
   @Override

@@ -20,8 +20,6 @@ fun getName(element: JsltVariableUsage): String? {
 
 
 fun setName(element: JsltVariableUsage, newName: String): PsiElement {
-    println(element.node)
-    println(element.node.findChildByType(JsltTypes.VARIABLE))
     val variableASTNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE)
 
     if (variableASTNode != null) {

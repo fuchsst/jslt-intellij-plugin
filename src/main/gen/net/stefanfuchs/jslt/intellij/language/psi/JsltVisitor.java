@@ -91,6 +91,10 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunctionDeclNameDecl(@NotNull JsltFunctionDeclNameDecl o) {
+    visitFunctionDeclNameDeclElement(o);
+  }
+
   public void visitFunctionDeclParamDecl(@NotNull JsltFunctionDeclParamDecl o) {
     visitFunctionDeclParamDeclElement(o);
   }
@@ -100,7 +104,7 @@ public class JsltVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionName(@NotNull JsltFunctionName o) {
-    visitPsiElement(o);
+    visitFunctionNameElement(o);
   }
 
   public void visitIfStatement(@NotNull JsltIfStatement o) {
@@ -183,7 +187,15 @@ public class JsltVisitor extends PsiElementVisitor {
     visitVariableUsageElement(o);
   }
 
+  public void visitFunctionDeclNameDeclElement(@NotNull JsltFunctionDeclNameDeclElement o) {
+    visitPsiElement(o);
+  }
+
   public void visitFunctionDeclParamDeclElement(@NotNull JsltFunctionDeclParamDeclElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionNameElement(@NotNull JsltFunctionNameElement o) {
     visitPsiElement(o);
   }
 

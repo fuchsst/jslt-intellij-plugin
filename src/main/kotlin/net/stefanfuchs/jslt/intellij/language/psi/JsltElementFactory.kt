@@ -11,9 +11,24 @@ object JsltElementFactory {
         val file: JsltFile = createFile(project, "\$$name")
         var node = file.firstChild.node
         while (node != null) {
-            println(node)
             if (node.elementType == JsltTypes.VARIABLE_USAGE) {
                 return node.psi as JsltVariableUsage
+            }
+            node = node.firstChildNode
+        }
+        throw IncorrectOperationException("Could not build AST Node!")
+    }
+
+    fun createFunctionCallName(project: Project?, alias: String?, name: String): JsltFunctionName {
+        val file: JsltFile = if (alias != null) {
+            createFile(project, "$alias:$name()")
+        } else {
+            createFile(project, "$name()")
+        }
+        var node = file.firstChild.node
+        while (node != null) {
+            if (node.elementType == JsltTypes.FUNCTION_NAME) {
+                return node.psi as JsltFunctionName
             }
             node = node.firstChildNode
         }
@@ -36,6 +51,11 @@ object JsltElementFactory {
             .functionDeclParamList!!
             .functionDeclParamDeclList
             .first() as JsltFunctionDeclParamDecl
+    }
+
+    fun createFunctionDeclNameDecl(project: Project?, name: String): JsltFunctionDeclNameDecl {
+        val file: JsltFile = createFile(project, "def $name()")
+        return (file.firstChild as JsltFunctionDecl).functionDeclNameDecl
     }
 
     private fun createFile(project: Project?, text: String): JsltFile {

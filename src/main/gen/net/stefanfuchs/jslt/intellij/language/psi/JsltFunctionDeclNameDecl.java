@@ -4,9 +4,8 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiReference;
 
-public interface JsltFunctionName extends JsltFunctionNameElement {
+public interface JsltFunctionDeclNameDecl extends JsltFunctionDeclNameDeclElement {
 
   @Nullable
   String getName();
@@ -17,14 +16,6 @@ public interface JsltFunctionName extends JsltFunctionNameElement {
   @Nullable
   PsiElement getNameIdentifier();
 
-  @Nullable
-  String getImportAlias();
-
-  //WARNING: setImportAlias(...) is skipped
-  //matching setImportAlias(JsltFunctionName, ...)
-  //methods are not found in JsltPsiImplUtil
-
-  @NotNull
-  PsiReference getReference();
+  boolean isReferenceTo(@NotNull PsiElement otherElement);
 
 }

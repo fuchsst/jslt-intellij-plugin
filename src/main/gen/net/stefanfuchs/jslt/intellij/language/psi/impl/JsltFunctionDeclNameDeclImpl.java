@@ -10,16 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
-import com.intellij.psi.PsiReference;
 
-public class JsltFunctionNameImpl extends JsltFunctionNameElementImpl implements JsltFunctionName {
+public class JsltFunctionDeclNameDeclImpl extends JsltFunctionDeclNameDeclElementImpl implements JsltFunctionDeclNameDecl {
 
-  public JsltFunctionNameImpl(@NotNull ASTNode node) {
+  public JsltFunctionDeclNameDeclImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitFunctionName(this);
+    visitor.visitFunctionDeclNameDecl(this);
   }
 
   @Override
@@ -47,15 +46,8 @@ public class JsltFunctionNameImpl extends JsltFunctionNameElementImpl implements
   }
 
   @Override
-  @Nullable
-  public String getImportAlias() {
-    return JsltPsiImplUtil.getImportAlias(this);
-  }
-
-  @Override
-  @NotNull
-  public PsiReference getReference() {
-    return JsltPsiImplUtil.getReference(this);
+  public boolean isReferenceTo(@NotNull PsiElement otherElement) {
+    return JsltPsiImplUtil.isReferenceTo(this, otherElement);
   }
 
 }
