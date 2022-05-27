@@ -56,5 +56,9 @@ class JsltFunctionNameReference(element: PsiElement, textRange: TextRange) :
         return (functionDecl as JsltFunctionDecl?)?.functionDeclNameDecl
     }
 
+    override fun handleElementRename(newElementName: String): PsiElement {
+        return (myElement as JsltFunctionName).setName(newElementName)
+    }
+
 
 }

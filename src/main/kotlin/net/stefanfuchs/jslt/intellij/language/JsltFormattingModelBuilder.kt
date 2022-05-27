@@ -1,7 +1,6 @@
 package net.stefanfuchs.jslt.intellij.language
 
 import com.intellij.formatting.*
-import com.intellij.psi.codeStyle.CodeStyleSettings
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 
 class JsltFormattingModelBuilder : FormattingModelBuilder {
@@ -17,14 +16,14 @@ class JsltFormattingModelBuilder : FormattingModelBuilder {
                 JsltBlock(formattingContext.node,
                     Wrap.createWrap(wrapType, false),
                     Alignment.createAlignment(),
-                    createSpaceBuilder(codeStyleSettings)),
+                    createSpaceBuilder(formattingContext)),
                 codeStyleSettings)
     }
 
     companion object {
-        private fun createSpaceBuilder(settings: CodeStyleSettings): SpacingBuilder {
-            val commonSettings = settings.getCommonSettings(JsltLanguage.id)
-            return SpacingBuilder(settings, JsltLanguage)
+        private fun createSpaceBuilder(formattingContext: FormattingContext): SpacingBuilder {
+            val commonSettings = formattingContext.codeStyleSettings.getCommonSettings(JsltLanguage.id)
+            return SpacingBuilder(formattingContext.codeStyleSettings, JsltLanguage)
                 .around(JsltTypes.ASSIGN)
                 .spaceIf(commonSettings.SPACE_AROUND_ASSIGNMENT_OPERATORS)
                 .around(JsltTypes.AS)

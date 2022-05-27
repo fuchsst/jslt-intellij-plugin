@@ -25,6 +25,7 @@ public interface JsltTypes {
   IElementType COMPARATOR = new JsltElementType("COMPARATOR");
   IElementType DOT_KEY = new JsltElementType("DOT_KEY");
   IElementType ELSE_BRANCH = new JsltElementType("ELSE_BRANCH");
+  IElementType ELSE_IF_BRANCH = new JsltElementType("ELSE_IF_BRANCH");
   IElementType EXPR = new JsltElementType("EXPR");
   IElementType FUNCTION_BODY = new JsltElementType("FUNCTION_BODY");
   IElementType FUNCTION_CALL = new JsltElementType("FUNCTION_CALL");
@@ -153,6 +154,9 @@ public interface JsltTypes {
       }
       else if (type == ELSE_BRANCH) {
         return new JsltElseBranchImpl(node);
+      }
+      else if (type == ELSE_IF_BRANCH) {
+        return new JsltElseIfBranchImpl(node);
       }
       else if (type == EXPR) {
         return new JsltExprImpl(node);

@@ -5,13 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltIfStatement extends PsiElement {
-
-  @Nullable
-  JsltElseBranch getElseBranch();
-
-  @NotNull
-  List<JsltElseIfBranch> getElseIfBranchList();
+public interface JsltElseIfBranch extends PsiElement {
 
   @NotNull
   JsltFunctionBody getFunctionBody();

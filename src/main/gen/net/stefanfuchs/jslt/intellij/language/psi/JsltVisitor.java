@@ -75,6 +75,10 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitElseIfBranch(@NotNull JsltElseIfBranch o) {
+    visitPsiElement(o);
+  }
+
   public void visitExpr(@NotNull JsltExpr o) {
     visitPsiElement(o);
   }

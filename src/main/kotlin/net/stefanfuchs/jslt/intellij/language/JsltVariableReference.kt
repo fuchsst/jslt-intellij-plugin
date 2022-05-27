@@ -44,18 +44,8 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
         return letAssignment?.letVariableDecl
     }
 
-//    override fun getVariants(): Array<Any> {
-//        val project = myElement!!.containingFile
-//        val variants: MutableList<LookupElement> = ArrayList()
-//        val properties: List<SimpleProperty> = JsltUtil.findProperties(project)
-//        for (property in properties) {
-//            if (property.getKey() != null && property.getKey().length() > 0) {
-//                variants.add(LookupElementBuilder
-//                    .create(property).withIcon(JsltIcons.FileType)
-//                    .withTypeText(property.getContainingFile().getName())
-//                )
-//            }
-//        }
-//        return variants.toTypedArray()
-//    }
+    override fun handleElementRename(newElementName: String): PsiElement {
+        return (myElement as JsltVariableUsage).setName(newElementName)
+    }
+
 }

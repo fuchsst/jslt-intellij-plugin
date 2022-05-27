@@ -77,8 +77,10 @@ FunctionBody ::= LetAssignment* Expr
 IfStatement ::= {
                   IF ParenthesisExpr
                     FunctionBody
+                  ElseIfBranch*
                   ElseBranch?
                 }
+ElseIfBranch ::= ELSE IF ParenthesisExpr FunctionBody
 ElseBranch ::= ELSE FunctionBody
 FunctionName ::= (IDENT | PIDENT) {
                                     mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionNameElementImpl"

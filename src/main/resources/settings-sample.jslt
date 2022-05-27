@@ -5,13 +5,17 @@ let idparts = split(.id, "-")
 let xxx = [for ($idparts) "x" * size(.)]
 
 def myFunc(param1, param2)
-  if ($param1 > $param2)
-     $param1 + 10
-   else
-     $param2 - 10.0e6
+    let yyy = 10
+    if ($param1 > $param2)
+        $param1 + $yyy
+    else if ($param1 < $param2)
+        $param1 - $yyy
+    else
+        $param2 - $undefined-var
 
 {
-  "id" : join($xxx, "-"),
-  "type" : "Anonymized-View",
-  * : .
+    "id" : join($xxx, "-"),
+    "factor" : 10.0e+6,
+    "calc": myFunc(random(), 1.23),
+    * : .
 }

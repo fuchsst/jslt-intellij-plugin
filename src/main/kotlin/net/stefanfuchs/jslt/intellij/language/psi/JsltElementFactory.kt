@@ -2,6 +2,7 @@ package net.stefanfuchs.jslt.intellij.language.psi
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.util.childrenOfType
 import com.intellij.util.IncorrectOperationException
 import net.stefanfuchs.jslt.intellij.language.JsltFile
 import net.stefanfuchs.jslt.intellij.language.JsltFileType
@@ -9,12 +10,12 @@ import net.stefanfuchs.jslt.intellij.language.JsltFileType
 object JsltElementFactory {
     fun createVariableUsage(project: Project?, name: String): JsltVariableUsage {
         val file: JsltFile = createFile(project, "\$$name")
-        var node = file.firstChild.node
+        var node = file.childrenOfType<JsltExpr>().firstOrNull()?.firstChild
         while (node != null) {
-            if (node.elementType == JsltTypes.VARIABLE_USAGE) {
-                return node.psi as JsltVariableUsage
+            if (node is JsltVariableUsage) {
+                return node
             }
-            node = node.firstChildNode
+            node = node.firstChild
         }
         throw IncorrectOperationException("Could not build AST Node!")
     }
@@ -25,37 +26,41 @@ object JsltElementFactory {
         } else {
             createFile(project, "$name()")
         }
-        var node = file.firstChild.node
+        var node = file.childrenOfType<JsltExpr>().firstOrNull()?.firstChild
         while (node != null) {
-            if (node.elementType == JsltTypes.FUNCTION_NAME) {
-                return node.psi as JsltFunctionName
+            if (node is JsltFunctionName) {
+                return node
             }
-            node = node.firstChildNode
+            node = node.firstChild
         }
         throw IncorrectOperationException("Could not build AST Node!")
     }
 
     fun createImportDecl(project: Project?, name: String): JsltImportDeclaration {
         val file: JsltFile = createFile(project, "import \"dummy.jslt\" as $name")
-        return file.firstChild as JsltImportDeclaration
+        val importDeclarations = file.childrenOfType<JsltImportDeclarations>().first()
+        return importDeclarations.importDeclarationList.first()
     }
 
     fun createLetVariableDecl(project: Project?, name: String): JsltLetVariableDecl {
         val file: JsltFile = createFile(project, "let $name = 1")
-        return (file.firstChild as JsltLetAssignment).letVariableDecl
+        val letAssignment = file.childrenOfType<JsltLetAssignment>().first()
+        return letAssignment.letVariableDecl
     }
 
     fun createFunctionDeclParamDecl(project: Project?, name: String): JsltFunctionDeclParamDecl {
-        val file: JsltFile = createFile(project, "def fun($name)")
-        return (file.firstChild as JsltFunctionDecl)
+        val file: JsltFile = createFile(project, "def fun($name) 1")
+        val funcDecl = file.childrenOfType<JsltFunctionDecl>().first()
+        return funcDecl
             .functionDeclParamList!!
             .functionDeclParamDeclList
             .first() as JsltFunctionDeclParamDecl
     }
 
     fun createFunctionDeclNameDecl(project: Project?, name: String): JsltFunctionDeclNameDecl {
-        val file: JsltFile = createFile(project, "def $name()")
-        return (file.firstChild as JsltFunctionDecl).functionDeclNameDecl
+        val file: JsltFile = createFile(project, "def $name() 1")
+        val funcDecl = file.childrenOfType<JsltFunctionDecl>().first()
+        return funcDecl.functionDeclNameDecl
     }
 
     private fun createFile(project: Project?, text: String): JsltFile {

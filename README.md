@@ -15,7 +15,7 @@
   * Jump to function declaration
   * Show variable usages
   * Show function usages
-  
+* Refactoring: rename variables/parameter/functions
 
 ## ToDO
 

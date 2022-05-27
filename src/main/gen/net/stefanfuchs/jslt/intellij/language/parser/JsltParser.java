@@ -548,6 +548,20 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // ELSE IF ParenthesisExpr FunctionBody
+  public static boolean ElseIfBranch(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ElseIfBranch")) return false;
+    if (!nextTokenIs(b, ELSE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, ELSE, IF);
+    r = r && ParenthesisExpr(b, l + 1);
+    r = r && FunctionBody(b, l + 1);
+    exit_section_(b, m, ELSE_IF_BRANCH, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // OrExpr (PipeOperator OrExpr)*
   public static boolean Expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Expr")) return false;
@@ -759,6 +773,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // IF ParenthesisExpr
   //                     FunctionBody
+  //                   ElseIfBranch*  
   //                   ElseBranch?
   public static boolean IfStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStatement")) return false;
@@ -769,13 +784,25 @@ public class JsltParser implements PsiParser, LightPsiParser {
     r = r && ParenthesisExpr(b, l + 1);
     r = r && FunctionBody(b, l + 1);
     r = r && IfStatement_3(b, l + 1);
+    r = r && IfStatement_4(b, l + 1);
     exit_section_(b, m, IF_STATEMENT, r);
     return r;
   }
 
-  // ElseBranch?
+  // ElseIfBranch*
   private static boolean IfStatement_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStatement_3")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!ElseIfBranch(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "IfStatement_3", c)) break;
+    }
+    return true;
+  }
+
+  // ElseBranch?
+  private static boolean IfStatement_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "IfStatement_4")) return false;
     ElseBranch(b, l + 1);
     return true;
   }
