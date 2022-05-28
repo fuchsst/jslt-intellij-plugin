@@ -10,19 +10,28 @@
     <h2>Features</h2>
         <ul>
             <li>Basic Syntax Highlighting</li>
+            <li>Highlight JSLT in YAML multiline text (">") - when first line of text start with <pre>// JSLT</pre></li>
             <li>Line comment code</li>
             <li>Parenthesis Matching</li>
             <li>Code Folding</li>
             <li>Code Formatting</li>
-            <li>Code Outline</li>
+            <li>Code Navigation
+                <ul>
+                    <li>Code Outline</li>
+                    <li>Goto imported File</li>
+                    <li>Jump to variable/function declaration</li>
+                    <li>Show variable/function usages</li>
+                </ul>
+            </li>
+            <li>Refactoring: rename variables/parameter/functions</li>
         </ul>
     ]]></description>
-
 
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.yaml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -67,6 +76,15 @@
         <lang.findUsagesProvider
                 language="JSLT"
                 implementationClass="net.stefanfuchs.jslt.intellij.language.JsltFindUsagesProvider"/>
+        <renameInputValidator implementation="net.stefanfuchs.jslt.intellij.language.JsltLetVariableDeclRenameInputValidator"/>
+        <renameInputValidator implementation="net.stefanfuchs.jslt.intellij.language.JsltVariableUsageRenameInputValidator"/>
+        <renameInputValidator implementation="net.stefanfuchs.jslt.intellij.language.JsltFunctionDeclNameDeclRenameInputValidator"/>
+        <renameInputValidator implementation="net.stefanfuchs.jslt.intellij.language.JsltFunctionDeclParamDeclRenameInputValidator"/>
+        <renameInputValidator implementation="net.stefanfuchs.jslt.intellij.language.JsltFunctionNameRenameInputValidator"/>
+        <languageInjectionContributor
+                language="yaml"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltYamlLanguageInjectionContributor"
+                />
 
     </extensions>
 

@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.5.3"
+    id("org.jetbrains.intellij") version "1.6.0"
     kotlin("jvm") version "1.6.21"
     id("org.jetbrains.grammarkit") version "2021.2.2"
 }
@@ -18,6 +18,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version.set("2022.1")
+    plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
 grammarKit {
