@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import net.stefanfuchs.jslt.intellij.language.JsltImportDeclarationReference
 import net.stefanfuchs.jslt.intellij.language.psi.JsltElementFactory
+import net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionName
 import net.stefanfuchs.jslt.intellij.language.psi.JsltImportDeclaration
 import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 import javax.swing.Icon
@@ -50,4 +51,10 @@ fun getReference(element: JsltImportDeclaration): PsiReference {
     val startOffset = importFileASTNode?.textRange?.startOffset?.minus(element.textRange.startOffset)?.plus(1)
     val endOffset = importFileASTNode?.textRange?.endOffset?.minus(element.textRange.startOffset)?.minus(1)
     return JsltImportDeclarationReference(element, TextRange(startOffset ?: 0, endOffset ?: (element.textLength - 1)))
+}
+
+fun isReferenceTo(element: JsltImportDeclaration, otherElement: PsiElement): Boolean {
+    return otherElement is JsltFunctionName &&
+            element.name == otherElement.importAlias &&
+            otherElement.reference.resolve() == element
 }

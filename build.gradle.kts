@@ -13,6 +13,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("com.schibsted.spt.data:jslt:0.1.12")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

@@ -773,7 +773,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   /* ********************************************************** */
   // IF ParenthesisExpr
   //                     FunctionBody
-  //                   ElseIfBranch*  
+  //                   ElseIfBranch*
   //                   ElseBranch?
   public static boolean IfStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "IfStatement")) return false;

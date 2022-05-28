@@ -117,5 +117,5 @@ ImportDeclarations ::= ImportDeclaration*
 ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  {
                                             mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltImportDeclElementImpl"
                                             implements="net.stefanfuchs.jslt.intellij.language.psi.JsltImportDeclElement"
-                                            methods=[ getName setName getNameIdentifier getPresentation getReference ]
+                                            methods=[ getName setName getNameIdentifier getPresentation getReference isReferenceTo ]
                                         }

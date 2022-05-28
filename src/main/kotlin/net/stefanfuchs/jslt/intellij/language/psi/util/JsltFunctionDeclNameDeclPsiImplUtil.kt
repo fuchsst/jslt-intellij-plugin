@@ -32,9 +32,6 @@ fun getNameIdentifier(element: JsltFunctionDeclNameDecl): PsiElement? {
 }
 
 fun isReferenceTo(element: JsltFunctionDeclNameDecl, otherElement: PsiElement): Boolean {
-    println(element.toString() + ": " + element.name)
-    if (otherElement is JsltFunctionName)
-        println(otherElement.toString() + ": " + otherElement.name)
     return otherElement is JsltFunctionName &&
             element.name == otherElement.name &&
             otherElement.reference.resolve() == element

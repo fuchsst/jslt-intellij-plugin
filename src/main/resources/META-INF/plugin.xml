@@ -83,9 +83,10 @@
         <renameInputValidator implementation="net.stefanfuchs.jslt.intellij.language.JsltFunctionNameRenameInputValidator"/>
         <languageInjectionContributor
                 language="yaml"
-                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltYamlLanguageInjectionContributor"
-                />
-
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltYamlLanguageInjectionContributor" />
+        <annotator
+                language="JSLT"
+                implementationClass="net.stefanfuchs.jslt.intellij.language.JsltAnnotator"/>
     </extensions>
 
     <actions>

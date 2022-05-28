@@ -59,4 +59,9 @@ public class JsltImportDeclarationImpl extends JsltImportDeclElementImpl impleme
     return JsltPsiImplUtil.getReference(this);
   }
 
+  @Override
+  public boolean isReferenceTo(@NotNull PsiElement otherElement) {
+    return JsltPsiImplUtil.isReferenceTo(this, otherElement);
+  }
+
 }

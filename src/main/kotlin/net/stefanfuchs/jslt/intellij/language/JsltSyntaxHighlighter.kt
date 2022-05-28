@@ -38,7 +38,8 @@ class JsltSyntaxHighlighter : SyntaxHighlighterBase() {
             JsltTypes.LPAREN, JsltTypes.RPAREN -> arrayOf(PARENTHESIS)
             JsltTypes.LCURLY, JsltTypes.RCURLY -> arrayOf(OBJECT_BRACES)
             JsltTypes.STRING -> arrayOf(STRING)
-            JsltTypes.VARIABLE, JsltTypes.VARIABLE_DECL -> arrayOf(VARIABLE)
+            JsltTypes.VARIABLE_DECL -> arrayOf(VARIABLE_DECL)
+            JsltTypes.VARIABLE -> arrayOf(GLOBAL_VARIABLE)
             JsltTypes.COLON -> arrayOf(COLON)
             JsltTypes.COMMA -> arrayOf(COMMA)
             JsltTypes.DOT -> arrayOf(DOT)
@@ -63,6 +64,8 @@ class JsltSyntaxHighlighter : SyntaxHighlighterBase() {
         val DOT = TextAttributesKey.createTextAttributesKey("JSLT_DOT", DefaultLanguageHighlighterColors.DOT)
         val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("JSLT_FUNCTION_DECLARATION",
             DefaultLanguageHighlighterColors.FUNCTION_DECLARATION)
+        val BUILDIN_FUNCTION_NAME = TextAttributesKey.createTextAttributesKey("JSLT_BUILDIN_FUNCTION",
+            DefaultLanguageHighlighterColors.CLASS_NAME)
         val IDENTIFIER =
             TextAttributesKey.createTextAttributesKey("JSLT_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
         val KEYWORD =
@@ -77,8 +80,16 @@ class JsltSyntaxHighlighter : SyntaxHighlighterBase() {
         val PARENTHESIS =
             TextAttributesKey.createTextAttributesKey("JSLT_PARENTHESIS", DefaultLanguageHighlighterColors.PARENTHESES)
         val STRING = TextAttributesKey.createTextAttributesKey("JSLT_STRING", DefaultLanguageHighlighterColors.STRING)
-        val VARIABLE =
-            TextAttributesKey.createTextAttributesKey("JSLT_VARIABLE", DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
-
+        val VARIABLE_DECL =
+            TextAttributesKey.createTextAttributesKey("JSLT_VARIABLE_DECL",
+                DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
+        val GLOBAL_VARIABLE =
+            TextAttributesKey.createTextAttributesKey("JSLT_GLOBAL_VARIABLE",
+                DefaultLanguageHighlighterColors.GLOBAL_VARIABLE)
+        val LOCAL_VARIABLE =
+            TextAttributesKey.createTextAttributesKey("JSLT_LOCAL_VARIABLE",
+                DefaultLanguageHighlighterColors.LOCAL_VARIABLE)
+        val UNUSED_IDENTIFIER =
+            TextAttributesKey.createTextAttributesKey("JSLT_UNUSED", DefaultLanguageHighlighterColors.LINE_COMMENT)
     }
 }

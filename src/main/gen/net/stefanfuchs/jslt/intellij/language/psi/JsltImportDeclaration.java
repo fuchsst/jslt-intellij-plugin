@@ -24,4 +24,6 @@ public interface JsltImportDeclaration extends JsltImportDeclElement {
   @NotNull
   PsiReference getReference();
 
+  boolean isReferenceTo(@NotNull PsiElement otherElement);
+
 }
