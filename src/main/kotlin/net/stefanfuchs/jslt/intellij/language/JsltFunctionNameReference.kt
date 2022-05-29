@@ -14,7 +14,9 @@ class JsltFunctionNameReference(element: PsiElement, textRange: TextRange) :
 
     override fun resolve(): PsiElement? {
         val resolveResults = multiResolve(false)
+        // if there is more than 1 reference, take the function name, otherwise the the first (should be the import alias)
         return resolveResults.firstOrNull { it.element is JsltFunctionDeclNameDecl }?.element
+            ?: resolveResults.firstOrNull()?.element
     }
 
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
@@ -38,7 +40,7 @@ class JsltFunctionNameReference(element: PsiElement, textRange: TextRange) :
                 }
             }
         } else {
-            val functionName = findFunctionDeclNameInFile(file)
+            val functionName: JsltFunctionDeclNameDecl? = findFunctionDeclNameInFile(file)
             if (functionName != null) {
                 return arrayOf(PsiElementResolveResult(findFunctionDeclNameInFile(file) as PsiElement))
             }

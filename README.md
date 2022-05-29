@@ -4,7 +4,9 @@
 
 * Syntax Highlighting
   * color by token type
-  * highlight JSLT in YAML multiline text (">") - first line of text start with `// JSLT`
+  * differentiate global/local/parameter variables
+  * differentiate buildin/def functions
+  * highlight JSLT in YAML multiline text (">") if first line of text start with `// JSLT`
 * Line comment code 
 * Parenthesis Matching
 * Code Folding
@@ -18,16 +20,21 @@
   * Show function usages
 * Refactoring: rename variables/parameter/functions
 * Validations
+  * error for non-existing file referenced in import
+  * error for non-existing import alias referenced by function
+  * error for non-existing function referenced via import alias
   * error for undeclared variables
-  * error for non existing file referenced in import
+  * error for duplicate declared variables
+  * error for duplicate declared functions
+  * error for duplicate function parameters
+  * error for duplicate declared import aliases
+  * error for duplicate key in object  
   * warn for call of unknown function
 
 ## ToDO
 
 * Syntax Highlighting
-  * differentiate global/local/parameter variables
-  * differentiate buildin/def functions
-  * highlight JSLT in multiline strings in Java/Scala/Kotlin files (first line of text start with `// JSLT`)
+  * highlight JSLT in multiline strings in Java/Scala/Kotlin files if first line of text start with `// JSLT`
 * Code Completion
   * meaningful error message when an invalid token was detected
   * inline docs for buildin-functions
@@ -37,16 +44,15 @@
   * warn on unused variable declaration
   * warn on unused function declaration
   * warn on unused function parameter
-  * error for duplicate declared variables
-  * error for duplicate declared import aliases  
-  * error for non existing import alias referenced by function
-  * error for non existing function referenced via import alias 
-  * error for duplicate key in object
 * JSLT execution
   * dialog box that allows to select/write an input JSON, a JSLT transformation and shows the output
   * apply JSLT from contextmenu (opens the dialog box)
     * when used on JSLT-file, submenu with <new empty JSON> entry and a list of all JSON files in the project (structured by module/directory?)  
     * when used on JSON-file, submenu with <new empty JSLT> entry and a list of all JSLT files in the project (structured by module/directory?)
+
+## Know issues
+
+* Imported files are not found when JSLT is used in YAML
 
 ## Build Notes
 
@@ -55,4 +61,4 @@ Therefore, the build is not completely Gradle based and the generated code is ch
 Run the "Generate Parser Code" from the context menu of the bnf-file within IntelliJ (twice) before build if the grammar changed.
 
 The build task throws an exception on the `buildSearchableOptions` task (`Process 'command '.../.gradle/caches/modules-2/files-2.1/com.jetbrains/jbre/jbr_jcef-11_0_14_1-linux-x64-b2043.25/extracted/jbr/bin/java'' finished with non-zero exit value 3`) on the first run.
-Execute the task a second time and it should build.
+Execute the task a second time, and it should build.

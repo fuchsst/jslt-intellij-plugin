@@ -12,7 +12,8 @@ class JsltImportDeclarationReference(element: PsiElement, textRange: TextRange) 
 
     override fun resolve(): PsiElement? {
         val sourceFile = myElement!!.containingFile
-        val referencedFile = sourceFile.containingDirectory.virtualFile.findFileByRelativePath(refFilename)
+
+        val referencedFile = sourceFile?.virtualFile?.parent?.findFileByRelativePath(refFilename)
 
         return if (referencedFile != null) {
             PsiManager.getInstance(myElement.project).findFile(referencedFile)

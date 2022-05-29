@@ -9,7 +9,7 @@
 
     <h2>Features</h2>
         <ul>
-            <li>Basic Syntax Highlighting</li>
+            <li>Syntax Highlighting</li>
             <li>Highlight JSLT in YAML multiline text (">") - when first line of text start with <pre>// JSLT</pre></li>
             <li>Line comment code</li>
             <li>Parenthesis Matching</li>
@@ -24,6 +24,20 @@
                 </ul>
             </li>
             <li>Refactoring: rename variables/parameter/functions</li>
+            <li>Validation
+                <ul>
+                    <li>error for non existing file referenced in import</li>
+                    <li>error for non existing import alias referenced by function</li>
+                    <li>error for non existing function referenced via import alias</li>
+                    <li>error for duplicate declared variables</li>
+                    <li>error for duplicate declared functions</li>
+                    <li>error for duplicate function parameters</li>
+                    <li>error for duplicate declared import aliases</li>
+                    <li>error for duplicate key in object</li>
+                    <li>warn for usage of unknown variable</li>
+                    <li>warn for call of unknown function</li>
+                </ul>
+            </li>
         </ul>
     ]]></description>
 

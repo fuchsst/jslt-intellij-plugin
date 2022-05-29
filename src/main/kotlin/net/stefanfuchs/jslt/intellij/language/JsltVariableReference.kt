@@ -2,13 +2,11 @@ package net.stefanfuchs.jslt.intellij.language
 
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiReferenceBase
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.findParentOfType
-import net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDecl
-import net.stefanfuchs.jslt.intellij.language.psi.JsltLetAssignment
-import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
-import net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsage
+import net.stefanfuchs.jslt.intellij.language.psi.*
 
 class JsltVariableReference(element: PsiElement, textRange: TextRange) :
     PsiReferenceBase<PsiElement?>(element, textRange) {
@@ -16,8 +14,33 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
     private val variableName = element.text.substring(textRange.startOffset, textRange.endOffset)
 
     override fun resolve(): PsiElement? {
-        val file = myElement!!.containingFile
-        val parentFunction = myElement.findParentOfType<JsltFunctionDecl>()
+        return findVariableDeclarationInFunction() ?: findGlobalVariableDeclaration()
+    }
+
+    private fun findGlobalVariableDeclaration(): JsltLetVariableDecl? {
+        var parent = myElement?.parent
+        while (parent != null) {
+            if (parent is JsltFile ||
+                parent is JsltArrayForBody ||
+                parent is JsltObjectBody ||
+                parent is JsltObjectComprehensionForBody
+            ) {
+                val letAssignment: JsltLetAssignment? = parent
+                    .children
+                    .filter { it.elementType == JsltTypes.LET_ASSIGNMENT }
+                    .map { it as JsltLetAssignment }
+                    .firstOrNull { it.name == (myElement as JsltVariableUsage).name }
+                if (letAssignment != null) {
+                    return letAssignment.letVariableDecl
+                }
+            }
+            parent = parent.parent
+        }
+        return null
+    }
+
+    private fun findVariableDeclarationInFunction(): PsiNameIdentifierOwner? {
+        val parentFunction = myElement?.findParentOfType<JsltFunctionDecl>()
         if (parentFunction != null) {
             val localVariableDecl = parentFunction
                 .functionBody
@@ -36,12 +59,7 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
                 }
             }
         }
-        val letAssignment: JsltLetAssignment? = file
-            .children
-            .filter { it.elementType == JsltTypes.LET_ASSIGNMENT }
-            .map { it as JsltLetAssignment }
-            .firstOrNull { it.name == (myElement as JsltVariableUsage).name }
-        return letAssignment?.letVariableDecl
+        return null
     }
 
     override fun handleElementRename(newElementName: String): PsiElement {

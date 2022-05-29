@@ -14,8 +14,12 @@ class JsltAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         when (element) {
             is JsltVariableUsage -> annotateVariableUsage(element, holder)
+            is JsltLetVariableDecl -> annotateLetVariableDecl(element, holder)
             is JsltFunctionName -> annotateFunctionName(element, holder)
+            is JsltFunctionDeclNameDecl -> annotateFunctionDeclNameDecl(element, holder)
+            is JsltFunctionDeclParamDecl -> annotateFunctionDeclParamDecl(element, holder)
             is JsltImportDeclaration -> annotateImportDecl(element, holder)
+            is JsltPair -> annotatePair(element, holder)
         }
 
     }
@@ -23,24 +27,18 @@ class JsltAnnotator : Annotator {
     private fun annotateVariableUsage(element: JsltVariableUsage, holder: AnnotationHolder) {
         val varDecl = element.reference.resolve()
         if (varDecl == null) {
-            holder.newAnnotation(HighlightSeverity.ERROR, "Undefined variable").create()
+            holder.newAnnotation(HighlightSeverity.WARNING, "Unknown variable").create()
         } else if (varDecl.elementType == JsltTypes.FUNCTION_DECL_PARAM_DECL) {
-            val functionDeclParamList = varDecl.parent
-            val functionDecl = functionDeclParamList?.parent
-            val functionName = (functionDecl as JsltFunctionDecl).name
             holder
-                .newAnnotation(HighlightSeverity.INFORMATION, "Function parameter of $functionName")
+                .newAnnotation(HighlightSeverity.INFORMATION, "Function parameter")
                 .range(element.textRange)
                 .textAttributes(JsltSyntaxHighlighter.PARAMETER)
                 .create()
         } else {
             val letAssignment = varDecl.parent
-            val functionBody = letAssignment?.parent
-            if (functionBody?.elementType == JsltTypes.FUNCTION_BODY) {
-                val functionDecl = functionBody?.parent
-                val functionName = (functionDecl as JsltFunctionDecl).name
+            if (letAssignment.parent !is JsltFile) {
                 holder
-                    .newAnnotation(HighlightSeverity.INFORMATION, "Local variable of $functionName")
+                    .newAnnotation(HighlightSeverity.INFORMATION, "Local variable")
                     .range(element.textRange)
                     .textAttributes(JsltSyntaxHighlighter.LOCAL_VARIABLE)
                     .create()
@@ -48,12 +46,22 @@ class JsltAnnotator : Annotator {
         }
     }
 
+    private fun annotateLetVariableDecl(element: JsltLetVariableDecl, holder: AnnotationHolder) {
+        val letAssignment = element.parent
+        val nameCount = letAssignment.parent.childrenOfType<JsltLetAssignment>().count { it.name == element.name }
+        if (nameCount > 1) {
+            holder
+                .newAnnotation(HighlightSeverity.ERROR, "Duplicate variable declaration")
+                .create()
+        }
+    }
+
     private fun annotateFunctionName(element: JsltFunctionName, holder: AnnotationHolder) {
         val funcDecl = element.reference.resolve()
-        if (funcDecl == null) {
+        if (funcDecl !is JsltFunctionDeclNameDecl) {
             if (element.name in BuiltinFunctions.functions.keys) {
                 holder
-                    .newAnnotation(HighlightSeverity.INFORMATION, "Buildin Function")
+                    .newAnnotation(HighlightSeverity.INFORMATION, "Buildin function")
                     .range(element.textRange)
                     .textAttributes(JsltSyntaxHighlighter.BUILDIN_FUNCTION_NAME)
                     .create()
@@ -72,6 +80,11 @@ class JsltAnnotator : Annotator {
                         holder
                             .newAnnotation(HighlightSeverity.ERROR, "Undefined import alias $importAlias")
                             .create()
+                    } else {
+                        val importedFile = importDecl.node.findChildByType(JsltTypes.IMPORT_FILE_STRING)?.text
+                        holder
+                            .newAnnotation(HighlightSeverity.ERROR, "Function not found in imported file $importedFile")
+                            .create()
                     }
                 }
 
@@ -79,9 +92,51 @@ class JsltAnnotator : Annotator {
         }
     }
 
+    private fun annotateFunctionDeclNameDecl(element: JsltFunctionDeclNameDecl, holder: AnnotationHolder) {
+        val nameCount = element.containingFile.childrenOfType<JsltFunctionDecl>().count { it.name == element.name }
+        if (nameCount > 1) {
+            holder.newAnnotation(HighlightSeverity.ERROR, "Duplicate function declaration").create()
+        }
+    }
+
+    private fun annotateFunctionDeclParamDecl(element: JsltFunctionDeclParamDecl, holder: AnnotationHolder) {
+        val paramNameCount = (element.parent as JsltFunctionDeclParamList)
+            .functionDeclParamDeclList
+            .count { it.name == element.name }
+        if (paramNameCount > 1) {
+            holder.newAnnotation(HighlightSeverity.ERROR, "Duplicate parameter declaration").create()
+        }
+    }
+
     private fun annotateImportDecl(element: JsltImportDeclaration, holder: AnnotationHolder) {
         if (element.reference.resolve() == null) {
-            holder.newAnnotation(HighlightSeverity.ERROR, "Referenced import file not found!").create()
+            holder
+                .newAnnotation(HighlightSeverity.ERROR, "Referenced import file not found!")
+                .range(element.reference.absoluteRange)
+                .create()
+        }
+        val aliasCount = element.parent.children.count { (it as JsltImportDeclaration).name == element.name }
+        if (aliasCount > 1) {
+            holder
+                .newAnnotation(HighlightSeverity.ERROR, "Duplicate import alias")
+                .range(element.nameIdentifier!!.textRange)
+                .create()
+        }
+    }
+
+    private fun annotatePair(element: JsltPair, holder: AnnotationHolder) {
+        val elemParent = element.parent
+        if (elemParent is JsltPairs) {
+            val keyCount = elemParent
+                .pairList
+                .map { it.exprList.first().text }
+                .count { it == element.exprList.first().text }
+            if (keyCount > 1) {
+                holder
+                    .newAnnotation(HighlightSeverity.ERROR, "Duplicate key")
+                    .range(element.exprList.first().textRange)
+                    .create()
+            }
         }
     }
 
