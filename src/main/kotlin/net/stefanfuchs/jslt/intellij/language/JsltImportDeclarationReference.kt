@@ -1,5 +1,6 @@
 package net.stefanfuchs.jslt.intellij.language
 
+import com.intellij.lang.injection.InjectedLanguageManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiManager
@@ -11,12 +12,23 @@ class JsltImportDeclarationReference(element: PsiElement, textRange: TextRange) 
     private val refFilename = element.text.substring(textRange.startOffset, textRange.endOffset)
 
     override fun resolve(): PsiElement? {
-        val sourceFile = myElement!!.containingFile
+        val containingFile =
+            if (InjectedLanguageManager
+                    .getInstance(element.project)
+                    .isInjectedFragment(element.containingFile)
+            ) {
+                InjectedLanguageManager
+                    .getInstance(element.project)
+                    .getInjectionHost(element)
+                    ?.containingFile
+            } else {
+                element.containingFile
+            }
 
-        val referencedFile = sourceFile?.virtualFile?.parent?.findFileByRelativePath(refFilename)
+        val referencedFile = containingFile?.parent?.virtualFile?.findFileByRelativePath(refFilename)
 
         return if (referencedFile != null) {
-            PsiManager.getInstance(myElement.project).findFile(referencedFile)
+            PsiManager.getInstance(element.project).findFile(referencedFile)
         } else {
             null
         }

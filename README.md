@@ -44,6 +44,7 @@
   * warn on unused variable declaration
   * warn on unused function declaration
   * warn on unused function parameter
+  * error if number of parameter in function call does not match function signature
 * JSLT execution
   * dialog box that allows to select/write an input JSON, a JSLT transformation and shows the output
   * apply JSLT from contextmenu (opens the dialog box)
@@ -52,7 +53,6 @@
 
 ## Know issues
 
-* Imported files are not found when JSLT is used in YAML
 
 ## Build Notes
 
