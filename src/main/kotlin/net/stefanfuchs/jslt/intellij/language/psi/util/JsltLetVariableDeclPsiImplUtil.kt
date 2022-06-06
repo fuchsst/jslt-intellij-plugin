@@ -16,10 +16,10 @@ fun getName(element: JsltLetVariableDecl): String? {
     return keyNode?.text
 }
 
-fun setName(element: JsltLetVariableDecl, newAlias: String): PsiElement {
+fun setName(element: JsltLetVariableDecl, newName: String): PsiElement {
     val variableDeclASTNode: ASTNode? = element.node.findChildByType(JsltTypes.VARIABLE_DECL)
     if (variableDeclASTNode != null) {
-        val letVariableDecl = JsltElementFactory.createLetVariableDecl(element.project, newAlias)
+        val letVariableDecl = JsltElementFactory.createLetVariableDecl(element.project, newName)
         val newVariableDeclASTNode: ASTNode = letVariableDecl.node.findChildByType(JsltTypes.VARIABLE_DECL)!!
         element.node.replaceChild(variableDeclASTNode, newVariableDeclASTNode)
     }

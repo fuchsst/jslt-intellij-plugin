@@ -5,7 +5,6 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.TokenType
 import com.intellij.util.ProcessingContext
-import net.stefanfuchs.jslt.intellij.language.psi.JsltTypes
 
 class JsltCompletionContributor : CompletionContributor() {
     init {

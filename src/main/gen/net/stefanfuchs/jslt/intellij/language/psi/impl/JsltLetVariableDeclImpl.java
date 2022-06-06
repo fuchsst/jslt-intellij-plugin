@@ -40,8 +40,8 @@ public class JsltLetVariableDeclImpl extends JsltLetVariableDeclElementImpl impl
 
   @Override
   @NotNull
-  public PsiElement setName(@NotNull String newAlias) {
-    return JsltPsiImplUtil.setName(this, newAlias);
+  public PsiElement setName(@NotNull String newName) {
+    return JsltPsiImplUtil.setName(this, newName);
   }
 
   @Override

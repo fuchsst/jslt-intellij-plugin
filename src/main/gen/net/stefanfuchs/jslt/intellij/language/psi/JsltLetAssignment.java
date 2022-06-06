@@ -4,9 +4,10 @@ package net.stefanfuchs.jslt.intellij.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNamedElement;
 import com.intellij.navigation.ItemPresentation;
 
-public interface JsltLetAssignment extends PsiElement {
+public interface JsltLetAssignment extends PsiNamedElement {
 
   @NotNull
   JsltExpr getExpr();
@@ -16,6 +17,9 @@ public interface JsltLetAssignment extends PsiElement {
 
   @Nullable
   String getName();
+
+  @NotNull
+  PsiElement setName(@NotNull String newName);
 
   @NotNull
   ItemPresentation getPresentation();

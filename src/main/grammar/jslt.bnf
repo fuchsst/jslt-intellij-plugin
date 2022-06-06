@@ -94,7 +94,8 @@ LetVariableDecl ::= VARIABLE_DECL {
                                      methods=[ isReferenceTo getName setName getNameIdentifier ]
                                  }
 LetAssignment ::= LET LetVariableDecl ASSIGN Expr  {
-                        methods=[ getName getPresentation ]
+                        implements="com.intellij.psi.PsiNamedElement"
+                        methods=[ getName setName getPresentation ]
                     }
 FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM {
                                                 mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionDeclParamDeclElementImpl"

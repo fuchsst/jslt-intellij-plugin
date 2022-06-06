@@ -36,7 +36,10 @@ class JsltStructureViewElement(private val myElement: NavigatablePsiElement) : S
             myElement is JsltFunctionDecl ||
             myElement is JsltArray ||
             myElement is JsltObject ||
-            myElement is JsltObjectComprehension
+            myElement is JsltObjectComprehension ||
+            myElement is JsltIfStatement ||
+            myElement is JsltElseBranch ||
+            myElement is JsltElseIfBranch
         ) {
             var child: PsiElement? = myElement.firstChild
             while (child != null) {

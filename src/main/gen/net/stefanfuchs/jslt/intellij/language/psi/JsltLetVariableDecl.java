@@ -13,7 +13,7 @@ public interface JsltLetVariableDecl extends JsltLetVariableDeclElement {
   String getName();
 
   @NotNull
-  PsiElement setName(@NotNull String newAlias);
+  PsiElement setName(@NotNull String newName);
 
   @Nullable
   PsiElement getNameIdentifier();

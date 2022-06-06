@@ -49,6 +49,12 @@ public class JsltLetAssignmentImpl extends ASTWrapperPsiElement implements JsltL
 
   @Override
   @NotNull
+  public PsiElement setName(@NotNull String newName) {
+    return JsltPsiImplUtil.setName(this, newName);
+  }
+
+  @Override
+  @NotNull
   public ItemPresentation getPresentation() {
     return JsltPsiImplUtil.getPresentation(this);
   }
