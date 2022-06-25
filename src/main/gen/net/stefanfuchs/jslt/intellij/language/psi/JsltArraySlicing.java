@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface JsltArraySlicing extends PsiElement {
 
-  @NotNull
+  @Nullable
   JsltArraySlicingBody getArraySlicingBody();
 
 }

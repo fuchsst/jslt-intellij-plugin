@@ -8,7 +8,7 @@ import com.intellij.navigation.ItemPresentation;
 
 public interface JsltObjectComprehension extends PsiElement {
 
-  @NotNull
+  @Nullable
   JsltObjectComprehensionBody getObjectComprehensionBody();
 
   @NotNull

@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface JsltParenthesisExpr extends PsiElement {
+public interface JsltArrayFor extends PsiElement {
 
-  @Nullable
-  JsltExpr getExpr();
+  @NotNull
+  JsltArrayForBody getArrayForBody();
+
+  @NotNull
+  JsltParenthesisExpr getParenthesisExpr();
 
 }

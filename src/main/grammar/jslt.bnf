@@ -26,13 +26,14 @@ Expr ::= OrExpr (PipeOperator OrExpr)*
 OrExpr ::= AndExpr (OR OrExpr)?
 AndExpr ::= ComparativeExpr (AND AndExpr())?
 ComparativeExpr ::= AdditiveExpr (Comparator AdditiveExpr)?
-Comparator ::=  EQUALS | UNEQUALS | BIGOREQ | BIGGER | SMALLER | SMALLOREQ
-PipeOperator ::= PIPE
+Comparator ::=  EQUALS | UNEQUALS | BIGOREQ | BIGGER | SMALLER | SMALLOREQ  {name="'==', '!=', '>=', '>', '<', '<='"}
+PipeOperator ::= PIPE {name="'|'"}
 AdditiveExpr ::= MultiplicativeExpr (AdditiveOperator MultiplicativeExpr)*
-AdditiveOperator ::= PLUS | MINUS
+AdditiveOperator ::= PLUS | MINUS  {name="'+', '-'"}
 MultiplicativeExpr ::= BaseExpr (MultiplicativeOperator BaseExpr)*
-MultiplicativeOperator ::= STAR | SLASH
+MultiplicativeOperator ::= STAR | SLASH {name="'*', '/'"}
 VariableUsage ::= VARIABLE  {
+                                name="$variable"
                                 mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltVariableUsageElementImpl"
                                 implements="net.stefanfuchs.jslt.intellij.language.psi.JsltVariableUsageElement"
                                 methods=[ getName setName getNameIdentifier getReference ]
@@ -42,7 +43,7 @@ BaseExpr ::= {
                 Chainable | ParenthesisExpr | IfStatement |
                 Array |
                 (Object | ObjectComprehension)
-             }
+             } {name="expression"}
 Chainable ::= {
                 (FunctionCall | VariableUsage | DOT (IDENT | STRING)?)
                 (ChainLink)?
@@ -51,49 +52,54 @@ ChainLink ::= {
                 (DotKey | ArraySlicing)
                 (ChainLink)?
               }
-ParenthesisExpr ::= LPAREN Expr RPAREN
-DotKey ::= DOT (IDENT | STRING)
-ArraySlicingBody ::= Expr (ColonExpr Expr?)? | ColonExpr Expr
-ArraySlicing ::= LBRACKET ArraySlicingBody RBRACKET
-ColonExpr ::= COLON
-ArrayElements ::= Expr (COMMA Expr)*
-ArrayBody ::=(FOR ParenthesisExpr ArrayForBody) | ArrayElements? {methods=[ getExpressions ]}
+ParenthesisExpr ::= LPAREN Expr RPAREN {pin=1}
+DotKey ::= DOT (IDENT | STRING) {name=".identifier"}
+ArraySlicingBody ::= Expr (ColonExpr Expr?)? | ColonExpr Expr {recoverWhile=ArrayBodyRecover name="array element"}
+ArraySlicing ::= LBRACKET ArraySlicingBody RBRACKET {pin=1}
+ColonExpr ::= COLON {name="':'"}
+ArrayElements ::= Expr (COMMA Expr)* {name="array element"}
 ArrayForBody ::= LetAssignment* Expr (IF ParenthesisExpr)?
-Array ::= LBRACKET ArrayBody RBRACKET {methods=[ getPresentation ]}
-ObjectBody ::= LetAssignment* (Pairs | Matcher)?
-Object ::= LCURLY ObjectBody RCURLY {methods=[ getPresentation ]}
-Matcher ::= STAR MatcherMinus? COLON Expr {methods=[ getPresentation ]}
-MatcherMinus ::= MINUS (IDENT | STRING) (COMMA (IDENT | STRING))*
-Pair ::= Expr COLON Expr {methods=[ getName getPresentation ]}
+ArrayFor ::= FOR ParenthesisExpr ArrayForBody {name="for(<expr>)"}
+ArrayBody ::=ArrayFor | ArrayElements? {recoverWhile=ArrayBodyRecover methods=[ getExpressions ]}
+Array ::= LBRACKET ArrayBody RBRACKET {pin=1 name="array" methods=[ getPresentation ]}
+ObjectBody ::= LetAssignment* (Pairs | Matcher)? {recoverWhile=ObjectBodyRecover}
+Object ::= LCURLY ObjectBody RCURLY {pin=1 name="object" methods=[ getPresentation ]}
+Matcher ::= STAR MatcherMinus? COLON Expr {name="matcher" methods=[ getPresentation ]}
+MatcherMinus ::= MINUS (IDENT | STRING) (COMMA (IDENT | STRING))* { name="- identifier [, identifier]" }
+Pair ::= Expr COLON Expr {name="key : value" methods=[ getName getPresentation ]}
 Pairs ::= {
                Pair
                (COMMA Pair)*
                (COMMA Matcher)?
           }
-ObjectComprehensionBody ::= FOR ParenthesisExpr ObjectComprehensionForBody
+ObjectComprehensionBody ::= FOR ParenthesisExpr ObjectComprehensionForBody  {recoverWhile=ObjectBodyRecover}
 ObjectComprehensionForBody ::= LetAssignment* Pair (IF ParenthesisExpr)?
-ObjectComprehension ::= LCURLY ObjectComprehensionBody RCURLY  {methods=[ getPresentation ]}
+ObjectComprehension ::= LCURLY ObjectComprehensionBody RCURLY  {pin=1 methods=[ getPresentation ]}
 FunctionBody ::= LetAssignment* Expr
 IfStatement ::= {
                   IF ParenthesisExpr
                     FunctionBody
                   ElseIfBranch*
                   ElseBranch?
-                }
-ElseIfBranch ::= ELSE IF ParenthesisExpr FunctionBody
-ElseBranch ::= ELSE FunctionBody
+                }  {pin=1}
+ElseIfBranch ::= ELSE IF ParenthesisExpr FunctionBody  {pin=2}
+ElseBranch ::= ELSE FunctionBody  {pin=1}
 FunctionName ::= (IDENT | PIDENT) {
+                                    name="function-name()"
                                     mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionNameElementImpl"
                                     implements="net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionNameElement"
                                     methods=[ getName setName getNameIdentifier getImportAlias setImportAlias getReference ]
                                   }
-FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN
+FunctionCall ::= FunctionName LPAREN (Expr (COMMA Expr)*)? RPAREN {pin=2}
 LetVariableDecl ::= VARIABLE_DECL {
-                                     mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetVariableDeclElementImpl"
-                                     implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetVariableDeclElement"
-                                     methods=[ isReferenceTo getName setName getNameIdentifier ]
+                                    name="variable-name"
+                                    mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltLetVariableDeclElementImpl"
+                                    implements="net.stefanfuchs.jslt.intellij.language.psi.JsltLetVariableDeclElement"
+                                    methods=[ isReferenceTo getName setName getNameIdentifier ]
                                  }
 LetAssignment ::= LET LetVariableDecl ASSIGN Expr  {
+                        pin=2
+                        name="let variable-name = ..."
                         implements="com.intellij.psi.PsiNamedElement"
                         methods=[ getName setName getPresentation ]
                     }
@@ -102,8 +108,9 @@ FunctionDeclParamDecl ::= FUNCTION_DECL_PARAM {
                                                 implements="net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDeclParamDeclElement"
                                                 methods=[ isReferenceTo getName setName getNameIdentifier ]
                                               }
-FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)*
+FunctionDeclParamList ::= FunctionDeclParamDecl (COMMA FunctionDeclParamDecl)* {recoverWhile=FunctionDeclParamListRecover}
 FunctionDeclNameDecl ::= FUNCTION_DECL_NAME {
+                                                name="function-name"
                                                 mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltFunctionDeclNameDeclElementImpl"
                                                 implements="net.stefanfuchs.jslt.intellij.language.psi.JsltFunctionDeclNameDeclElement"
                                                 methods=[ getName setName getNameIdentifier isReferenceTo ]
@@ -112,11 +119,22 @@ FunctionDecl ::= {
                    DEF FunctionDeclNameDecl LPAREN FunctionDeclParamList? RPAREN
                      FunctionBody
                  } {
+                    pin=2
+                    name="def function-name()..."
                     methods=[ getName getNameIdentifier getPresentation getLetAssignmentList getExpr ]
                  }
+
 ImportDeclarations ::= ImportDeclaration*
 ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  {
+                                            name="import"
+                                            pin=1
+                                            recoverWhile=ImportDeclarationRecover
                                             mixin="net.stefanfuchs.jslt.intellij.language.psi.impl.JsltImportDeclElementImpl"
                                             implements="net.stefanfuchs.jslt.intellij.language.psi.JsltImportDeclElement"
                                             methods=[ getName setName getNameIdentifier getPresentation getReference isReferenceTo ]
                                         }
+private ArrayBodyRecover ::= !RBRACKET
+private ExprRecover ::= !(RPAREN | COMMA)
+private FunctionDeclParamListRecover ::= !RPAREN
+private ImportDeclarationRecover ::= !(LET | DEF | IMPORT)
+private ObjectBodyRecover ::= !RCURLY

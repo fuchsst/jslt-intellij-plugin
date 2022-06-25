@@ -29,9 +29,9 @@ public class JsltParenthesisExprImpl extends ASTWrapperPsiElement implements Jsl
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltExpr getExpr() {
-    return findNotNullChildByClass(JsltExpr.class);
+    return findChildByClass(JsltExpr.class);
   }
 
 }

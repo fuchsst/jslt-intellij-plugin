@@ -13,10 +13,10 @@ public interface JsltIfStatement extends PsiElement {
   @NotNull
   List<JsltElseIfBranch> getElseIfBranchList();
 
-  @NotNull
+  @Nullable
   JsltFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nullable
   JsltParenthesisExpr getParenthesisExpr();
 
 }

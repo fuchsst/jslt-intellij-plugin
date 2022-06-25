@@ -8,7 +8,7 @@ import com.intellij.navigation.ItemPresentation;
 
 public interface JsltFunctionDecl extends PsiElement {
 
-  @NotNull
+  @Nullable
   JsltFunctionBody getFunctionBody();
 
   @NotNull
@@ -30,7 +30,7 @@ public interface JsltFunctionDecl extends PsiElement {
   //matching getLetAssignmentList(JsltFunctionDecl, ...)
   //methods are not found in JsltPsiImplUtil
 
-  @NotNull
+  @Nullable
   JsltExpr getExpr();
 
 }

@@ -30,9 +30,9 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltFunctionBody getFunctionBody() {
-    return findNotNullChildByClass(JsltFunctionBody.class);
+    return findChildByClass(JsltFunctionBody.class);
   }
 
   @Override
@@ -66,7 +66,7 @@ public class JsltFunctionDeclImpl extends ASTWrapperPsiElement implements JsltFu
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltExpr getExpr() {
     return JsltPsiImplUtil.getExpr(this);
   }

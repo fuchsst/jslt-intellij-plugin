@@ -29,9 +29,9 @@ public class JsltElseBranchImpl extends ASTWrapperPsiElement implements JsltElse
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltFunctionBody getFunctionBody() {
-    return findNotNullChildByClass(JsltFunctionBody.class);
+    return findChildByClass(JsltFunctionBody.class);
   }
 
 }

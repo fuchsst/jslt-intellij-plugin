@@ -32,6 +32,9 @@ VALID_ESCAPE_SEQ = \\([\"\\/bfnrt]|(u({HEX_DIGIT}{4})))
 VALID_CHARACTER = {VALID_SET_CHAR} | {VALID_ESCAPE_SEQ}
 STRING = \"{VALID_CHARACTER}*\"
 
+NULL="null"
+FALSE="false"
+TRUE="true"
 IDENT=([A-Za-z_])([A-Za-z0-9_\-])*
 PIDENT={IDENT} ":" {IDENT}
 VARIABLE="$" {IDENT}

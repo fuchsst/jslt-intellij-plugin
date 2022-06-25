@@ -30,9 +30,9 @@ public class JsltArrayImpl extends ASTWrapperPsiElement implements JsltArray {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltArrayBody getArrayBody() {
-    return findNotNullChildByClass(JsltArrayBody.class);
+    return findChildByClass(JsltArrayBody.class);
   }
 
   @Override

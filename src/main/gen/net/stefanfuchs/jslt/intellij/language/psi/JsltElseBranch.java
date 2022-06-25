@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface JsltElseBranch extends PsiElement {
 
-  @NotNull
+  @Nullable
   JsltFunctionBody getFunctionBody();
 
 }

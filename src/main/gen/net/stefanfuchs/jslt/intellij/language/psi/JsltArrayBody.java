@@ -11,10 +11,7 @@ public interface JsltArrayBody extends PsiElement {
   JsltArrayElements getArrayElements();
 
   @Nullable
-  JsltArrayForBody getArrayForBody();
-
-  @Nullable
-  JsltParenthesisExpr getParenthesisExpr();
+  JsltArrayFor getArrayFor();
 
   @NotNull
   List<JsltExpr> getExpressions();

@@ -29,9 +29,9 @@ public class JsltArraySlicingImpl extends ASTWrapperPsiElement implements JsltAr
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltArraySlicingBody getArraySlicingBody() {
-    return findNotNullChildByClass(JsltArraySlicingBody.class);
+    return findChildByClass(JsltArraySlicingBody.class);
   }
 
 }

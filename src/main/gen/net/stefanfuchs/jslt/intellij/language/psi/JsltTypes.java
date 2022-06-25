@@ -14,6 +14,7 @@ public interface JsltTypes {
   IElementType ARRAY = new JsltElementType("ARRAY");
   IElementType ARRAY_BODY = new JsltElementType("ARRAY_BODY");
   IElementType ARRAY_ELEMENTS = new JsltElementType("ARRAY_ELEMENTS");
+  IElementType ARRAY_FOR = new JsltElementType("ARRAY_FOR");
   IElementType ARRAY_FOR_BODY = new JsltElementType("ARRAY_FOR_BODY");
   IElementType ARRAY_SLICING = new JsltElementType("ARRAY_SLICING");
   IElementType ARRAY_SLICING_BODY = new JsltElementType("ARRAY_SLICING_BODY");
@@ -121,6 +122,9 @@ public interface JsltTypes {
       }
       else if (type == ARRAY_ELEMENTS) {
         return new JsltArrayElementsImpl(node);
+      }
+      else if (type == ARRAY_FOR) {
+        return new JsltArrayForImpl(node);
       }
       else if (type == ARRAY_FOR_BODY) {
         return new JsltArrayForBodyImpl(node);

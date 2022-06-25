@@ -30,9 +30,9 @@ public class JsltObjectImpl extends ASTWrapperPsiElement implements JsltObject {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public JsltObjectBody getObjectBody() {
-    return findNotNullChildByClass(JsltObjectBody.class);
+    return findChildByClass(JsltObjectBody.class);
   }
 
   @Override

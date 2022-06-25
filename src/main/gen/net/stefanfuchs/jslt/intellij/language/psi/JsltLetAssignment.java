@@ -9,7 +9,7 @@ import com.intellij.navigation.ItemPresentation;
 
 public interface JsltLetAssignment extends PsiNamedElement {
 
-  @NotNull
+  @Nullable
   JsltExpr getExpr();
 
   @NotNull

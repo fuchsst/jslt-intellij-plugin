@@ -32,6 +32,10 @@ public class JsltVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitArrayFor(@NotNull JsltArrayFor o) {
+    visitPsiElement(o);
+  }
+
   public void visitArrayForBody(@NotNull JsltArrayForBody o) {
     visitPsiElement(o);
   }

@@ -24,8 +24,8 @@ fun getNameIdentifier(element: JsltFunctionDecl): PsiElement? {
 }
 
 
-fun getExpr(element: JsltFunctionDecl): JsltExpr =
-    element.functionBody.expr
+fun getExpr(element: JsltFunctionDecl): JsltExpr? =
+    element.functionBody?.expr
 
 
 fun getPresentation(element: JsltFunctionDecl): ItemPresentation {

@@ -11,16 +11,15 @@ import static net.stefanfuchs.jslt.intellij.language.psi.JsltTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import net.stefanfuchs.jslt.intellij.language.psi.*;
 import net.stefanfuchs.jslt.intellij.language.psi.util.JsltPsiImplUtil;
-import com.intellij.navigation.ItemPresentation;
 
-public class JsltLetAssignmentImpl extends ASTWrapperPsiElement implements JsltLetAssignment {
+public class JsltArrayForImpl extends ASTWrapperPsiElement implements JsltArrayFor {
 
-  public JsltLetAssignmentImpl(@NotNull ASTNode node) {
+  public JsltArrayForImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull JsltVisitor visitor) {
-    visitor.visitLetAssignment(this);
+    visitor.visitArrayFor(this);
   }
 
   @Override
@@ -30,33 +29,15 @@ public class JsltLetAssignmentImpl extends ASTWrapperPsiElement implements JsltL
   }
 
   @Override
-  @Nullable
-  public JsltExpr getExpr() {
-    return findChildByClass(JsltExpr.class);
+  @NotNull
+  public JsltArrayForBody getArrayForBody() {
+    return findNotNullChildByClass(JsltArrayForBody.class);
   }
 
   @Override
   @NotNull
-  public JsltLetVariableDecl getLetVariableDecl() {
-    return findNotNullChildByClass(JsltLetVariableDecl.class);
-  }
-
-  @Override
-  @Nullable
-  public String getName() {
-    return JsltPsiImplUtil.getName(this);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement setName(@NotNull String newName) {
-    return JsltPsiImplUtil.setName(this, newName);
-  }
-
-  @Override
-  @NotNull
-  public ItemPresentation getPresentation() {
-    return JsltPsiImplUtil.getPresentation(this);
+  public JsltParenthesisExpr getParenthesisExpr() {
+    return findNotNullChildByClass(JsltParenthesisExpr.class);
   }
 
 }

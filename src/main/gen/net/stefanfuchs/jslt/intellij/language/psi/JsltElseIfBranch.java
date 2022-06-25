@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface JsltElseIfBranch extends PsiElement {
 
-  @NotNull
+  @Nullable
   JsltFunctionBody getFunctionBody();
 
-  @NotNull
+  @Nullable
   JsltParenthesisExpr getParenthesisExpr();
 
 }

@@ -80,7 +80,7 @@ class JsltStructureViewElement(private val myElement: NavigatablePsiElement) : S
         child: JsltArrayBody,
         result: MutableList<JsltStructureViewElement>,
     ) {
-        child.arrayForBody?.letAssignmentList?.forEach {
+        child.arrayFor?.arrayForBody?.letAssignmentList?.forEach {
             result.add(JsltStructureViewElement(it as NavigatablePsiElement))
         }
         child.expressions.forEach {

@@ -60,10 +60,10 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
             } else if (parent is JsltFunctionDecl) {
                 val localVariableDecl = parent
                     .functionBody
-                    .letAssignmentList
-                    .filter { letAssignment -> letAssignment.name !in variableDeclList.map { it.name } }
+                    ?.letAssignmentList
+                    ?.filter { letAssignment -> letAssignment.name !in variableDeclList.map { it.name } }
 
-                variableDeclList.addAll(localVariableDecl)
+                variableDeclList.addAll(localVariableDecl ?: emptyList())
 
                 val functionParamDecl = parent
                     .functionDeclParamList
@@ -101,8 +101,8 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
     private fun findVariableDeclarationInFunction(functionDecl: JsltFunctionDecl): PsiNameIdentifierOwner? {
         val localVariableDecl = functionDecl
             .functionBody
-            .letAssignmentList
-            .firstOrNull { it.name == variableName }
+            ?.letAssignmentList
+            ?.firstOrNull { it.name == variableName }
             ?.letVariableDecl
         if (localVariableDecl != null) {
             return localVariableDecl

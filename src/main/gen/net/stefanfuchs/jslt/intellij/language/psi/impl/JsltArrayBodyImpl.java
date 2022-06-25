@@ -36,14 +36,8 @@ public class JsltArrayBodyImpl extends ASTWrapperPsiElement implements JsltArray
 
   @Override
   @Nullable
-  public JsltArrayForBody getArrayForBody() {
-    return findChildByClass(JsltArrayForBody.class);
-  }
-
-  @Override
-  @Nullable
-  public JsltParenthesisExpr getParenthesisExpr() {
-    return findChildByClass(JsltParenthesisExpr.class);
+  public JsltArrayFor getArrayFor() {
+    return findChildByClass(JsltArrayFor.class);
   }
 
   @Override
