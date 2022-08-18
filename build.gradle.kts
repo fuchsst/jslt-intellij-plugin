@@ -1,24 +1,30 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.6.0"
-    kotlin("jvm") version "1.6.21"
+    id("org.jetbrains.intellij") version "1.8.0"
+    kotlin("jvm") version "1.7.10"
     id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
 }
 
+val includeInJar by configurations.creating {
+    isTransitive = false
+}
+
 dependencies {
+    val jsltLibVersion = "0.1.12"
     implementation(kotlin("stdlib"))
-    implementation("com.schibsted.spt.data:jslt:0.1.12")
+    implementation("com.schibsted.spt.data:jslt:$jsltLibVersion")
+    includeInJar("com.schibsted.spt.data:jslt:$jsltLibVersion") // explicitly include this file in the build step
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2022.1")
+    version.set("2022.2")
     plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
@@ -87,6 +93,10 @@ tasks {
 
         // if set, the plugin will remove a parser output file and psi output directory before generating new ones. Default: false
         purgeOldFiles.set(true)
+    }
+
+    jar {
+        from(zipTree(includeInJar.singleFile))
     }
 
 //    patchPluginXml {

@@ -42,7 +42,13 @@
     ]]></description>
 
     <change-notes>
-        fix: imported files are not found when JSLT is used in YAML
+        <![CDATA[
+            <ul>
+                <li>stabilized grammar</li>
+                <li>added code completion for variable names</li>
+                <li>updated for support of IntelliJ Versions 222.*</li>
+            </ul>
+        ]]>
     </change-notes>
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->

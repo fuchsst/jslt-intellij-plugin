@@ -29,6 +29,6 @@ class JsltCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
         }
     }
 
-    private class JsltCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings?) :
+    private class JsltCodeStyleMainPanel(currentSettings: CodeStyleSettings?, settings: CodeStyleSettings) :
         TabbedLanguageCodeStylePanel(JsltLanguage, currentSettings, settings)
 }
