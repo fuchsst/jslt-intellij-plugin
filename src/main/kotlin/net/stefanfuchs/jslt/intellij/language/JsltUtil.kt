@@ -22,8 +22,10 @@ object JsltUtil {
         for (virtualFile in virtualFiles) {
             val simpleFile: JsltFile? = PsiManager.getInstance(project).findFile(virtualFile!!) as JsltFile?
             if (simpleFile != null) {
-                val functionDeclarations: Array<JsltFunctionDecl>? = PsiTreeUtil.getChildrenOfType(simpleFile,
-                    JsltFunctionDecl::class.java)
+                val functionDeclarations: Array<JsltFunctionDecl>? = PsiTreeUtil.getChildrenOfType(
+                    simpleFile,
+                    JsltFunctionDecl::class.java
+                )
                 if (functionDeclarations != null) {
                     for (functionDecl in functionDeclarations) {
                         if (functionName == functionDecl.name) {

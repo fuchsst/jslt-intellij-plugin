@@ -21,8 +21,7 @@ class JsltCompletionContributor : CompletionContributor() {
                     resultSet.addElement(LookupElementBuilder.create("false"))
                     resultSet.addElement(LookupElementBuilder.create("true"))
                     resultSet.addElement(LookupElementBuilder.create("null"))
-                    println(parameters
-                        .originalFile.name)
+
                     parameters
                         .originalFile
                         .childrenOfType<JsltFunctionDecl>()

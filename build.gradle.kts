@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.8.0"
-    kotlin("jvm") version "1.7.10"
+    id("org.jetbrains.intellij") version "1.9.0"
+    kotlin("jvm") version "1.7.20"
     id("org.jetbrains.grammarkit") version "2021.2.2"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -16,7 +16,7 @@ val includeInJar by configurations.creating {
 }
 
 dependencies {
-    val jsltLibVersion = "0.1.12"
+    val jsltLibVersion = "0.1.13"
     implementation(kotlin("stdlib"))
     implementation("com.schibsted.spt.data:jslt:$jsltLibVersion")
     includeInJar("com.schibsted.spt.data:jslt:$jsltLibVersion") // explicitly include this file in the build step
@@ -37,8 +37,6 @@ grammarKit {
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
     intellijRelease.set("221.5080.210")
-
-
 }
 
 

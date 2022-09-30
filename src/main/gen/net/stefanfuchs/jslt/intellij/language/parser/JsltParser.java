@@ -891,17 +891,20 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ImportDeclaration*
+  // ImportDeclaration+
   public static boolean ImportDeclarations(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ImportDeclarations")) return false;
-    Marker m = enter_section_(b, l, _NONE_, IMPORT_DECLARATIONS, "<import declarations>");
-    while (true) {
+    if (!nextTokenIs(b, IMPORT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = ImportDeclaration(b, l + 1);
+    while (r) {
       int c = current_position_(b);
       if (!ImportDeclaration(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "ImportDeclarations", c)) break;
     }
-    exit_section_(b, l, m, true, false, null);
-    return true;
+    exit_section_(b, m, IMPORT_DECLARATIONS, r);
+    return r;
   }
 
   /* ********************************************************** */

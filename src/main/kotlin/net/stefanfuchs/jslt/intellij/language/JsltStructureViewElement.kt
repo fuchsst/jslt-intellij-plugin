@@ -47,25 +47,32 @@ class JsltStructureViewElement(private val myElement: NavigatablePsiElement) : S
                     is JsltImportDeclarations -> {
                         child.children.forEach { result.add(JsltStructureViewElement(it as JsltImportDeclarationImpl)) }
                     }
+
                     is JsltLetAssignment -> {
                         result.add(JsltStructureViewElement(child as NavigatablePsiElement))
                     }
+
                     is JsltFunctionDecl -> {
                         result.add(JsltStructureViewElement(child as NavigatablePsiElement))
                     }
+
                     is JsltFunctionBody -> {
                         child.letAssignmentList.forEach { result.add(JsltStructureViewElement(it as NavigatablePsiElement)) }
                         addIfArrayOrObjectInExpr(child.expr, result)
                     }
+
                     is JsltExprImpl -> {
                         addIfArrayOrObjectInExpr(child, result)
                     }
+
                     is JsltArrayBody -> {
                         addArrayBodyChild(child, result)
                     }
+
                     is JsltObjectBody -> {
                         addObjectBodyChild(child, result)
                     }
+
                     is JsltObjectComprehensionBody -> {
                         addObjectComprehensionBodyChild(child, result)
                     }

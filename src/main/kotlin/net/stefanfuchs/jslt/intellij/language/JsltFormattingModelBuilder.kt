@@ -12,12 +12,16 @@ class JsltFormattingModelBuilder : FormattingModelBuilder {
             WrapType.NONE
 
         return FormattingModelProvider
-            .createFormattingModelForPsiFile(formattingContext.containingFile,
-                JsltBlock(formattingContext.node,
+            .createFormattingModelForPsiFile(
+                formattingContext.containingFile,
+                JsltBlock(
+                    formattingContext.node,
                     Wrap.createWrap(wrapType, false),
                     Alignment.createAlignment(),
-                    createSpaceBuilder(formattingContext)),
-                codeStyleSettings)
+                    createSpaceBuilder(formattingContext)
+                ),
+                codeStyleSettings
+            )
     }
 
     companion object {

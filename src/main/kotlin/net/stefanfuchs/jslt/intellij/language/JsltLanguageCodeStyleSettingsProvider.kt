@@ -25,18 +25,28 @@ class JsltLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                     CodeStyleSettingsCustomizable.SpacingOption.SPACE_BEFORE_FOR_PARENTHESES.name,
                     CodeStyleSettingsCustomizable.SpacingOption.SPACE_BEFORE_COLON.name,
                     CodeStyleSettingsCustomizable.SpacingOption.SPACE_AFTER_COLON.name,
-                    CodeStyleSettingsCustomizable.SpacingOption.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES.name)
+                    CodeStyleSettingsCustomizable.SpacingOption.SPACE_WITHIN_EMPTY_METHOD_CALL_PARENTHESES.name
+                )
 
-                consumer.renameStandardOption(CodeStyleSettingsCustomizable.SpacingOption.SPACE_AROUND_ASSIGNMENT_OPERATORS.name,
-                    "Assignment operators (':', '=')")
-                consumer.renameStandardOption(CodeStyleSettingsCustomizable.SpacingOption.SPACE_AROUND_LAMBDA_ARROW.name,
-                    "Context operator ('|')")
-                consumer.renameStandardOption(CodeStyleSettingsCustomizable.SpacingOption.SPACE_WITHIN_BRACKETS.name,
-                    "Array brackets")
-                consumer.renameStandardOption(CodeStyleSettingsCustomizable.SpacingOption.SPACE_WITHIN_BRACES.name,
-                    "Object braces")
+                consumer.renameStandardOption(
+                    CodeStyleSettingsCustomizable.SpacingOption.SPACE_AROUND_ASSIGNMENT_OPERATORS.name,
+                    "Assignment operators (':', '=')"
+                )
+                consumer.renameStandardOption(
+                    CodeStyleSettingsCustomizable.SpacingOption.SPACE_AROUND_LAMBDA_ARROW.name,
+                    "Context operator ('|')"
+                )
+                consumer.renameStandardOption(
+                    CodeStyleSettingsCustomizable.SpacingOption.SPACE_WITHIN_BRACKETS.name,
+                    "Array brackets"
+                )
+                consumer.renameStandardOption(
+                    CodeStyleSettingsCustomizable.SpacingOption.SPACE_WITHIN_BRACES.name,
+                    "Object braces"
+                )
 
             }
+
             SettingsType.INDENT_SETTINGS -> {
                 consumer.showStandardOptions(
                     CodeStyleSettingsCustomizable.IndentOption.INDENT_SIZE.name,
@@ -44,6 +54,7 @@ class JsltLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                     CodeStyleSettingsCustomizable.IndentOption.USE_RELATIVE_INDENTS.name
                 )
             }
+
             SettingsType.WRAPPING_AND_BRACES_SETTINGS -> {
                 consumer.showStandardOptions(
                     CodeStyleSettingsCustomizable.WrappingOrBraceOption.ALIGN_MULTILINE_ASSIGNMENT.name,
@@ -67,11 +78,14 @@ class JsltLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                 )
 
             }
+
             SettingsType.BLANK_LINES_SETTINGS -> {
                 consumer.showStandardOptions(
                     CodeStyleSettingsCustomizable.BlankLinesOption.BLANK_LINES_AFTER_IMPORTS.name,
-                    CodeStyleSettingsCustomizable.BlankLinesOption.BLANK_LINES_AROUND_METHOD.name)
+                    CodeStyleSettingsCustomizable.BlankLinesOption.BLANK_LINES_AROUND_METHOD.name
+                )
             }
+
             else -> {}
         }
 

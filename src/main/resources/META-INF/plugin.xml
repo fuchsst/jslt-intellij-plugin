@@ -44,9 +44,8 @@
     <change-notes>
         <![CDATA[
             <ul>
-                <li>stabilized grammar</li>
-                <li>added code completion for variable names</li>
-                <li>updated for support of IntelliJ Versions 222.*</li>
+                <li>JSLT lib update to 0.1.13</li>
+                <li>grammar fix: import was always expected</li>
             </ul>
         ]]>
     </change-notes>

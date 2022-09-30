@@ -36,15 +36,18 @@ open class JsltBlock internal constructor(
                     alignment = Alignment.createAlignment(),
                     spacingBuilder = spacingBuilder
                 )
+
                 TokenType.WHITE_SPACE -> {
                     null
                 }
+
                 else -> {
                     JsltBlock(
                         node = child,
                         wrap = wrap,
                         alignment = Alignment.createAlignment(),
-                        spacingBuilder = spacingBuilder)
+                        spacingBuilder = spacingBuilder
+                    )
                 }
             }
             if (block != null) {

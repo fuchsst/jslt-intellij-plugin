@@ -19,7 +19,8 @@ class JsltFindUsagesProvider : FindUsagesProvider {
                 JsltTypes.FUNCTION_DECL_PARAM,
                 JsltTypes.IMPORT_ALIAS,
                 JsltTypes.LET_VARIABLE_DECL,
-                JsltTypes.VARIABLE_USAGE),
+                JsltTypes.VARIABLE_USAGE
+            ),
             TokenSet.create(JsltTypes.COMMENT),
             TokenSet.create(
                 JsltTypes.TRUE,
@@ -27,9 +28,11 @@ class JsltFindUsagesProvider : FindUsagesProvider {
                 JsltTypes.NULL,
                 JsltTypes.INTEGER,
                 JsltTypes.DECIMAL,
-                JsltTypes.STRING),
+                JsltTypes.STRING
+            ),
             TokenSet.create(JsltTypes.IMPORT_FILE_STRING),
-            TokenSet.EMPTY)
+            TokenSet.EMPTY
+        )
     }
 
     override fun canFindUsagesFor(psiElement: PsiElement): Boolean {

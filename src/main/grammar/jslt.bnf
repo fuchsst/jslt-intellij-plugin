@@ -124,7 +124,7 @@ FunctionDecl ::= {
                     methods=[ getName getNameIdentifier getPresentation getLetAssignmentList getExpr ]
                  }
 
-ImportDeclarations ::= ImportDeclaration*
+ImportDeclarations ::= ImportDeclaration+
 ImportDeclaration ::= IMPORT IMPORT_FILE_STRING AS IMPORT_ALIAS  {
                                             name="import"
                                             pin=1

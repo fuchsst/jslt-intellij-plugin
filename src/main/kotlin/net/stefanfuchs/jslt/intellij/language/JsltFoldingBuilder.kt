@@ -25,8 +25,9 @@ class JsltFoldingBuilder : FoldingBuilderEx(), DumbAware {
         }
 
         val functionDescriptors = PsiTreeUtil.findChildrenOfType(root, JsltFunctionDecl::class.java).map {
-            val group = FoldingGroup.newGroup("function " +
-                    it.children.firstOrNull { childNode -> childNode.elementType == JsltTypes.FUNCTION_DECL_NAME }?.text
+            val group = FoldingGroup.newGroup(
+                "function " +
+                        it.children.firstOrNull { childNode -> childNode.elementType == JsltTypes.FUNCTION_DECL_NAME }?.text
             )
             FoldingDescriptor(it.node, TextRange(it.textRange.startOffset, it.textRange.endOffset), group)
         }
@@ -63,6 +64,7 @@ class JsltFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 }
                 sb.toString()
             }
+
             JsltTypes.OBJECT -> {
                 val firstPairNode = node.findChildByType(JsltTypes.PAIR)
                 val firstMatcherNode = node.findChildByType(JsltTypes.MATCHER)
@@ -86,9 +88,11 @@ class JsltFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 }
 
             }
+
             JsltTypes.ARRAY -> {
                 "[ ... ]"
             }
+
             else -> "..." + node.elementType
         }
     }
