@@ -44,8 +44,7 @@
     <change-notes>
         <![CDATA[
             <ul>
-                <li>JSLT lib update to 0.1.13</li>
-                <li>grammar fix: import was always expected</li>
+                <li>JSLT lib update to 0.1.14</li>
             </ul>
         ]]>
     </change-notes>

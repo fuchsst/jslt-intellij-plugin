@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.9.0"
-    kotlin("jvm") version "1.7.20"
-    id("org.jetbrains.grammarkit") version "2021.2.2"
+    id("org.jetbrains.intellij") version "1.10.1"
+    kotlin("jvm") version "1.7.22"
+    id("org.jetbrains.grammarkit") version "2022.3"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.3"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
@@ -16,7 +16,7 @@ val includeInJar by configurations.creating {
 }
 
 dependencies {
-    val jsltLibVersion = "0.1.13"
+    val jsltLibVersion = "0.1.14"
     implementation(kotlin("stdlib"))
     implementation("com.schibsted.spt.data:jslt:$jsltLibVersion")
     includeInJar("com.schibsted.spt.data:jslt:$jsltLibVersion") // explicitly include this file in the build step
@@ -24,7 +24,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2022.2")
+    version.set("2022.3")
     plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
@@ -36,7 +36,7 @@ grammarKit {
     grammarKitRelease.set("2021.1.2")
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
-    intellijRelease.set("221.5080.210")
+    intellijRelease.set("222.4345.14")
 }
 
 
@@ -53,7 +53,7 @@ sourceSets {
 tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "17"
         }
     }
     generateLexer {
