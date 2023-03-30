@@ -42,7 +42,7 @@ BaseExpr ::= {
                 NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
                 Chainable | ParenthesisExpr | IfStatement |
                 Array |
-                (Object | ObjectComprehension)
+                ObjectComprehension | Object
              } {name="expression"}
 Chainable ::= {
                 (FunctionCall | VariableUsage | DOT (IDENT | STRING)?)
@@ -74,7 +74,7 @@ Pairs ::= {
           }
 ObjectComprehensionBody ::= FOR ParenthesisExpr ObjectComprehensionForBody  {recoverWhile=ObjectBodyRecover}
 ObjectComprehensionForBody ::= LetAssignment* Pair (IF ParenthesisExpr)?
-ObjectComprehension ::= LCURLY ObjectComprehensionBody RCURLY  {pin=1 methods=[ getPresentation ]}
+ObjectComprehension ::= LCURLY ObjectComprehensionBody RCURLY  {pin=2 methods=[ getPresentation ]}
 FunctionBody ::= LetAssignment* Expr
 IfStatement ::= {
                   IF ParenthesisExpr

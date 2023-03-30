@@ -331,7 +331,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   // NULL | INTEGER | DECIMAL | STRING | TRUE | FALSE |
   //                 Chainable | ParenthesisExpr | IfStatement |
   //                 Array |
-  //                 (Object | ObjectComprehension)
+  //                 ObjectComprehension | Object
   public static boolean BaseExpr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BaseExpr")) return false;
     boolean r;
@@ -346,17 +346,9 @@ public class JsltParser implements PsiParser, LightPsiParser {
     if (!r) r = ParenthesisExpr(b, l + 1);
     if (!r) r = IfStatement(b, l + 1);
     if (!r) r = Array(b, l + 1);
-    if (!r) r = BaseExpr_10(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // Object | ObjectComprehension
-  private static boolean BaseExpr_10(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "BaseExpr_10")) return false;
-    boolean r;
-    r = Object(b, l + 1);
     if (!r) r = ObjectComprehension(b, l + 1);
+    if (!r) r = Object(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -1131,9 +1123,9 @@ public class JsltParser implements PsiParser, LightPsiParser {
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, OBJECT_COMPREHENSION, null);
     r = consumeToken(b, LCURLY);
-    p = r; // pin = 1
-    r = r && report_error_(b, ObjectComprehensionBody(b, l + 1));
-    r = p && consumeToken(b, RCURLY) && r;
+    r = r && ObjectComprehensionBody(b, l + 1);
+    p = r; // pin = 2
+    r = r && consumeToken(b, RCURLY);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }

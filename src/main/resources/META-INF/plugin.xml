@@ -44,7 +44,8 @@
     <change-notes>
         <![CDATA[
             <ul>
-                <li>JSLT lib update to 0.1.14</li>
+                <li>Update to support IntelliJ 231.*</li>
+                <li>Fix: object comprehensions were marked as syntax error</li>
             </ul>
         ]]>
     </change-notes>

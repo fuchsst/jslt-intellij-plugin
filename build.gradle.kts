@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.10.1"
-    kotlin("jvm") version "1.7.22"
-    id("org.jetbrains.grammarkit") version "2022.3"
+    id("org.jetbrains.intellij") version "1.13.3"
+    kotlin("jvm") version "1.8.10"
+    id("org.jetbrains.grammarkit") version "2022.3.1"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.4"
+version = "1.0.5"
 
 repositories {
     mavenCentral()
@@ -36,7 +36,7 @@ grammarKit {
     grammarKitRelease.set("2021.1.2")
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
-    intellijRelease.set("222.4345.14")
+    intellijRelease.set("231.8109.175")
 }
 
 
@@ -58,7 +58,7 @@ tasks {
     }
     generateLexer {
         // source flex file
-        source.set("src/main/grammar/jslt.flex")
+        sourceFile.set(File("src/main/grammar/jslt.flex"))
 
         // target directory for lexer
         targetDir.set("src/main/gen/net/stefanfuchs/jslt/intellij/language/")
@@ -78,7 +78,7 @@ tasks {
 
     generateParser {
         // source bnf file
-        source.set("src/main/grammar/jslt.bnf")
+        sourceFile.set(File("src/main/grammar/jslt.bnf"))
 
         // optional, task-specific root for the generated files. Default: none
         targetRoot.set("src/main/gen")

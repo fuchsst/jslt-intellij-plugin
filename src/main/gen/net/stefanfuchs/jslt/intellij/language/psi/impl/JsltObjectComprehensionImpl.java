@@ -30,9 +30,9 @@ public class JsltObjectComprehensionImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @Nullable
+  @NotNull
   public JsltObjectComprehensionBody getObjectComprehensionBody() {
-    return findChildByClass(JsltObjectComprehensionBody.class);
+    return findNotNullChildByClass(JsltObjectComprehensionBody.class);
   }
 
   @Override
