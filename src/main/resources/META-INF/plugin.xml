@@ -44,8 +44,7 @@
     <change-notes>
         <![CDATA[
             <ul>
-                <li>Update to support IntelliJ 231.*</li>
-                <li>Fix: object comprehensions were marked as syntax error</li>
+                <li>Update to support IntelliJ 232.*</li>
             </ul>
         ]]>
     </change-notes>

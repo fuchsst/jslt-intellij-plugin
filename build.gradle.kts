@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.13.3"
-    kotlin("jvm") version "1.8.10"
+    id("org.jetbrains.intellij") version "1.15.0"
+    kotlin("jvm") version "1.9.10"
     id("org.jetbrains.grammarkit") version "2022.3.1"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.6"
+version = "1.0.7"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2023.1")
+    version.set("2023.2")
     plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
@@ -36,7 +36,7 @@ grammarKit {
     grammarKitRelease.set("2021.1.2")
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
-    intellijRelease.set("231.8109.175")
+    intellijRelease.set("232.9559.62")
 }
 
 
