@@ -33,7 +33,7 @@ open class JsltBlock internal constructor(
                 -> JsltBodyBlock(
                     node = child,
                     wrap = wrap,
-                    alignment = Alignment.createAlignment(),
+                    alignment = null,
                     spacingBuilder = spacingBuilder
                 )
 
@@ -45,7 +45,7 @@ open class JsltBlock internal constructor(
                     JsltBlock(
                         node = child,
                         wrap = wrap,
-                        alignment = Alignment.createAlignment(),
+                        alignment = null,
                         spacingBuilder = spacingBuilder
                     )
                 }

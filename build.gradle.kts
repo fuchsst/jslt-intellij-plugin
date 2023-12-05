@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.7"
+version = "1.0.8"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2023.2")
+    version.set("2023.3")
     plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
