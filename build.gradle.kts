@@ -99,7 +99,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("232")
-        untilBuild.set("233")
+        untilBuild.set("234")
         changeNotes.set("""
             Support idea from version 232 to 233
         """.trimIndent())
