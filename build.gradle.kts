@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.8"
+version = "1.0.9"
 
 repositories {
     mavenCentral()
@@ -97,6 +97,13 @@ tasks {
         from(zipTree(includeInJar.singleFile))
     }
 
+    patchPluginXml {
+        sinceBuild.set("232")
+        untilBuild.set("233")
+        changeNotes.set("""
+            Support idea from version 232 to 233
+        """.trimIndent())
+    }
 //    patchPluginXml {
 //        changeNotes.set("""
 //            Add change notes here.<br>
