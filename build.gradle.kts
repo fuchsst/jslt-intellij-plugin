@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.15.0"
+    id("org.jetbrains.intellij") version "1.16.1"
     kotlin("jvm") version "1.9.10"
-    id("org.jetbrains.grammarkit") version "2022.3.1"
+    id("org.jetbrains.grammarkit") version "2022.3.2"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.7"
+version = "1.0.8"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2023.2")
+    version.set("2023.3")
     plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
