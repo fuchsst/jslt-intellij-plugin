@@ -1,7 +1,7 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.15.0"
+    id("org.jetbrains.intellij") version "1.16.1"
     kotlin("jvm") version "1.9.10"
-    id("org.jetbrains.grammarkit") version "2022.3.1"
+    id("org.jetbrains.grammarkit") version "2022.3.2"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
