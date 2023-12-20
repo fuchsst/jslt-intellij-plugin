@@ -862,7 +862,7 @@ public class JsltParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(LET | DEF | IMPORT)
+  // !(LET | DEF | IMPORT | IF | LCURLY)
   static boolean ImportDeclarationRecover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ImportDeclarationRecover")) return false;
     boolean r;
@@ -872,13 +872,15 @@ public class JsltParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // LET | DEF | IMPORT
+  // LET | DEF | IMPORT | IF | LCURLY
   private static boolean ImportDeclarationRecover_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ImportDeclarationRecover_0")) return false;
     boolean r;
     r = consumeToken(b, LET);
     if (!r) r = consumeToken(b, DEF);
     if (!r) r = consumeToken(b, IMPORT);
+    if (!r) r = consumeToken(b, IF);
+    if (!r) r = consumeToken(b, LCURLY);
     return r;
   }
 
