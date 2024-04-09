@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.intellij") version "1.17.3"
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "1.9.22"
     id("org.jetbrains.grammarkit") version "2022.3.2"
 }
 
@@ -36,7 +36,7 @@ grammarKit {
     grammarKitRelease.set("2021.1.2")
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
-    intellijRelease.set("232.9559.62")
+    intellijRelease.set("241.14494.240")
 }
 
 
@@ -46,6 +46,12 @@ sourceSets {
         java {
             srcDirs("src/main/gen")
         }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -61,10 +67,7 @@ tasks {
         sourceFile.set(File("src/main/grammar/jslt.flex"))
 
         // target directory for lexer
-        targetDir.set("src/main/gen/net/stefanfuchs/jslt/intellij/language/")
-
-        // target classname, target file will be targetDir/targetClass.java
-        targetClass.set("JsltLexer")
+        targetOutputDir.set(File("src/main/gen/net/stefanfuchs/jslt/intellij/language/"))
 
         // if set, plugin will remove a lexer output file before generating new one. Default: false
         purgeOldFiles.set(true)
@@ -81,7 +84,7 @@ tasks {
         sourceFile.set(File("src/main/grammar/jslt.bnf"))
 
         // optional, task-specific root for the generated files. Default: none
-        targetRoot.set("src/main/gen")
+        targetRootOutputDir.set(File("src/main/gen"))
 
         // path to a parser file, relative to the targetRoot
         pathToParser.set("/net/stefanfuchs/jslt/intellij/language/parser/JsltParser.java")
@@ -103,9 +106,5 @@ tasks {
             Support idea from version 232
         """.trimIndent())
     }
-//    patchPluginXml {
-//        changeNotes.set("""
-//            Add change notes here.<br>
-//            <em>most HTML tags may be used</em>        """.trimIndent())
-//    }
+
 }
