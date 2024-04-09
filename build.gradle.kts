@@ -1,11 +1,11 @@
 plugins {
-    id("org.jetbrains.intellij") version "1.16.1"
+    id("org.jetbrains.intellij") version "1.17.3"
     kotlin("jvm") version "1.9.10"
     id("org.jetbrains.grammarkit") version "2022.3.2"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.9"
+version = "1.0.10"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2023.3")
+    version.set("2024.1")
     plugins.set(listOf("org.jetbrains.plugins.yaml"))
 }
 
@@ -99,9 +99,8 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("232")
-        untilBuild.set("234")
         changeNotes.set("""
-            Support idea from version 232 to 233
+            Support idea from version 232
         """.trimIndent())
     }
 //    patchPluginXml {
