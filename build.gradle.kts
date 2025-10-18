@@ -1,14 +1,19 @@
+import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
+
 plugins {
-    id("org.jetbrains.intellij") version "1.17.3"
-    kotlin("jvm") version "1.9.22"
+    id("org.jetbrains.intellij.platform") version "2.10.0"
+    kotlin("jvm") version "2.1.0"
     id("org.jetbrains.grammarkit") version "2022.3.2"
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.10"
+version = "1.0.11"
 
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 val includeInJar by configurations.creating {
@@ -20,12 +25,11 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("com.schibsted.spt.data:jslt:$jsltLibVersion")
     includeInJar("com.schibsted.spt.data:jslt:$jsltLibVersion") // explicitly include this file in the build step
-}
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
-intellij {
-    version.set("2024.1")
-    plugins.set(listOf("org.jetbrains.plugins.yaml"))
+    intellijPlatform {
+        create("IC", "2025.1.3")
+        bundledPlugin("org.jetbrains.plugins.yaml")
+    }
 }
 
 grammarKit {
@@ -36,7 +40,7 @@ grammarKit {
     grammarKitRelease.set("2021.1.2")
 
     // Optionally provide an IntelliJ version to build the classpath for GenerateParser/GenerateLexer tasks
-    intellijRelease.set("241.14494.240")
+    intellijRelease.set("251.9207")
 }
 
 
@@ -100,11 +104,11 @@ tasks {
         from(zipTree(includeInJar.singleFile))
     }
 
-    patchPluginXml {
-        sinceBuild.set("241")
-        untilBuild.set("243")
+    withType<PatchPluginXmlTask> {
+        sinceBuild.set("251")
+        untilBuild.set("253.*")
         changeNotes.set("""
-            Support idea from version 232 to 242
+            Support idea from version 2025.1 to 2025.3
         """.trimIndent())
     }
 
