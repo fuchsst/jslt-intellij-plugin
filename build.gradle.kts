@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
 
 plugins {
     id("org.jetbrains.intellij.platform") version "2.10.0"
@@ -113,10 +112,10 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("252")
+        sinceBuild.set("251")
         changeNotes.set(
             """
-            Minimum IDE version raised to 2025.2; removed upper build bound to stay compatible with future IDE releases.
+            Minimum IDE version raised to 2025.1; removed upper build bound to stay compatible with future IDE releases.
             """.trimIndent()
         )
     }
