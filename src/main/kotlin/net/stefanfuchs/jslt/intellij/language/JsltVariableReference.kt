@@ -29,6 +29,12 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
                 if (letAssignment != null) {
                     return letAssignment.letVariableDecl
                 }
+            } else if (parent is JsltFunctionBody) {
+                // Check for let assignments in FunctionBody (used in if/else branches)
+                val letAssignment = parent.letAssignmentList.firstOrNull { it.name == variableName }
+                if (letAssignment != null) {
+                    return letAssignment.letVariableDecl
+                }
             } else if (parent is JsltFunctionDecl) {
                 val varOrParam = findVariableDeclarationInFunction(parent)
                 if (varOrParam != null) {
@@ -56,6 +62,13 @@ class JsltVariableReference(element: PsiElement, textRange: TextRange) :
                     .map { it as JsltLetAssignment }
                     .filter { letAssignment -> letAssignment.name !in variableDeclList.map { it.name } }
 
+                variableDeclList.addAll(letAssignment)
+            } else if (parent is JsltFunctionBody) {
+                // Include let assignments from FunctionBody (used in if/else branches)
+                val letAssignment = parent
+                    .letAssignmentList
+                    .filter { letAssignment -> letAssignment.name !in variableDeclList.map { it.name } }
+                
                 variableDeclList.addAll(letAssignment)
             } else if (parent is JsltFunctionDecl) {
                 val localVariableDecl = parent

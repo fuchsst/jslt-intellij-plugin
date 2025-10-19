@@ -69,11 +69,11 @@ class JsltSyntaxHighlighter : SyntaxHighlighterBase() {
         val DOT = TextAttributesKey.createTextAttributesKey("JSLT_DOT", DefaultLanguageHighlighterColors.DOT)
         val FUNCTION_NAME = TextAttributesKey.createTextAttributesKey(
             "JSLT_FUNCTION_DECLARATION",
-            DefaultLanguageHighlighterColors.FUNCTION_DECLARATION
+            DefaultLanguageHighlighterColors.FUNCTION_CALL
         )
         val BUILDIN_FUNCTION_NAME = TextAttributesKey.createTextAttributesKey(
             "JSLT_BUILDIN_FUNCTION",
-            DefaultLanguageHighlighterColors.CLASS_NAME
+            DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL
         )
         val IDENTIFIER =
             TextAttributesKey.createTextAttributesKey("JSLT_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER)
