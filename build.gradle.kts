@@ -1,8 +1,8 @@
-import org.jetbrains.intellij.platform.gradle.tasks.PatchPluginXmlTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("org.jetbrains.intellij.platform") version "2.10.0"
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.2.0"
     id("org.jetbrains.grammarkit") version "2022.3.2"
 }
 
@@ -16,13 +16,13 @@ repositories {
     }
 }
 
-val includeInJar by configurations.creating {
+val includeInJar: Configuration by configurations.creating {
     isTransitive = false
 }
 
 dependencies {
     val jsltLibVersion = "0.1.14"
-    implementation(kotlin("stdlib"))
+    // Removed explicit kotlin stdlib dependency to avoid version conflicts with the IDE platform
     implementation("com.schibsted.spt.data:jslt:$jsltLibVersion")
     includeInJar("com.schibsted.spt.data:jslt:$jsltLibVersion") // explicitly include this file in the build step
 
@@ -55,17 +55,20 @@ sourceSets {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+kotlin {
+    // Keep toolchain aligned with Java 21
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_21)
     }
 }
 
 
 tasks {
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "17"
-        }
-    }
     generateLexer {
         // source flex file
         sourceFile.set(File("src/main/grammar/jslt.flex"))
@@ -100,16 +103,21 @@ tasks {
         purgeOldFiles.set(true)
     }
 
+    buildSearchableOptions {
+        enabled = false
+    }
+
     jar {
         from(zipTree(includeInJar.singleFile))
     }
 
-    withType<PatchPluginXmlTask> {
+    patchPluginXml {
         sinceBuild.set("251")
-        untilBuild.set("253.*")
-        changeNotes.set("""
-            Support idea from version 2025.1 to 2025.3
-        """.trimIndent())
+        changeNotes.set(
+            """
+            Minimum IDE version raised to 2025.1; removed upper build bound to stay compatible with future IDE releases.
+            """.trimIndent()
+        )
     }
 
 }
