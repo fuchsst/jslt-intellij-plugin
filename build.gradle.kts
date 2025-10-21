@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "net.stefanfuchs.jslt.intellij.language"
-version = "1.0.11"
+version = "2.0.00"
 
 repositories {
     mavenCentral()
