@@ -52,6 +52,7 @@
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.plugins.yaml</depends>
+    <depends>com.intellij.modules.json</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
@@ -115,6 +116,21 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="JsltExecuteAction"
+                class="net.stefanfuchs.jslt.intellij.language.actions.JsltExecuteAction"
+                text="Execute JSLT Transformation"
+                description="Execute JSLT transformation with JSON input"
+                icon="AllIcons.Actions.Execute">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        
+        <group id="JsltExecuteWithFileActionGroup"
+               class="net.stefanfuchs.jslt.intellij.language.actions.JsltExecuteWithFileActionGroup"
+               text="Execute JSLT With..."
+               description="Execute JSLT transformation with a JSON file from the project"
+               popup="true"
+               icon="AllIcons.Actions.Execute">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </group>
     </actions>
 </idea-plugin>

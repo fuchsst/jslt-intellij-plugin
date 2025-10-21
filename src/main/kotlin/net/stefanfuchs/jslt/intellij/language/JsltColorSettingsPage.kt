@@ -46,8 +46,8 @@ class JsltColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Unused Identifier", JsltSyntaxHighlighter.UNUSED_IDENTIFIER),
             AttributesDescriptor("Comparator", JsltSyntaxHighlighter.COMPARATOR),
             AttributesDescriptor("Dot", JsltSyntaxHighlighter.DOT),
-            AttributesDescriptor("Function Name", JsltSyntaxHighlighter.FUNCTION_NAME),
-            AttributesDescriptor("Buildin Function", JsltSyntaxHighlighter.BUILDIN_FUNCTION_NAME),
+            AttributesDescriptor("User-Defined Function", JsltSyntaxHighlighter.FUNCTION_NAME),
+            AttributesDescriptor("Built-in Function", JsltSyntaxHighlighter.BUILDIN_FUNCTION_NAME),
             AttributesDescriptor("Function Parameter", JsltSyntaxHighlighter.PARAMETER),
             AttributesDescriptor("Identifier", JsltSyntaxHighlighter.IDENTIFIER),
             AttributesDescriptor("Keyword", JsltSyntaxHighlighter.KEYWORD),
@@ -58,7 +58,7 @@ class JsltColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Parenthesis", JsltSyntaxHighlighter.PARENTHESIS),
             AttributesDescriptor("String", JsltSyntaxHighlighter.STRING),
             AttributesDescriptor("Variable Declaration", JsltSyntaxHighlighter.VARIABLE_DECL),
-            AttributesDescriptor("Variable", JsltSyntaxHighlighter.GLOBAL_VARIABLE),
+            AttributesDescriptor("Global Variable", JsltSyntaxHighlighter.GLOBAL_VARIABLE),
         )
     }
 }

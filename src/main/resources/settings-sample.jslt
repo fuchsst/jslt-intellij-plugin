@@ -16,6 +16,6 @@ def myFunc(param1, param2)
 {
     "id" : join($xxx, "-"),
     "factor" : 10.0e+6,
-    "calc": myFunc(random(), 1.23),
+    "calc" : myFunc(random(), 1.23),
     * : .
 }

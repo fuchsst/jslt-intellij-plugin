@@ -19,6 +19,11 @@
   * Show variable usages
   * Show function usages
 * Refactoring: rename variables/parameter/functions
+* Code Completion
+  * keyword suggestions (let, if, else, for, import, def, etc.)
+  * built-in functions with inline documentation (40+ functions)
+  * user-defined functions with parameter count
+  * meaningful error messages for invalid tokens and parse errors
 * Validations
   * error for non-existing file referenced in import
   * error for non-existing import alias referenced by function
@@ -28,28 +33,22 @@
   * error for duplicate declared functions
   * error for duplicate function parameters
   * error for duplicate declared import aliases
-  * error for duplicate key in object  
+  * error for duplicate key in object
+  * error if number of parameters in function call does not match function signature
   * warn for call of unknown function
-
-## ToDO
-
-* Syntax Highlighting
-  * highlight JSLT in multiline strings in Java/Scala/Kotlin files if first line of text start with `// JSLT`
-* Code Completion
-  * meaningful error message when an invalid token was detected
-  * inline docs for buildin-functions
-  * suggested tokes on Ctrl+Space
-* Validations
   * warn on unused import alias
   * warn on unused variable declaration
   * warn on unused function declaration
   * warn on unused function parameter
-  * error if number of parameter in function call does not match function signature
-* JSLT execution
+* JSLT Execution
   * dialog box that allows to select/write an input JSON, a JSLT transformation and shows the output
-  * apply JSLT from contextmenu (opens the dialog box)
-    * when used on JSLT-file, submenu with <new empty JSON> entry and a list of all JSON files in the project (structured by module/directory?)  
-    * when used on JSON-file, submenu with <new empty JSLT> entry and a list of all JSLT files in the project (structured by module/directory?)
+  * "Execute JSLT Transformation" action in context menu
+  * "Execute JSLT With..." submenu showing available JSON/JSLT files in the project (grouped by directory)
+
+## ToDO
+
+* Syntax Highlighting
+    * highlight JSLT in multiline strings in Java/Scala/Kotlin files if first line of text start with `// JSLT`
 
 ## Know issues
 
