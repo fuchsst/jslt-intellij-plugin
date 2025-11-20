@@ -1,11 +1,14 @@
 package net.stefanfuchs.jslt.intellij.language
 
+import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.lang.Language
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 
 class JsltLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
     override fun getLanguage(): Language = JsltLanguage
+
+    override fun getIndentOptionsEditor() = SmartIndentOptionsEditor()
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) =
         when (settingsType) {
@@ -51,6 +54,8 @@ class JsltLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                 consumer.showStandardOptions(
                     CodeStyleSettingsCustomizable.IndentOption.INDENT_SIZE.name,
                     CodeStyleSettingsCustomizable.IndentOption.CONTINUATION_INDENT_SIZE.name,
+                    CodeStyleSettingsCustomizable.IndentOption.TAB_SIZE.name,
+                    CodeStyleSettingsCustomizable.IndentOption.USE_TAB_CHARACTER.name,
                     CodeStyleSettingsCustomizable.IndentOption.USE_RELATIVE_INDENTS.name
                 )
             }
